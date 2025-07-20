@@ -1,0 +1,41 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #fff;
+  z-index: 1000;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.bottom-nav a {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0 4px;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.bottom-nav a:hover {
+  background-color: rgba(13, 110, 253, 0.05); /* light blue hover */
+}
+
+.bottom-nav a.active {
+  color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.12); /* subtle blue active bg */
+}
+
+.bottom-nav i {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 2px;
+}

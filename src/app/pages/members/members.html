@@ -1,32 +1,109 @@
 <div class="container py-3">
-  <div class="row g-3">
-    <!-- Member Cards -->
-    <div class="col-6 col-md-4 col-lg-3" *ngFor="let member of members">
-      <div class="card member-card h-100 shadow-sm">
-        <div class="card-body">
-          <div class="d-flex align-items-center mb-3">
-            <i class="fa fa-user fa-lg me-2 text-secondary"></i>
-            <span class="h5 mb-0">{{ member.name }}</span>
+  <div class="row g-4">
+    <!-- Member Card 1 -->
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-image">
+            <div class="card-image-container">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Profile Image">
+            </div>
+            <div class="card-glow"></div>
           </div>
-          <div class="mb-2">
-            <span class="text-muted small">Room:</span>
-            <span class="fw-semibold">{{ member.room?.name }}</span>
-          </div>
-          <div class="mb-2">
-            <span class="text-muted small">Rent Percent:</span>
-            <span class="fw-semibold">{{ member.room?.rentPercent }}%</span>
+          <div class="card-info">
+            <h2 class="card-name">Sarah Anderson</h2>
+            <p class="card-title">Product Designer</p>
+            <div class="card-stats">
+              <div class="stat">
+                <span class="stat-value">42</span>
+                <span class="stat-label">Projects</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">18.3k</span>
+                <span class="stat-label">Followers</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">156</span>
+                <span class="stat-label">Following</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Add Member Card (always last) -->
-    <div class="col-6 col-md-4 col-lg-3">
-      <div class="card member-add-card h-100 text-center d-flex flex-column justify-content-center align-items-center"
-           tabindex="0"
-           (click)="openAddMemberModal()"
-           (keyup.enter)="openAddMemberModal()">
-        <i class="fa fa-user-plus fa-2x mb-2 text-primary"></i>
-        <span class="fw-bold">Add Member</span>
+    <!-- Member Card 2 -->
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-image">
+            <div class="card-image-container">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Image">
+            </div>
+            <div class="card-glow"></div>
+          </div>
+          <div class="card-info">
+            <h2 class="card-name">John Doe</h2>
+            <p class="card-title">Frontend Developer</p>
+            <div class="card-stats">
+              <div class="stat">
+                <span class="stat-value">38</span>
+                <span class="stat-label">Projects</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">14.1k</span>
+                <span class="stat-label">Followers</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">202</span>
+                <span class="stat-label">Following</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Member Card 3 -->
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-image">
+            <div class="card-image-container">
+              <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Profile Image">
+            </div>
+            <div class="card-glow"></div>
+          </div>
+          <div class="card-info">
+            <h2 class="card-name">Emily Clark</h2>
+            <p class="card-title">UI Engineer</p>
+            <div class="card-stats">
+              <div class="stat">
+                <span class="stat-value">27</span>
+                <span class="stat-label">Projects</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">10.7k</span>
+                <span class="stat-label">Followers</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">98</span>
+                <span class="stat-label">Following</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Add Member Card (last card, same markup style) -->
+    <div class="card add-member-card" tabindex="0">
+      <div class="card-content d-flex flex-column align-items-center justify-content-center" style="height: 100%;">
+        <div class="add-icon-container mb-3">
+          <i class="fa fa-user-plus fa-2x"></i>
+        </div>
+        <div class="card-info text-center">
+          <h2 class="card-name mb-1" style="font-size: 1.5rem;">Add Member</h2>
+          <p class="card-title" style="font-size: 1rem; letter-spacing: 0;">Click to add</p>
+          <div class="card-stats"></div>
+        </div>
       </div>
     </div>
   </div>

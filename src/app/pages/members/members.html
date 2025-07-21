@@ -1,109 +1,57 @@
-<div class="container py-3">
-  <div class="row g-4">
-    <!-- Member Card 1 -->
-    <div class="col-12 col-sm-6 col-lg-4">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-image">
-            <div class="card-image-container">
-              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Profile Image">
+<div class="refresh-container" style="padding-bottom: 100px;" cdkScrollable (cdkScrollable)="onScroll($event)">
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="loading">
+    <mat-spinner diameter="50" color="primary"></mat-spinner>
+  </div>
+
+  <div class="container py-3" *ngIf="!loading">
+    <div class="row g-3">
+      <!-- Member Card 1 -->
+      <div class="col-12 col-sm-6 col-lg-4" *ngFor="let m of members">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-image">
+              <div class="card-image-container">
+                <img [src]="m.picture" alt="Profile Image">
+              </div>
+              <div class="card-glow"></div>
             </div>
-            <div class="card-glow"></div>
-          </div>
-          <div class="card-info">
-            <h2 class="card-name">Sarah Anderson</h2>
-            <p class="card-title">Product Designer</p>
-            <div class="card-stats">
-              <div class="stat">
-                <span class="stat-value">42</span>
-                <span class="stat-label">Projects</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">18.3k</span>
-                <span class="stat-label">Followers</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">156</span>
-                <span class="stat-label">Following</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Member Card 2 -->
-    <div class="col-12 col-sm-6 col-lg-4">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-image">
-            <div class="card-image-container">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Image">
-            </div>
-            <div class="card-glow"></div>
-          </div>
-          <div class="card-info">
-            <h2 class="card-name">John Doe</h2>
-            <p class="card-title">Frontend Developer</p>
-            <div class="card-stats">
-              <div class="stat">
-                <span class="stat-value">38</span>
-                <span class="stat-label">Projects</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">14.1k</span>
-                <span class="stat-label">Followers</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">202</span>
-                <span class="stat-label">Following</span>
+            <div class="card-info">
+              <h2 class="card-name">{{ m.name }}</h2>
+              <p class="card-title">{{ m.room.name }}</p>
+              <div class="card-stats">
+                <div class="stat">
+                  <span class="stat-value">42</span>
+                  <span class="stat-label">Projects</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">18.3k</span>
+                  <span class="stat-label">Followers</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value">156</span>
+                  <span class="stat-label">Following</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Member Card 3 -->
-    <div class="col-12 col-sm-6 col-lg-4">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-image">
-            <div class="card-image-container">
-              <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Profile Image">
-            </div>
-            <div class="card-glow"></div>
+
+      <div class="col-12 col-sm-6 col-lg-4">
+      <!-- Add Member Card (last card, same markup style) -->
+      <div class="add-member-card card mb-5" tabindex="0">
+        <div class="card-content-2 d-flex flex-column align-items-center justify-content-center pt-5" style="height: 100%;" (click)="openAddMemberModal()">
+          <div class="add-icon-container mb-3">
+            <i class="fa fa-user-plus fa-2x"></i>
           </div>
-          <div class="card-info">
-            <h2 class="card-name">Emily Clark</h2>
-            <p class="card-title">UI Engineer</p>
-            <div class="card-stats">
-              <div class="stat">
-                <span class="stat-value">27</span>
-                <span class="stat-label">Projects</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">10.7k</span>
-                <span class="stat-label">Followers</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">98</span>
-                <span class="stat-label">Following</span>
-              </div>
-            </div>
+          <div class="card-info text-center">
+            <h2 class="card-name mb-1" style="font-size: 1.5rem;">Add Member</h2>
+            <p class="card-title" style="font-size: 1rem; letter-spacing: 0;">Click to add</p>
+            <div class="card-stats"></div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Add Member Card (last card, same markup style) -->
-    <div class="card add-member-card" tabindex="0">
-      <div class="card-content d-flex flex-column align-items-center justify-content-center" style="height: 100%;">
-        <div class="add-icon-container mb-3">
-          <i class="fa fa-user-plus fa-2x"></i>
-        </div>
-        <div class="card-info text-center">
-          <h2 class="card-name mb-1" style="font-size: 1.5rem;">Add Member</h2>
-          <p class="card-title" style="font-size: 1rem; letter-spacing: 0;">Click to add</p>
-          <div class="card-stats"></div>
-        </div>
       </div>
     </div>
   </div>

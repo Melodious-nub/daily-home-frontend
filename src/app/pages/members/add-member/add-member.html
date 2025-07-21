@@ -1,0 +1,37 @@
+<div class="p-4">
+  <h5 class="mb-3 text-center">Add New Member</h5>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="mt-4">
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Member Name</mat-label>
+      <input matInput placeholder="Enter name" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Select Room</mat-label>
+      <mat-select formControlName="room">
+        <mat-option *ngFor="let room of rooms" [value]="room._id">{{ room.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- ✅ File Input using Bootstrap -->
+    <div class="mb-4">
+      <input type="file" class="form-control" id="picture" (change)="onFileChange($event)">
+    </div>
+
+    <!-- ✅ Image Preview -->
+    <div *ngIf="preview" class="text-center mb-4">
+      <img [src]="preview" alt="Preview" style="max-width: 120px; border-radius: 6px;">
+    </div>
+
+    <button matButton="elevated" style="background-color: #006a6a; color: white;" class="w-100" type="submit" [disabled]="loading">
+      <ng-container *ngIf="!loading">Add Member</ng-container>
+      <ng-container *ngIf="loading">
+        <span class="spinner-border spinner-border-sm" role="status"></span>
+        Saving...
+      </ng-container>
+    </button>
+  </form>
+
+  <button matButton="elevated" class="w-100 mt-2 mb-3" type="button" (click)="close()">Cancel</button>
+</div>

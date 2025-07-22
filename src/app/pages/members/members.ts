@@ -35,6 +35,8 @@ export class Members implements OnInit {
         next: (res) => {
           this.members = res;
           this.loading = false
+          console.log(this.members);
+          
         },
         error: (err) => {
           Swal.fire('Error', 'Failed to load members.', 'error');

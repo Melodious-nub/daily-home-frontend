@@ -1,4 +1,4 @@
-<div class="refresh-container" style="padding-bottom: 100px;" cdkScrollable (cdkScrollable)="onScroll($event)">
+<div class="refresh-container" style="padding-bottom: 70px;" cdkScrollable (cdkScrollable)="onScroll($event)">
   <!-- Loading Overlay -->
   <div class="loading-overlay" *ngIf="loading">
     <mat-spinner diameter="50" color="primary"></mat-spinner>
@@ -21,16 +21,16 @@
               <p class="card-title">{{ m.room.name }}</p>
               <div class="card-stats">
                 <div class="stat">
-                  <span class="stat-value">42</span>
-                  <span class="stat-label">Projects</span>
+                  <span class="stat-value">{{ m.totalMeals }}</span>
+                  <span class="stat-label">Total Meals C.M</span>
                 </div>
                 <div class="stat">
-                  <span class="stat-value">18.3k</span>
-                  <span class="stat-label">Followers</span>
+                  <span class="stat-value">{{ m.totalWalletGiven }}</span>
+                  <span class="stat-label">Wallet C.M</span>
                 </div>
                 <div class="stat">
-                  <span class="stat-value">156</span>
-                  <span class="stat-label">Following</span>
+                  <span class="stat-value">{{ m.lastWalletGivenDate ? (m.lastWalletGivenDate | date: 'dd/MM/yyyy') : 'N/A' }}</span>
+                  <span class="stat-label">Wallet C.M</span>
                 </div>
               </div>
             </div>

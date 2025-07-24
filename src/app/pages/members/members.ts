@@ -35,7 +35,7 @@ export class Members implements OnInit {
         next: (res) => {
           this.members = res;
           this.loading = false
-          console.log(this.members);
+          // console.log(this.members);
           
         },
         error: (err) => {

@@ -272,7 +272,8 @@
 }
 
 .refresh-container {
-  height: 100vh;
+  height: auto;
+  min-height: 70vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   position: relative;

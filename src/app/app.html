@@ -1,7 +1,9 @@
-<app-header></app-header>
+<div class="safe-area-wrapper">
+  <app-header></app-header>
 
-<main class="container-fluid pt-4 pb-5">
-  <router-outlet></router-outlet>
-</main>
+  <main class="container-fluid content-area">
+    <router-outlet></router-outlet>
+  </main>
 
-<app-bottom-nav></app-bottom-nav>
+  <app-bottom-nav></app-bottom-nav>
+</div>

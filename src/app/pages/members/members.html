@@ -22,17 +22,18 @@
               <div class="card-stats">
                 <div class="stat">
                   <span class="stat-value">{{ m.totalMeals }}</span>
-                  <span class="stat-label">Total Meals C.M</span>
+                  <span class="stat-label">Total Meals</span>
                 </div>
                 <div class="stat">
                   <span class="stat-value">{{ m.totalWalletGiven }}</span>
-                  <span class="stat-label">Wallet C.M</span>
+                  <span class="stat-label">Wallet</span>
                 </div>
                 <div class="stat">
                   <span class="stat-value">{{ m.lastWalletGivenDate ? (m.lastWalletGivenDate | date: 'dd/MM/yyyy') : 'N/A' }}</span>
-                  <span class="stat-label">Wallet C.M Date</span>
+                  <span class="stat-label">Wallet Date</span>
                 </div>
               </div>
+              <p class="text-muted text-center">Data based on current month</p>
             </div>
           </div>
         </div>

@@ -14,29 +14,54 @@
 .bottom-nav a {
   flex: 1;
   text-align: center;
-  padding: 8px 0 4px;
-  font-size: 16px;
-  color: #333;
+  padding: 12px 0 8px;
+  font-size: 14px;
+  color: #616161;
   text-decoration: none;
-  transition: background-color 0.2s, color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 8px;
+  margin: 0 4px;
 }
 
 .bottom-nav a:hover {
-  background-color: rgba(13, 110, 253, 0.05); /* light blue hover */
+  background-color: rgba(0, 79, 79, 0.05);
+  color: #004f4f;
 }
 
 .bottom-nav a.active {
-  color: #0d6efd;
-  background-color: rgba(13, 110, 253, 0.12); /* subtle blue active bg */
+  color: #004f4f;
+  background-color: rgba(0, 79, 79, 0.08);
+  font-weight: 500;
 }
 
 .bottom-nav i {
   display: block;
-  font-size: 18px;
-  margin-bottom: 2px;
+  font-size: 24px;
+  margin-bottom: 6px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bottom-nav a.active i {
+  transform: translateY(-4px);
+}
+
+/* Add this for the indicator dot */
+.bottom-nav a.active::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: #004f4f;
+  border-radius: 50%;
+  margin-top: 4px;
+}
+
+/* Material-like ripple effect */
+.bottom-nav a {
+  position: relative;
+  overflow: hidden;
 }

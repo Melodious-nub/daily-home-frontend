@@ -1,11 +1,12 @@
 .custom-toolbar {
-  background-color: #dbe7ff;
-  color: #1e88e5;
+  background-color: rgba(0, 79, 79, 0.08); /* Light cyan tint */
+  color: #004f4f;
   font-family: 'Inter', sans-serif;
   height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
 }
 
 .sticky-header {
@@ -14,13 +15,16 @@
   z-index: 1000;
   background: transparent;
   padding-top: 8px;
+  backdrop-filter: blur(5px);
 }
 
 .toolbar-wrapper {
   margin: 5px 25px;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 4px rgba(0, 79, 79, 0.1);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 79, 79, 0.1);
 }
 
 .nav-wrapper {
@@ -28,22 +32,28 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding: 0 12px;
 }
 
 .nav-item {
   font-size: 14px;
   font-weight: 500;
-  color: #1e88e5 !important;
+  color: #004f4f !important;
   margin: 0 3px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 79, 79, 0.05);
+    transform: translateY(-1px);
   }
 
   &.active-link {
-    background-color: rgba(30, 136, 229, 0.1);
-    color: #1e88e5;
+    background-color: rgba(0, 79, 79, 0.12);
+    color: #004f4f;
     font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 79, 79, 0.1);
   }
 }
 

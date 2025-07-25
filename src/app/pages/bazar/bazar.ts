@@ -16,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-bazar',
@@ -64,15 +64,7 @@ export class Bazar implements OnInit {
       .subscribe({
         next: (res) => {
           this.isLoading = false;
-          if (res) {
-            this.dataSource = new MatTableDataSource(res.slice().reverse());
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          } else {
-            this.dataSource = new MatTableDataSource(res);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
+          this.dataSource = new MatTableDataSource(res.slice().reverse());
         },
         error: () => {
           this.isLoading = false;
@@ -84,6 +76,7 @@ export class Bazar implements OnInit {
   openAddBazarModal(): void {
     const dialogRef = this.dialog.open(AddBazar, {
       width: '400px',
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe((res) => {
@@ -113,4 +106,9 @@ export class Bazar implements OnInit {
       }
     });
   }
+
+  showTooltip(tooltip: MatTooltip) {
+    tooltip.show();
+    setTimeout(() => tooltip.hide(), 2500); // Hide after 2.5s
+  }  
 }

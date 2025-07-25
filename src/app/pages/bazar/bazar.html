@@ -36,19 +36,24 @@
       </ng-container>
 
       <!-- Description Column -->
-        <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef> Description </th>
-            <td mat-cell *matCellDef="let item">
-                <span
-                class="truncate-description"
-                [matTooltip]="item.description"
-                matTooltipPosition="above"
-                matTooltipShowDelay="300"
-                >
-                {{ item.description }}
-                </span>
-            </td>
-        </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let item">
+          <span
+            class="truncate-description"
+            [matTooltip]="item.description"
+            matTooltipPosition="above"
+            matTooltipShowDelay="300"
+            #tooltip="matTooltip"
+            (click)="tooltip.show()"
+            (blur)="tooltip.hide()"
+            tabindex="0"
+            (click)="showTooltip(tooltip)"
+          >
+            {{ item.description }}
+          </span>
+        </td>
+      </ng-container>
 
       <!-- Actions -->
       <ng-container matColumnDef="actions">

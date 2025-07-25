@@ -48,6 +48,19 @@ export class Api {
 
   deleteBazar(id: string): Observable<any> {
     return this.http.delete(this.apiUrl + 'bazars/' + id);
-  }   
+  }
+
+  // wallet collection
+  getWallet(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + 'wallets');
+  }
+
+  addWallet(data: any): Observable<any> {
+    return this.http.post<Room>(this.apiUrl + 'wallets', data);
+  }
+
+  deleteWallet(id: string): Observable<any> {
+    return this.http.delete(this.apiUrl + 'wallets/' + id);
+  }
   
 }

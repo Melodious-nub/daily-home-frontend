@@ -3,7 +3,14 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.shawon.dailyhome',
   appName: 'DailyHome',
-  webDir: 'dist/daily-home/browser'
+  webDir: 'dist/daily-home/browser',
+  plugins: {
+    StatusBar: {
+      overlaysWebView: false,
+      style: "DARK",
+      backgroundColor: "#ffffffff",
+    },
+  }
 };
 
 export default config;

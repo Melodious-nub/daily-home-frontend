@@ -36,5 +36,18 @@ export class Api {
   deleteMember(id: string): Observable<any> {
     return this.http.delete(this.apiUrl + 'members/' + id);
   }  
+
+  // bazar collection
+  getBazar(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + 'bazars');
+  }
+
+  addBazar(data: any): Observable<any> {
+    return this.http.post<Room>(this.apiUrl + 'bazars', data);
+  }
+
+  deleteBazar(id: string): Observable<any> {
+    return this.http.delete(this.apiUrl + 'bazars/' + id);
+  }   
   
 }

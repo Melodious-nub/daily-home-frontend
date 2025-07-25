@@ -1,0 +1,31 @@
+mat-form-field {
+  width: 100%;
+}
+
+mat-dialog-content {
+  padding: 0 1rem;
+}
+
+mat-dialog-actions {
+  padding: 0 1rem 1rem;
+}
+
+h5 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: #5e60ce;
+}
+
+form {
+  font-family: 'Inter', sans-serif;
+}
+
+button[mat-raised-button] {
+  font-weight: 500;
+}
+
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+}
+

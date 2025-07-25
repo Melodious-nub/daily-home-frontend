@@ -8,4 +8,5 @@ export const routes: Routes = [
   { path: 'wallet', loadComponent: () => import('./pages/wallet/wallet').then(m => m.Wallet) },
   { path: 'reports', loadComponent: () => import('./pages/reports/reports').then(m => m.Reports) },
   { path: 'settings', loadComponent: () => import('./pages/settings/settings').then(m => m.Settings) },
+  { path: 'bazar', loadComponent: () => import('./pages/bazar/bazar').then(m => m.Bazar) },
 ];

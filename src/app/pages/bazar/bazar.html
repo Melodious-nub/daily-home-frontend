@@ -1,0 +1,69 @@
+<div class="bazar-container mat-elevation-z8">
+
+  <!-- Add Bazar Button -->
+  <div class="d-flex justify-content-end mb-4">
+    <button mat-raised-button color="primary" (click)="openAddBazarModal()">
+      <mat-icon>add</mat-icon>
+      Add Bazar
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="d-flex justify-content-center pad-4">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <!-- No Data Box -->
+  <div *ngIf="!isLoading && dataSource.data.length === 0" class="no-data-box">
+    <mat-icon class="no-data-icon">info</mat-icon>
+    <div class="no-data-text">No bazar entries found.</div>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!isLoading && dataSource.data.length > 0">
+    <table style="border-bottom: 1px solid gray;" mat-table [dataSource]="dataSource" matSort class="w-100">
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let item"> {{ item.date | date: 'MMM d, y' }} </td>
+      </ng-container>
+
+      <!-- Cost Column -->
+      <ng-container matColumnDef="cost">
+        <th mat-header-cell *matHeaderCellDef> Cost </th>
+        <td mat-cell *matCellDef="let item"> ৳{{ item.cost }} </td>
+      </ng-container>
+
+      <!-- Description Column -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let item">
+                <span
+                class="truncate-description"
+                [matTooltip]="item.description"
+                matTooltipPosition="above"
+                matTooltipShowDelay="300"
+                >
+                {{ item.description }}
+                </span>
+            </td>
+        </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let item">
+          <button mat-icon-button color="warn" (click)="deleteBazar(item._id)">
+            <mat-icon style="color: red;" fontIcon="delete"></mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator class="py-3" [pageSize]="30" [pageSizeOptions]="[10, 30, 50, 100, 500]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

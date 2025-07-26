@@ -1,1 +1,52 @@
-<p>dashboard works!</p>
+<!-- <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+  <h2 class="summary-heading">Monthly Summary</h2>
+
+  <div class="d-flex align-items-center gap-2">
+    <button mat-icon-button [matMenuTriggerFor]="monthMenu" matTooltip="Filter by Month">
+      <mat-icon>calendar_month</mat-icon>
+    </button>
+    <span class="fw-medium">{{ monthNames[selectedMonth - 1] }}</span>
+  </div>
+
+  <mat-menu #monthMenu="matMenu">
+    <button
+      mat-menu-item
+      *ngFor="let month of monthNames; let i = index"
+      (click)="changeMonth(i + 1)">
+      <span>{{ month }}</span>
+    </button>
+  </mat-menu>
+</div>
+
+<mat-card class="summary-card">
+  <mat-card-title>🍛 Meals Summary</mat-card-title>
+  <mat-card-content>
+    <div class="summary-stat"><strong>Total Meals:</strong> {{ monthlySummaryDetails.totalMealByThisMonth }}</div>
+    <div class="summary-stat"><strong>Today's Meals:</strong> {{ monthlySummaryDetails.todaysTotalMealCount }}</div>
+    <div class="summary-stat"><strong>Meal Rate:</strong> ৳{{ monthlySummaryDetails.mealRate }}</div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="summary-card">
+  <mat-card-title>💰 Wallet Summary</mat-card-title>
+  <mat-card-content>
+    <div class="summary-stat"><strong>Total Wallet:</strong> ৳{{ monthlySummaryDetails.totalWalletBalance }}</div>
+    <div class="summary-stat"><strong>Total Cost:</strong> ৳{{ monthlySummaryDetails.totalRemainingWalletBalance }}</div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngFor="let member of monthlySummaryDetails.memberWise" class="member-card">
+  <div class="d-flex align-items-center gap-3">
+    <img [src]="member.picture" class="rounded-circle" width="48" height="48" />
+    <div>
+      <div class="fw-bold">{{ member.name }}</div>
+      <div class="text-muted" style="font-size: 13px;">Room: {{ member.room }}</div>
+    </div>
+  </div>
+  <div class="member-stats">
+    <div><strong>Meal:</strong> {{ member.totalMeal }}</div>
+    <div><strong>Wallet:</strong> ৳{{ member.totalWallet }}</div>
+    <div><strong>Cost:</strong> ৳{{ member.totalCost }}</div>
+    <div><strong>Remaining:</strong> ৳{{ member.remaining }}</div>
+  </div>
+</mat-card> -->

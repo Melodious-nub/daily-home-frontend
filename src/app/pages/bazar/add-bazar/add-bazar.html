@@ -14,12 +14,25 @@
       <input matInput type="number" placeholder="Enter cost" formControlName="cost">
     </mat-form-field>
 
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Select Members</mat-label>
+      <mat-select formControlName="members" multiple>
+        <mat-option *ngFor="let member of members" [value]="member._id">
+          <div class="d-flex align-items-center">
+            <img [src]="member.picture || 'assets/default-user.png'" width="28" height="28"
+                 style="border-radius: 50%; object-fit: cover; margin-right: 8px;">
+            <span>{{ member.name }}</span>
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>Description</mat-label>
       <input matInput placeholder="What was bought?" formControlName="description">
     </mat-form-field>
 
-    <button matButton="elevated" style="background-color: #006a6a; color: white;" class="w-100" type="submit" [disabled]="loading">
+    <button matButton style="background-color: #006a6a; color: white;" class="w-100" type="submit" [disabled]="loading">
       <ng-container *ngIf="!loading">Add Bazar</ng-container>
       <ng-container *ngIf="loading">
         <span class="spinner-border spinner-border-sm me-1" role="status"></span>

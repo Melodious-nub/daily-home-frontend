@@ -1,4 +1,4 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component, DestroyRef, Inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -7,8 +7,9 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import Swal from 'sweetalert2';
 import { Api } from '../../../core/api';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-bazar',
@@ -19,7 +20,8 @@ import { CommonModule } from '@angular/common';
     MatButton,
     MatInputModule,
     MatDatepickerModule,
-    CommonModule
+    CommonModule,
+    MatSelectModule
   ],
   templateUrl: './add-bazar.html',
   styleUrl: './add-bazar.css'
@@ -27,17 +29,22 @@ import { CommonModule } from '@angular/common';
 export class AddBazar {
   bazarForm: FormGroup;
   loading = false;
+  members: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private api: Api,
     private dialogRef: MatDialogRef<AddBazar>,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.members = data;
+
     this.bazarForm = this.fb.group({
       date: [new Date(), Validators.required],
       cost: [null, [Validators.required, Validators.min(0)]],
       description: ['', Validators.required],
+      members: [[], Validators.required], // Multi-select
     });
   }
 
@@ -49,7 +56,10 @@ export class AddBazar {
 
     this.loading = true;
 
-    const formData = this.bazarForm.value;
+    const formData = {
+      ...this.bazarForm.value,
+      members: this.bazarForm.value.members.map((id: string) => id), // Ensure only IDs sent
+    };
 
     this.api.addBazar(formData)
       .pipe(takeUntilDestroyed(this.destroyRef))

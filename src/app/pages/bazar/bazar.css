@@ -32,7 +32,7 @@
   border: 2px dashed #ccc;
   border-radius: 8px;
   color: orange;
-  margin: 13rem;
+  margin-top: 13rem;
 }
 
 .no-data-icon {
@@ -47,7 +47,7 @@
 
 .truncate-description {
   display: inline-block;
-  max-width: 125px;
+  max-width: 50px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -67,4 +67,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* This wrapper ensures avatars align inline and wrap if needed */
+.member-inline-images {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Prevent shrinking in small screens */
+.mat-column-members {
+  min-width: 60px;
+  white-space: normal;
 }

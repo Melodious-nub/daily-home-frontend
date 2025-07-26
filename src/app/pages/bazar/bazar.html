@@ -1,12 +1,54 @@
 <div class="bazar-container mat-elevation-z8">
 
-  <!-- Add Bazar Button -->
-  <div class="d-flex justify-content-end mb-4">
-    <button mat-raised-button color="primary" (click)="openAddBazarModal()">
-      <mat-icon>add</mat-icon>
-      Add Bazar
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+  <!-- Filter Button & Selected Avatars -->
+  <div class="d-flex align-items-center gap-2">
+    <!-- Filter Icon Button -->
+    <button mat-icon-button [matMenuTriggerFor]="bazarFilterMenu" matTooltip="Filter by Member(s)">
+      <mat-icon>filter_list</mat-icon>
     </button>
+
+    <!-- Selected Member Photos -->
+    <ng-container *ngIf="selectedMemberIds.length > 0; else allMembers">
+      <ng-container *ngFor="let id of selectedMemberIds">
+        <img
+          *ngIf="getMemberById(id)"
+          [src]="getMemberById(id)?.picture"
+          class="rounded-circle"
+          width="28"
+          height="28"
+        />
+      </ng-container>
+    </ng-container>
+    <ng-template #allMembers>
+      <span class="fw-medium text-muted">All Members</span>
+    </ng-template>
+
+    <!-- Member Filter Menu -->
+    <mat-menu #bazarFilterMenu="matMenu" class="px-2">
+      <mat-checkbox
+        [checked]="selectedMemberIds.length === 0"
+        (change)="clearMemberFilter()"
+      >
+        All Members
+      </mat-checkbox>
+      <mat-checkbox
+        *ngFor="let member of members"
+        [checked]="selectedMemberIds.includes(member._id)"
+        (change)="toggleMemberSelection(member._id)"
+      >
+        <img [src]="member.picture" class="me-2 rounded-circle" width="24" height="24" />
+        {{ member.name }}
+      </mat-checkbox>
+    </mat-menu>
   </div>
+
+  <!-- Add Bazar Button -->
+  <button mat-raised-button color="primary" (click)="openAddBazarModal()">
+    <mat-icon>add</mat-icon>
+    Add Bazar
+  </button>
+</div>
 
   <!-- Loading Overlay -->
   <div class="loading-overlay" *ngIf="isLoading">
@@ -26,7 +68,30 @@
       <!-- Date Column -->
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let item"> {{ item.date | date: 'MMM d, y' }} </td>
+        <td mat-cell *matCellDef="let item"> {{ item.date | date: 'MMM d' }} </td>
+      </ng-container>
+
+      <!-- Members Column -->
+      <ng-container matColumnDef="members">
+        <th mat-header-cell *matHeaderCellDef> Members </th>
+        <td mat-cell *matCellDef="let item">
+          <ng-container *ngIf="item.members && item.members.length > 0; else noMembers">
+            <div class="member-inline-images">
+              <img
+                *ngFor="let m of item.members"
+                [src]="m.picture"
+                class="rounded-circle"
+                width="26"
+                height="26"
+                matTooltipPosition="above"
+                matTooltip="{{ m.name }}"
+              />
+            </div>
+          </ng-container>
+          <ng-template #noMembers>
+            <span class="text-muted">N/A</span>
+          </ng-template>
+        </td>
       </ng-container>
 
       <!-- Cost Column -->

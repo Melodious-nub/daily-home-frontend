@@ -75,5 +75,10 @@ export class Api {
   deleteMeal(id: string): Observable<any> {
     return this.http.delete(this.apiUrl + 'meals/' + id);
   }
+
+  // summaryDetails
+  getSummary(month: any) {
+    return this.http.get<any>(this.apiUrl + 'summary?month' + month);
+  }
   
 }

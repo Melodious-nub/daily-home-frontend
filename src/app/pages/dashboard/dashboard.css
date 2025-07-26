@@ -1,0 +1,38 @@
+.summary-heading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #004f4f;
+}
+
+.summary-card {
+  margin-bottom: 1rem;
+  background-color: #e6f3f3;
+  color: #004f4f;
+}
+
+.summary-stat {
+  margin-bottom: 0.5rem;
+}
+
+.member-card {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #f7fdfd;
+  border-left: 4px solid #004f4f;
+  border-radius: 8px;
+}
+
+.member-stats {
+  margin-top: 0.5rem;
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .member-stats {
+    gap: 2rem;
+  }
+}

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,6 +17,7 @@ import { debounceTime } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import Swal from 'sweetalert2';
 import { AddWallet } from './add-wallet/add-wallet';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-wallet',
@@ -32,16 +33,19 @@ import { AddWallet } from './add-wallet/add-wallet';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatMenuModule
   ],
   templateUrl: './wallet.html',
   styleUrl: './wallet.css'
 })
-export class Wallet {
+export class Wallet implements OnInit {
   displayedColumns: any[] = ['date', 'picture', 'name', 'amount', 'actions'];
-  dataSource = new MatTableDataSource<any[]>();
+  dataSource = new MatTableDataSource<any>([]);
+  allWallets: any[] = [];
+  members: any[] = [];
   isLoading = false;
-  members: any = [];
+  filterMemberId: string | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -57,34 +61,44 @@ export class Wallet {
     this.fetchMember();
   }
 
-  fetchMember() {
-    this.api.getMembers().pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe({
-      next: (res) => {
-        this.members = res;
-      },
-      error: () => {
-        Swal.fire('Error', 'Failed to load member. Try again.', 'error');
-      }
-    })
-  }  
+  fetchMember(): void {
+    this.api.getMembers()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.members = res;
+        },
+        error: () => {
+          Swal.fire('Error', 'Failed to load member. Try again.', 'error');
+        }
+      });
+  }
 
   fetchWallet(): void {
     this.isLoading = true;
-    this.api
-      .getWallet()
+    this.api.getWallet()
       .pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
           this.isLoading = false;
-          this.dataSource = new MatTableDataSource(res.slice().reverse());
-          // console.log(res);
+          this.allWallets = res.slice().reverse(); // Keep a backup for filtering
+          this.applyFilter();
         },
         error: () => {
           this.isLoading = false;
           Swal.fire('Error', 'Failed to load wallet list.', 'error');
-        },
+        }
       });
+  }
+
+  applyFilter(): void {
+    const filtered = this.filterMemberId
+      ? this.allWallets.filter(entry => entry.member._id === this.filterMemberId)
+      : this.allWallets;
+
+    this.dataSource = new MatTableDataSource(filtered);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   openAddWalletModal(): void {
@@ -108,8 +122,7 @@ export class Wallet {
       confirmButtonText: 'Confirm',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.api
-          .deleteWallet(id)
+        this.api.deleteWallet(id)
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
             next: () => {

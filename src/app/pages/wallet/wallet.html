@@ -1,12 +1,47 @@
 <div class="wallet-container mat-elevation-z8">
 
-  <!-- Add wallet Button -->
-  <div class="d-flex justify-content-end mb-4">
-    <button mat-raised-button color="primary" (click)="openAddWalletModal()">
-      <mat-icon>add</mat-icon>
-      Add Wallet
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+
+  <!-- Filter Button & Member Info -->
+  <div class="d-flex align-items-center gap-2">
+
+    <!-- Filter Icon Button -->
+    <button mat-icon-button [matMenuTriggerFor]="walletFilterMenu" matTooltip="Filter by Member">
+      <mat-icon>filter_list</mat-icon>
     </button>
+
+    <!-- Selected Member Display -->
+    <ng-container *ngIf="filterMemberId; else allWallets">
+      <ng-container *ngFor="let member of members">
+        <ng-container *ngIf="member._id === filterMemberId">
+          <img [src]="member.picture" class="rounded-circle" width="28" height="28" />
+          <span class="fw-medium">{{ member.name }}</span>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-template #allWallets>
+      <span class="fw-medium text-muted">All Members</span>
+    </ng-template>
+
+    <!-- Member Filter Menu -->
+    <mat-menu #walletFilterMenu="matMenu">
+      <button mat-menu-item (click)="filterMemberId = null; applyFilter()">
+        <mat-icon>clear</mat-icon>
+        <span>All Members</span>
+      </button>
+      <button mat-menu-item *ngFor="let member of members" (click)="filterMemberId = member._id; applyFilter()">
+        <img [src]="member.picture" class="me-2 rounded-circle" width="24" height="24" />
+        <span>{{ member.name }}</span>
+      </button>
+    </mat-menu>
   </div>
+
+  <!-- Add Wallet Button -->
+  <button mat-raised-button color="primary" (click)="openAddWalletModal()">
+    <mat-icon>add</mat-icon>
+    Add Wallet
+  </button>
+</div>
 
   <!-- Loading Overlay -->
   <div class="loading-overlay" *ngIf="isLoading">

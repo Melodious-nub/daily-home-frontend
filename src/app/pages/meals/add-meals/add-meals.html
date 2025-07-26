@@ -1,0 +1,39 @@
+<div class="p-4">
+  <h5 class="mb-3 text-center">Add New Meal</h5>
+
+  <form [formGroup]="mealsForm" (ngSubmit)="onSubmit()" class="meals-form mt-4">
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field> 
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Select Member</mat-label>
+        <mat-select formControlName="member">
+            <mat-option *ngFor="let member of members" [value]="member._id">
+                <div class="d-flex align-items-center gap-2">
+                    <img [src]="member.picture" alt="pic" class="option-avatar" />
+                    <span>{{ member.name }}</span>
+                </div>
+            </mat-option>
+        </mat-select>
+    </mat-form-field>   
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Meals</mat-label>
+      <input matInput type="number" placeholder="Enter meals" formControlName="meals">
+    </mat-form-field>
+
+    <button matButton="elevated" style="background-color: #006a6a; color: white;" class="w-100" type="submit" [disabled]="loading">
+      <ng-container *ngIf="!loading">Add Meal</ng-container>
+      <ng-container *ngIf="loading">
+        <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+        Saving...
+      </ng-container>
+    </button>
+
+    <button mat-stroked-button type="button" class="w-100 mt-3 mb-3" (click)="close()">Cancel</button>
+  </form>
+</div>

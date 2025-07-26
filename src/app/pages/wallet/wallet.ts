@@ -78,7 +78,7 @@ export class Wallet {
         next: (res) => {
           this.isLoading = false;
           this.dataSource = new MatTableDataSource(res.slice().reverse());
-          console.log(res);
+          // console.log(res);
         },
         error: () => {
           this.isLoading = false;

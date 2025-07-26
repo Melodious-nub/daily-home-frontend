@@ -32,7 +32,7 @@
   border: 2px dashed #ccc;
   border-radius: 8px;
   color: orange;
-  margin-top: 8rem;
+  margin: 13rem;
 }
 
 .no-data-icon {
@@ -56,4 +56,15 @@
   @media (min-width: 768px) {
     max-width: 480px;
   }
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

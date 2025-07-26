@@ -62,5 +62,18 @@ export class Api {
   deleteWallet(id: string): Observable<any> {
     return this.http.delete(this.apiUrl + 'wallets/' + id);
   }
+
+  // Meals collection
+  getMeals(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + 'meals');
+  }
+
+  addMeals(data: any): Observable<any> {
+    return this.http.post<Room>(this.apiUrl + 'meals', data);
+  }
+
+  deleteMeal(id: string): Observable<any> {
+    return this.http.delete(this.apiUrl + 'meals/' + id);
+  }
   
 }

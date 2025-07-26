@@ -8,9 +8,9 @@
     </button>
   </div>
 
-  <!-- Loading Spinner -->
-  <div *ngIf="isLoading" class="d-flex justify-content-center pad-4">
-    <mat-spinner diameter="40"></mat-spinner>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <mat-spinner diameter="50" color="primary"></mat-spinner>
   </div>
 
   <!-- No Data Box -->

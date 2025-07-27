@@ -1,52 +1,130 @@
-<!-- <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-  <h2 class="summary-heading">Monthly Summary</h2>
-
-  <div class="d-flex align-items-center gap-2">
-    <button mat-icon-button [matMenuTriggerFor]="monthMenu" matTooltip="Filter by Month">
-      <mat-icon>calendar_month</mat-icon>
-    </button>
-    <span class="fw-medium">{{ monthNames[selectedMonth - 1] }}</span>
-  </div>
-
-  <mat-menu #monthMenu="matMenu">
-    <button
-      mat-menu-item
-      *ngFor="let month of monthNames; let i = index"
-      (click)="changeMonth(i + 1)">
-      <span>{{ month }}</span>
-    </button>
-  </mat-menu>
-</div>
-
-<mat-card class="summary-card">
-  <mat-card-title>🍛 Meals Summary</mat-card-title>
-  <mat-card-content>
-    <div class="summary-stat"><strong>Total Meals:</strong> {{ monthlySummaryDetails.totalMealByThisMonth }}</div>
-    <div class="summary-stat"><strong>Today's Meals:</strong> {{ monthlySummaryDetails.todaysTotalMealCount }}</div>
-    <div class="summary-stat"><strong>Meal Rate:</strong> ৳{{ monthlySummaryDetails.mealRate }}</div>
-  </mat-card-content>
-</mat-card>
-
-<mat-card class="summary-card">
-  <mat-card-title>💰 Wallet Summary</mat-card-title>
-  <mat-card-content>
-    <div class="summary-stat"><strong>Total Wallet:</strong> ৳{{ monthlySummaryDetails.totalWalletBalance }}</div>
-    <div class="summary-stat"><strong>Total Cost:</strong> ৳{{ monthlySummaryDetails.totalRemainingWalletBalance }}</div>
-  </mat-card-content>
-</mat-card>
-
-<mat-card *ngFor="let member of monthlySummaryDetails.memberWise" class="member-card">
-  <div class="d-flex align-items-center gap-3">
-    <img [src]="member.picture" class="rounded-circle" width="48" height="48" />
+<div class="dashboard-container">
+  <div class="d-flex justify-content-between">
+    <!-- Filter Button & Member Info -->
     <div>
-      <div class="fw-bold">{{ member.name }}</div>
-      <div class="text-muted" style="font-size: 13px;">Room: {{ member.room }}</div>
+      <h1 class="greeting">Hello, Buddy</h1>
+      <p class="subtitle">Welcome to DailyHome</p>
+    </div>
+
+    <div class="d-flex align-items-center pb-4">
+      <!-- Month Display -->
+      <span class="fw-medium mt-1">
+        <span *ngIf="!isLoading">{{ monthNames[monthlySummaryDetails?.month - 1] || 'No Month' }}</span> 
+        <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>
+      </span>      
+      <!-- Filter Icon Button -->
+      <button mat-icon-button [matMenuTriggerFor]="monthFilterMenu" matTooltip="Filter by Month">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+
+      <!-- Month Filter Menu -->
+      <mat-menu #monthFilterMenu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let m of monthNames; let i = index"
+          (click)="changeMonth(i + 1)">
+          {{ m }}
+        </button>
+      </mat-menu>      
     </div>
   </div>
-  <div class="member-stats">
-    <div><strong>Meal:</strong> {{ member.totalMeal }}</div>
-    <div><strong>Wallet:</strong> ৳{{ member.totalWallet }}</div>
-    <div><strong>Cost:</strong> ৳{{ member.totalCost }}</div>
-    <div><strong>Remaining:</strong> ৳{{ member.remaining }}</div>
+
+  <div class="card balance-card mt-2">
+    <div class="bg-circle-left"></div>
+    <div class="bg-circle-right"></div>
+
+    <div class="d-flex justify-content-between">
+      <div>
+        <p class="label">Current Balance</p>
+      <h2 class="balance-amount">
+        <span>৳ </span>
+        <span *ngIf="!isLoading">{{ monthlySummaryDetails.totalRemainingWalletBalance }}</span>
+        <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>
+      </h2>
+      </div>
+      <div class="member-count" style="margin-top: 26px;"><i class="fa fa-users fa-lg"></i> 
+        <strong class="ms-2">
+          <span *ngIf="!isLoading">{{ monthlySummaryDetails?.memberWise?.length || 0 }}</span>
+          <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>
+        </strong>
+      </div>
+    </div>
+
+    <div class="balance-meta">
+      <span>Total Meals: <strong>
+        <span *ngIf="!isLoading">{{ monthlySummaryDetails.totalMealByThisMonth }}</span>
+        <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>
+      </strong></span>
+      <span>Meal Rate: <strong>
+        <span>৳</span>
+        <span *ngIf="!isLoading">{{ monthlySummaryDetails.mealRate }}/meal</span>
+        <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>
+      </strong></span>
+    </div>
+
+    <div class="balance-footer">
+      <div class="footer-item">
+        <p>Total Deposit</p>
+        <h3 class="green-text">
+          <span>৳ </span>
+          <span *ngIf="!isLoading">{{ monthlySummaryDetails.totalWalletBalance }}</span>
+          <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>
+        </h3>
+      </div>
+      <div class="footer-item">
+        <p>Total Remaining</p>
+        <h3 class="green-text">
+          <span>৳ </span>
+          <span *ngIf="!isLoading">{{ monthlySummaryDetails.totalRemainingWalletBalance }}</span>
+          <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>          
+        </h3>
+      </div>
+    </div>
   </div>
-</mat-card> -->
+
+  <div class="card today-meal-card mt-4">
+    <div class="header-row">
+      <p class="section-title">Total Meals Today</p>
+      <p class="date-text">{{ todayDate | date}}</p>
+    </div>
+
+    <div class="meal-time-cards">
+      <div class="meal-box" style="font-size: 36px;">
+        <strong>{{monthlySummaryDetails.todaysTotalMealCount}}</strong>
+      </div>
+    </div>
+
+    <!-- <p class="meal-breakdown">
+      Meals Breakdown : John: 2.5, Rafi: 2.5, Nilay: 2.5, Sobuj: 2
+    </p> -->
+  </div>
+
+  <!-- <div class="card upcoming-info-card">
+    <div class="half-box">
+      <p class="label">My upcoming bazar date</p>
+      <p class="highlight-text">10 Jan 2025 . Sun</p>
+    </div>
+    <div class="half-box">
+      <p class="label">My total bazar</p>
+      <p class="highlight-text">4/8 days</p>
+    </div>
+  </div>
+
+  <div class="card single-row-card">
+    <span class="icon">📥</span>
+    <span class="label">My total Deposit this month</span>
+    <span class="value">2500 ৳</span>
+  </div>
+
+  <div class="card single-row-card">
+    <span class="icon">🛒</span>
+    <span class="label">My total bazar this month</span>
+    <span class="value">2436 ৳</span>
+  </div>
+
+  <div class="card single-row-card">
+    <span class="icon">🍛</span>
+    <span class="label">My total meals this month</span>
+    <span class="value">24</span>
+  </div> -->
+</div>

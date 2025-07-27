@@ -1,38 +1,212 @@
-.summary-heading {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #004f4f;
-}
-
-.summary-card {
-  margin-bottom: 1rem;
-  background-color: #e6f3f3;
-  color: #004f4f;
-}
-
-.summary-stat {
-  margin-bottom: 0.5rem;
-}
-
-.member-card {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background-color: #f7fdfd;
-  border-left: 4px solid #004f4f;
-  border-radius: 8px;
-}
-
-.member-stats {
-  margin-top: 0.5rem;
-  font-size: 14px;
+.dashboard-container {
+  padding: 1rem 0.65rem;
+  font-family: 'Inter', sans-serif;
+  background: #fff;
   color: #333;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+
+  .greeting {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 1rem;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .balance-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #dceece;
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+
+    .label {
+      font-size: 13px;
+      color: #7a7a7a;
+      margin-bottom: 0.25rem;
+    }
+
+    .balance-amount {
+      font-size: 30px;
+      font-weight: 700;
+      color: #1F1F1F;
+      margin-bottom: 1rem;
+    }
+
+    .balance-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #4e4e4e;
+      margin-bottom: 1.25rem;
+      margin-top: 1rem;
+
+      span {
+        white-space: nowrap;
+
+        strong {
+          font-weight: 600;
+        }
+      }
+
+      .member-count {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+    }
+
+    .balance-footer {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 0.75rem;
+
+      .footer-item {
+        p {
+          font-size: 13px;
+          margin-bottom: 0.2rem;
+          color: #4d4d4d;
+        }
+
+        h3 {
+          font-size: 16px;
+          font-weight: 600;
+          color: #1F1F1F;
+        }
+      }
+    }
+
+    .bg-circle-left,
+    .bg-circle-right {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(205, 239, 108, 0.28) 100%);
+      z-index: 0;
+    }
+
+    .bg-circle-left {
+      width: 250px;
+      height: 250px;
+      top: -5px;
+      left: -78px;
+    }
+
+    .bg-circle-right {
+      width: 127px;
+      height: 127px;
+      top: 28;
+      right: -60px;
+      left: 250px;
+    }
+
+    * {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  .today-meal-card {
+    border: 1px solid #dceece;
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .meal-time-cards {
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem 0;
+
+      .meal-box {
+        background: #fff;
+        border: 1px solid #dceece;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        text-align: center;
+        flex: 1;
+        margin: 0 0.25rem;
+        font-size: 13px;
+        color: #1F1F1F;
+
+        &:first-child {
+          margin-left: 0;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .meal-breakdown {
+      font-size: 12px;
+      color: #666;
+    }
+  }
+
+  .upcoming-info-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .half-box {
+      flex: 1;
+      background: #f7f9f8;
+      border: 1px solid #cde3c7;
+      border-radius: 10px;
+      padding: 0.75rem;
+      text-align: center;
+
+      .label {
+        font-size: 13px;
+        color: #656565;
+      }
+
+      .highlight-text {
+        font-size: 15px;
+        font-weight: 600;
+        margin-top: 0.25rem;
+        color: #1F1F1F;
+      }
+    }
+  }
+
+  .single-row-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    font-size: 14px;
+
+    .icon {
+      font-size: 18px;
+    }
+
+    .value {
+      font-weight: 600;
+      color: #1F1F1F;
+    }
+  }
 }
 
-@media (min-width: 768px) {
-  .member-stats {
-    gap: 2rem;
-  }
+::ng-deep mat-spinner svg circle {
+  stroke: #1F1F1F !important;
 }

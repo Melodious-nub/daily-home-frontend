@@ -78,7 +78,7 @@ export class Api {
 
   // summaryDetails
   getSummary(month: any) {
-    return this.http.get<any>(this.apiUrl + 'summary?month' + month);
+    return this.http.get<any>(this.apiUrl + 'summary?month=' + month);
   }
   
 }

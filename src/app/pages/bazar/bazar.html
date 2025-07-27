@@ -76,17 +76,19 @@
         <th mat-header-cell *matHeaderCellDef> Members </th>
         <td mat-cell *matCellDef="let item">
           <ng-container *ngIf="item.members && item.members.length > 0; else noMembers">
-            <div class="member-inline-images">
-              <img
-                *ngFor="let m of item.members"
-                [src]="m.picture"
-                class="rounded-circle"
-                width="26"
-                height="26"
-                matTooltipPosition="above"
-                matTooltip="{{ m.name }}"
-              />
-            </div>
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="membersMenu"
+              (click)="$event.stopPropagation()">
+              <mat-icon>group</mat-icon>
+            </button>
+            <!-- Mat Menu for member list (popover) -->
+            <mat-menu #membersMenu="matMenu">
+              <button mat-menu-item *ngFor="let m of item.members">
+                  <img [src]="m.picture" class="me-2 rounded-circle" width="24" height="24" />
+                  <span>{{ m.name }}</span>
+              </button>
+            </mat-menu>
           </ng-container>
           <ng-template #noMembers>
             <span class="text-muted">N/A</span>

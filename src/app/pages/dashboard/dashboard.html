@@ -90,7 +90,10 @@
 
     <div class="meal-time-cards">
       <div class="meal-box" style="font-size: 36px;">
-        <strong>{{monthlySummaryDetails.todaysTotalMealCount}}</strong>
+        <strong>
+          <span *ngIf="!isLoading">{{monthlySummaryDetails.todaysTotalMealCount}}</span>
+          <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span> 
+        </strong>
       </div>
     </div>
 

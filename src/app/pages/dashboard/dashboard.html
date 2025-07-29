@@ -91,14 +91,16 @@
     <div class="meal-time-cards">
       <div class="meal-box" style="font-size: 36px;">
         <strong>
-          <span *ngIf="!isLoading">{{monthlySummaryDetails.todaysTotalMealCount}}</span>
+          <span *ngIf="!isLoading">{{ monthlySummaryDetails.todaysTotalMealCount }}</span>
           <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span> 
         </strong>
       </div>
     </div>
 
     <div class="meal-breakdown p-3 mb-2" style="border: 1px solid #dceece; border-radius: 10px;">
-      <span style="font-weight: 500;">Meals Breakdown:</span> {{monthlySummaryDetails.todayMealsBreakDownByMembers}}
+      <span style="font-weight: 500;">Meals Breakdown:</span>
+      <span>{{ monthlySummaryDetails.todayMealsBreakDownByMembers }}</span>
+      <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span> 
     </div>
   </div>
 

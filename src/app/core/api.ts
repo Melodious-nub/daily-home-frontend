@@ -7,8 +7,10 @@ import { Room } from './interface/room';
   providedIn: 'root'
 })
 export class Api {
-  // apiUrl: string = 'https://daily-home-backend.onrender.com/api/';
-  apiUrl: string = 'https://daily-home-backend-dev.onrender.com/api/';
+  // for live
+  apiUrl: string = 'https://daily-home-backend.onrender.com/api/';
+  // for test app
+  // apiUrl: string = 'https://daily-home-backend-dev.onrender.com/api/';
 
   constructor(private http: HttpClient) {}
 

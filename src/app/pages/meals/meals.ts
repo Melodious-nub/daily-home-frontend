@@ -44,11 +44,23 @@ export class Meals implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
   allMeals: any[] = []; // Full unfiltered data
   isLoading = false;
+  private dataLoaded = false;
+  private paginatorReady = false;
+  private _paginator!: MatPaginator;
+  @ViewChild(MatPaginator)
+  set matPaginator(paginator: MatPaginator) {
+    this._paginator = paginator;
+    this.paginatorReady = true;
+    this.dataSource.paginator = this._paginator;
+    this.dataSource.sort = this.sort;
+    if (this.dataLoaded) {
+      this.applyFilter();
+    }
+  }
 
   members: any[] = [];
   filterMemberId: string | null = null; // Selected filter member ID
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
@@ -82,8 +94,11 @@ export class Meals implements OnInit {
       .subscribe({
         next: (res) => {
           this.isLoading = false;
-          this.allMeals = res.slice().reverse(); // Keep original order reversed
-          this.applyFilter(); // Apply filter if already selected
+          this.allMeals = res.slice().reverse();
+          this.dataLoaded = true;
+          if (this.paginatorReady) {
+            this.applyFilter();
+          }
         },
         error: () => {
           this.isLoading = false;
@@ -96,10 +111,10 @@ export class Meals implements OnInit {
     const filteredMeals = this.filterMemberId
       ? this.allMeals.filter(meal => meal.member._id === this.filterMemberId)
       : this.allMeals;
-
-    this.dataSource = new MatTableDataSource(filteredMeals);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.data = filteredMeals;
+    if (this._paginator) {
+      this._paginator.firstPage();
+    }
   }
 
   openAddMealModal(): void {

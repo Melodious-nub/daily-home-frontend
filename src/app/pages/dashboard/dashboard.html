@@ -72,17 +72,17 @@
         </h3>
       </div>
       <div class="footer-item">
-        <p>Total Remaining</p>
+        <p>Total Expense</p>
         <h3 class="green-text">
           <span>৳ </span>
-          <span *ngIf="!isLoading">{{ monthlySummaryDetails.totalRemainingWalletBalance }}</span>
-          <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>          
+          <span *ngIf="!isLoading">{{ monthlySummaryDetails.totalExpense }}</span>
+          <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>      
         </h3>
       </div>
     </div>
   </div>
 
-  <div class="card today-meal-card mt-4">
+  <div class="card today-meal-card my-4">
     <div class="header-row">
       <p class="section-title">Total Meals Today</p>
       <p class="date-text">{{ todayDate | date}}</p>
@@ -97,9 +97,9 @@
       </div>
     </div>
 
-    <!-- <p class="meal-breakdown">
-      Meals Breakdown : John: 2.5, Rafi: 2.5, Nilay: 2.5, Sobuj: 2
-    </p> -->
+    <div class="meal-breakdown p-3 mb-2" style="border: 1px solid #dceece; border-radius: 10px;">
+      <span style="font-weight: 500;">Meals Breakdown:</span> {{monthlySummaryDetails.todayMealsBreakDownByMembers}}
+    </div>
   </div>
 
   <!-- <div class="card upcoming-info-card">

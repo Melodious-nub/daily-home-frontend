@@ -56,7 +56,7 @@ export class Dashboard implements OnInit {
 
   changeMonth(month: number): void {
     this.selectedMonth = month;
-    console.log(this.selectedMonth);
+    // console.log(this.selectedMonth);
     this.fetchMonthlySummary();
   }
 }

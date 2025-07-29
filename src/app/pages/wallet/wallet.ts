@@ -46,8 +46,19 @@ export class Wallet implements OnInit {
   members: any[] = [];
   isLoading = false;
   filterMemberId: string | null = null;
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  private dataLoaded = false;
+  private paginatorReady = false;
+  private _paginator!: MatPaginator;
+  @ViewChild(MatPaginator)
+  set matPaginator(paginator: MatPaginator) {
+    this._paginator = paginator;
+    this.paginatorReady = true;
+    this.dataSource.paginator = this._paginator;
+    this.dataSource.sort = this.sort;
+    if (this.dataLoaded) {
+      this.applyFilter();
+    }
+  }
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
@@ -81,8 +92,11 @@ export class Wallet implements OnInit {
       .subscribe({
         next: (res) => {
           this.isLoading = false;
-          this.allWallets = res.slice().reverse(); // Keep a backup for filtering
-          this.applyFilter();
+          this.allWallets = res.slice().reverse();
+          this.dataLoaded = true;
+          if (this.paginatorReady) {
+            this.applyFilter();
+          }
         },
         error: () => {
           this.isLoading = false;
@@ -95,10 +109,10 @@ export class Wallet implements OnInit {
     const filtered = this.filterMemberId
       ? this.allWallets.filter(entry => entry.member._id === this.filterMemberId)
       : this.allWallets;
-
-    this.dataSource = new MatTableDataSource(filtered);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.data = filtered;
+    if (this._paginator) {
+      this._paginator.firstPage();
+    }
   }
 
   openAddWalletModal(): void {

@@ -44,11 +44,22 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 })
 export class Bazar implements OnInit {
   displayedColumns: any[] = ['date', 'members', 'cost', 'description', 'actions'];
-  dataSource = new MatTableDataSource<any[]>();
+  dataSource = new MatTableDataSource<any>([]);
   isLoading = false;
   members: any[] = [];
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  private dataLoaded = false;
+  private paginatorReady = false;
+  private _paginator!: MatPaginator;
+  @ViewChild(MatPaginator)
+  set matPaginator(paginator: MatPaginator) {
+    this._paginator = paginator;
+    this.paginatorReady = true;
+    this.dataSource.paginator = this._paginator;
+    this.dataSource.sort = this.sort;
+    if (this.dataLoaded) {
+      this.applyFilter();
+    }
+  }
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
@@ -86,7 +97,10 @@ export class Bazar implements OnInit {
         next: (res) => {
           this.isLoading = false;
           this.allBazars = res;
-          this.applyFilter();
+          this.dataLoaded = true;
+          if (this.paginatorReady) {
+            this.applyFilter();
+          }
         },
         error: () => {
           this.isLoading = false;
@@ -105,10 +119,10 @@ export class Bazar implements OnInit {
       : this.allBazars.filter(item =>
           item.members?.some((m: any) => this.selectedMemberIds.includes(m._id))
         );
-
-    this.dataSource = new MatTableDataSource(filtered);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.data = filtered;
+    if (this._paginator) {
+      this._paginator.firstPage();
+    }
   }
 
   toggleMemberSelection(memberId: string): void {

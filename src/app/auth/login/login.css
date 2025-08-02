@@ -92,7 +92,8 @@
   box-sizing: border-box;
 }
 
-.form-input:focus {
+.form-input:focus,
+.form-input.keyboard-focused {
   outline: none;
   border-color: #333;
 }

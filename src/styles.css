@@ -1,5 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Keyboard and Navigation Styles */
+.keyboard-focused {
+  border-color: #007bff !important;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1) !important;
+}
+
+/* Prevent body scroll when keyboard is open on mobile */
+body.keyboard-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* Smooth transitions for keyboard interactions */
+* {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
 html, body { height: 100%; background: white; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 

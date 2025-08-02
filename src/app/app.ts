@@ -6,6 +6,7 @@ import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { NavigationBar } from '@capgo/capacitor-navigation-bar';
 import { Auth } from './core/services/auth';
+import { NavigationService } from './core/services/navigation.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -25,7 +26,8 @@ export class App implements OnInit {
 
   constructor(
     private auth: Auth,
-    private router: Router
+    private router: Router,
+    private navigationService: NavigationService
   ) {
     // Subscribe to authentication changes
     this.auth.currentUser$.subscribe(user => {
@@ -46,6 +48,7 @@ export class App implements OnInit {
   ngOnInit(): void {
     if (Capacitor.isNativePlatform()) {
       this.configureNativeUI();
+      this.configureKeyboard();
     }
   }
 
@@ -90,6 +93,20 @@ export class App implements OnInit {
       }
     } catch (error) {
       // Navigation bar configuration failed
+    }
+  }
+
+  private async configureKeyboard() {
+    try {
+      if (Capacitor.getPlatform() === 'android') {
+        // Configure keyboard behavior for Android
+        await this.navigationService.setResizeMode('body');
+        await this.navigationService.setScroll(false);
+        await this.navigationService.setAccessoryBarVisible(false);
+        console.log('Keyboard configuration applied successfully');
+      }
+    } catch (error) {
+      console.error('Keyboard configuration failed:', error);
     }
   }
 }

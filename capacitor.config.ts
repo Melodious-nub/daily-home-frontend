@@ -28,6 +28,14 @@ const config: CapacitorConfig = {
       spinnerColor: "#999999",
       splashFullScreen: true,
       splashImmersive: true
+    },
+    Keyboard: {
+      resize: "body",
+      style: "default",
+      resizeOnFullScreen: true
+    },
+    App: {
+      backButtonDefaultBehavior: "auto"
     }
   },
   android: {

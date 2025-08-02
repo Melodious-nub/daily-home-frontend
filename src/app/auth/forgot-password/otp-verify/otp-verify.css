@@ -1,7 +1,7 @@
 .otp-container {
-  min-height: 85vh;
+  min-height: 90vh;
   padding: 16px;
-  background-color: #f7f9fb;
+  background-color: #ffffff;
   position: relative;
   display: flex;
   flex-direction: column;

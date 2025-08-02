@@ -43,5 +43,13 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/bazar/bazar').then(m => m.Bazar),
     canActivate: [authGuard]
   },
+  { 
+    path: 'test-keyboard', 
+    loadComponent: () => import('./pages/test-keyboard/test-keyboard').then(m => m.TestKeyboard)
+  },
+  { 
+    path: 'simple-test', 
+    loadComponent: () => import('./pages/simple-test/simple-test').then(m => m.SimpleTest)
+  },
   { path: '**', redirectTo: 'dashboard' }
 ];

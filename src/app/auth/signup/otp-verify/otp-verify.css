@@ -1,5 +1,5 @@
 .otp-container {
-  height: 100vh;
+  min-height: 85vh;
   padding: 16px;
   background-color: #f7f9fb;
   position: relative;

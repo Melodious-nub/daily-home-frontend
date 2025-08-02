@@ -57,12 +57,16 @@ export interface ResendOtpResponse {
 export class Auth {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  
+  // Add initialization state to prevent flash
+  private isInitializedSubject = new BehaviorSubject<boolean>(false);
+  public isInitialized$ = this.isInitializedSubject.asObservable();
 
   constructor(
     private api: Api,
     private router: Router
   ) {
-    this.loadUserFromStorage();
+    this.initializeAuth();
   }
 
   get currentUser(): User | null {
@@ -71,6 +75,22 @@ export class Auth {
 
   get isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  get isInitialized(): boolean {
+    return this.isInitializedSubject.value;
+  }
+
+  // Initialize authentication state
+  private initializeAuth(): void {
+    // Clear any invalid tokens first
+    this.clearInvalidTokens();
+    
+    // Load user from storage
+    this.loadUserFromStorage();
+    
+    // Mark as initialized
+    this.isInitializedSubject.next(true);
   }
 
   // Login functionality
@@ -153,7 +173,7 @@ export class Auth {
         const user = JSON.parse(userStr);
         this.currentUserSubject.next(user);
       } catch (error) {
-        console.error('Error parsing user from storage:', error);
+        // Silent error handling - just clear invalid data
         this.logout();
       }
     }

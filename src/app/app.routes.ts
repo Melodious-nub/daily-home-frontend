@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/services/auth-guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', loadComponent: () => import('./auth/login/login').then(m => m.Login) },
   { path: 'signup', loadComponent: () => import('./auth/signup/signup').then(m => m.Signup) },
   { path: 'signup/otp-verify', loadComponent: () => import('./auth/signup/otp-verify/otp-verify').then(m => m.OtpVerify) },
@@ -43,5 +43,5 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/bazar/bazar').then(m => m.Bazar),
     canActivate: [authGuard]
   },
-  { path: '**', redirectTo: 'login' }
+  { path: '**', redirectTo: 'dashboard' }
 ];

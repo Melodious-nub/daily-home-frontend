@@ -1,4 +1,15 @@
-<div class="safe-area-wrapper">
+<!-- Loading screen while auth is initializing -->
+<div *ngIf="!isInitialized" class="loading-screen">
+  <div class="loading-content">
+    <div class="loading-spinner">
+      <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+    </div>
+    <div class="loading-text">Loading...</div>
+  </div>
+</div>
+
+<!-- Main app content after initialization -->
+<div *ngIf="isInitialized" class="safe-area-wrapper">
   <!-- Show header only for authenticated users -->
   <app-header *ngIf="isAuthenticated"></app-header>
 

@@ -7,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { Auth } from '../../core/services/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,7 +32,7 @@ export class Dashboard implements OnInit {
 
   isLoading: boolean = false;
 
-  constructor(private api: Api, private destroyRef: DestroyRef) {}
+  constructor(private api: Api, private destroyRef: DestroyRef, private auth: Auth) {}
 
   ngOnInit(): void {
     this.fetchMonthlySummary();
@@ -58,5 +59,9 @@ export class Dashboard implements OnInit {
     this.selectedMonth = month;
     // console.log(this.selectedMonth);
     this.fetchMonthlySummary();
+  }
+
+  logout(): void {
+    this.auth.logout();
   }
 }

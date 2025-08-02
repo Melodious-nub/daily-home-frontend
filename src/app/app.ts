@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 })
 export class App implements OnInit {
   isAuthenticated = false;
+  isInitialized = false;
 
   constructor(
     private auth: Auth,
@@ -29,20 +30,29 @@ export class App implements OnInit {
     // Subscribe to authentication changes
     this.auth.currentUser$.subscribe(user => {
       this.isAuthenticated = !!user;
+    });
+
+    // Subscribe to initialization state
+    this.auth.isInitialized$.subscribe(initialized => {
+      this.isInitialized = initialized;
       
-      // Check if user should be redirected to login
-      if (!this.isAuthenticated && this.auth.shouldRedirectToLogin()) {
-        this.router.navigate(['/login']);
+      // Only handle routing after initialization
+      if (initialized) {
+        this.handleInitialRouting();
       }
     });
   }
 
   ngOnInit(): void {
-    // Clear any invalid tokens on app start
-    this.auth.clearInvalidTokens();
-    
     if (Capacitor.isNativePlatform()) {
       this.configureNativeUI();
+    }
+  }
+
+  private handleInitialRouting(): void {
+    // Check if user should be redirected to login
+    if (!this.isAuthenticated && this.auth.shouldRedirectToLogin()) {
+      this.router.navigate(['/login']);
     }
   }
 
@@ -61,7 +71,7 @@ export class App implements OnInit {
       if (Capacitor.getPlatform() === 'android') {
         await StatusBar.setStyle({ style: Style.Light }); // Dark icons (light background)
         await StatusBar.setBackgroundColor({ color: '#ffffff' }); // White background
-        await StatusBar.setOverlaysWebView({ overlay: false }); // Don't overlay content
+        await StatusBar.setOverlaysWebView({ overlay: false }); // Don't overlay content - prevents scroll issues
         await StatusBar.show();
       }
     } catch (error) {

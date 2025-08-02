@@ -201,14 +201,17 @@
   border: 1px solid #e0e0e0;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover:not(:disabled) {
   background: #f8f9fa;
   border-color: #ccc;
+  color: #1a1a1a;
 }
 
-.btn-secondary:active {
+.btn-secondary:active:not(:disabled) {
   background: #e9ecef;
+  border-color: #ccc;
   transform: translateY(1px);
+  color: #1a1a1a;
 }
 
 /* Spinner */

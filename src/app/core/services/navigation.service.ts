@@ -52,6 +52,15 @@ export class NavigationService {
   }
 
   private handleBackButton() {
+    const currentUrl = this.router.url;
+    
+    // If we're on an auth route (login, signup, forgot-password), exit app
+    if (currentUrl === '/login' || currentUrl === '/signup' || currentUrl === '/forgot-password' || 
+        currentUrl.startsWith('/signup/otp-verify') || currentUrl.startsWith('/forgot-password/otp-verify')) {
+      this.exitApp();
+      return;
+    }
+    
     if (this.navigationHistory.length > 1) {
       // Remove current route from history
       this.navigationHistory.pop();
@@ -106,6 +115,14 @@ export class NavigationService {
 
   // Public methods for manual navigation control
   public canGoBack(): boolean {
+    const currentUrl = this.router.url;
+    
+    // If we're on an auth route, we can't go back (will exit app)
+    if (currentUrl === '/login' || currentUrl === '/signup' || currentUrl === '/forgot-password' || 
+        currentUrl.startsWith('/signup/otp-verify') || currentUrl.startsWith('/forgot-password/otp-verify')) {
+      return false;
+    }
+    
     return this.navigationHistory.length > 1;
   }
 

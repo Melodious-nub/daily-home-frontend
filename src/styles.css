@@ -2,8 +2,8 @@
 
 /* Keyboard and Navigation Styles */
 .keyboard-focused {
-  border-color: #007bff !important;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1) !important;
+  border-color: #333 !important;
+  box-shadow: none !important;
 }
 
 /* Prevent body scroll when keyboard is open on mobile */

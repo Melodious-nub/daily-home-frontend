@@ -1,0 +1,362 @@
+.otp-container {
+  height: 100vh;
+  padding: 16px;
+  background-color: #f7f9fb;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Success State */
+.success-state {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.success-icon {
+  margin-bottom: 24px;
+}
+
+.success-icon i {
+  font-size: 64px;
+  color: #4caf50;
+  animation: scaleIn 0.6s ease-out;
+}
+
+.success-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.success-message {
+  font-size: 16px;
+  color: #666;
+  margin: 0 0 32px 0;
+  line-height: 1.5;
+}
+
+.redirect-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #999;
+  font-size: 14px;
+  animation: pulse 2s infinite;
+}
+
+.redirect-info i {
+  font-size: 16px;
+}
+
+.otp-content {
+  padding: 0 8px;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 6px 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #444;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.subtitle strong {
+  color: #111;
+}
+
+.otp-inputs {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.otp-box {
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  background: white;
+  transition: border-color 0.2s ease;
+}
+
+.otp-box:focus {
+  border-color: #111;
+}
+
+.otp-box:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Password Group */
+.form-group {
+  position: relative;
+  margin-top: 24px;
+}
+
+.password-group {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.form-input::placeholder {
+  color: #999;
+  font-weight: 400;
+}
+
+.form-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #666;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: #333;
+}
+
+.password-toggle:focus {
+  outline: none;
+}
+
+.success-message {
+  background: #e8f5e8;
+  color: #2e7d32;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+  border: 1px solid #c8e6c9;
+  margin-top: 24px;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+  border: 1px solid #ffcdd2;
+  margin-top: 24px;
+}
+
+.resend-wrap {
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding: 0 8px;
+}
+
+.resend-text {
+  margin: 0;
+}
+
+.resend-link {
+  color: #111;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+.resend-link:hover:not(.disabled) {
+  text-decoration: underline;
+  color: #333;
+}
+
+.resend-link.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.timer {
+  font-weight: 500;
+  color: #111;
+}
+
+/* Buttons - Same as login/signup */
+.btn {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #1a1a1a;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #333;
+}
+
+.btn-primary:active:not(:disabled) {
+  background: #000;
+  transform: translateY(1px);
+}
+
+/* Spinner */
+.fa-spinner {
+  font-size: 14px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .otp-container {
+    padding: 24px;
+  }
+  
+  .otp-content {
+    padding: 0 16px;
+  }
+  
+  .title,
+  .success-title {
+    font-size: 24px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
+  
+  .success-message {
+    font-size: 18px;
+  }
+  
+  .otp-box {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+  }
+  
+  .form-input {
+    padding: 16px 20px;
+  }
+  
+  .btn {
+    padding: 16px 20px;
+    min-height: 52px;
+    font-size: 18px;
+  }
+}

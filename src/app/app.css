@@ -29,6 +29,21 @@
   min-height: 100vh;
 }
 
+/* Android-specific optimizations */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .safe-area-wrapper {
+    padding-top: max(env(safe-area-inset-top), 24px); /* Minimum 24px for status bar */
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+}
+
+/* Android status bar spacing */
+@media screen and (max-width: 768px) {
+  .safe-area-wrapper {
+    padding-top: max(env(safe-area-inset-top), 24px);
+  }
+}
+
 /* Mobile optimizations */
 @media (max-width: 768px) {
   .safe-area-wrapper {
@@ -56,5 +71,12 @@
 @media (min-width: 768px) {
   .desktop-only {
     display: block;
+  }
+}
+
+/* Android navigation bar support */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-area-wrapper {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }

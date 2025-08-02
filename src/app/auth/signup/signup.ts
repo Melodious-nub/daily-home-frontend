@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth, SignupRequest } from '../../core/services/auth';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-signup',
@@ -12,6 +13,8 @@ import { Auth, SignupRequest } from '../../core/services/auth';
   styleUrl: './signup.css'
 })
 export class Signup {
+  private destroyRef = inject(DestroyRef);
+  
   signupData: SignupRequest = {
     email: '',
     password: '',
@@ -51,25 +54,25 @@ export class Signup {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.auth.signup(this.signupData).subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        console.log('Signup successful:', response);
-        
-        // Navigate to OTP verification page with state data
-        this.router.navigate(['/signup/otp-verify'], { 
-          state: { 
-            userId: response.userId, 
-            email: this.signupData.email 
-          } 
-        });
-      },
-      error: (error) => {
-        this.isLoading = false;
-        console.error('Signup error:', error);
-        this.errorMessage = error.error?.message || 'Signup failed. Please try again.';
-      }
-    });
+    this.auth.signup(this.signupData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          
+          // Navigate to OTP verification page with state data
+          this.router.navigate(['/signup/otp-verify'], { 
+            state: { 
+              userId: response.userId, 
+              email: this.signupData.email 
+            } 
+          });
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.errorMessage = error.error?.message || 'Signup failed. Please try again.';
+        }
+      });
   }
 
   togglePasswordVisibility(): void {

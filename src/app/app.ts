@@ -42,27 +42,44 @@ export class App implements OnInit {
     this.auth.clearInvalidTokens();
     
     if (Capacitor.isNativePlatform()) {
-      this.configureStatusBar();
-      this.setNavigationBar();
+      this.configureNativeUI();
+    }
+  }
+
+  private async configureNativeUI() {
+    try {
+      await this.configureStatusBar();
+      await this.configureNavigationBar();
+    } catch (error) {
+      // Silent fail for web platform or unsupported devices
     }
   }
 
   private async configureStatusBar() {
     try {
-      await StatusBar.setStyle({ style: Style.Dark }); // Light icons (dark background)
-      await StatusBar.setBackgroundColor({ color: '#ffffff' }); // White background
-      await StatusBar.setOverlaysWebView({ overlay: false }); // Avoids content under status bar
-      await StatusBar.show();
+      // Set status bar style for Android
+      if (Capacitor.getPlatform() === 'android') {
+        await StatusBar.setStyle({ style: Style.Light }); // Dark icons (light background)
+        await StatusBar.setBackgroundColor({ color: '#ffffff' }); // White background
+        await StatusBar.setOverlaysWebView({ overlay: false }); // Don't overlay content
+        await StatusBar.show();
+      }
     } catch (error) {
-      console.error('Failed to configure status bar:', error);
+      // Status bar configuration failed
     }
   }
 
-  async setNavigationBar() {
+  private async configureNavigationBar() {
     try {
-      await NavigationBar.setNavigationBarColor({ color: '#ffffff', darkButtons: true }); // White nav bar with dark buttons
+      if (Capacitor.getPlatform() === 'android') {
+        // Configure navigation bar for Android
+        await NavigationBar.setNavigationBarColor({ 
+          color: '#ffffff', 
+          darkButtons: true 
+        });
+      }
     } catch (error) {
-      console.error('Navigation bar setup failed', error);
+      // Navigation bar configuration failed
     }
   }
 }

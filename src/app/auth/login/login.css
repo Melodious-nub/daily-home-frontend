@@ -36,6 +36,40 @@
   font-weight: 400;
 }
 
+/* Success Banner */
+.success-banner {
+  background: #e8f5e8;
+  border: 1px solid #c8e6c9;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  animation: slideInDown 0.5s ease-out;
+}
+
+.success-icon {
+  flex-shrink: 0;
+}
+
+.success-icon i {
+  font-size: 20px;
+  color: #4caf50;
+}
+
+.success-content {
+  flex: 1;
+}
+
+.success-message {
+  margin: 0;
+  font-size: 14px;
+  color: #2e7d32;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
 /* Form */
 .login-form {
   display: flex;
@@ -109,7 +143,7 @@
 }
 
 .forgot-link:hover {
-  color: #333;
+  color: #1a1a1a;
 }
 
 /* Error Message */
@@ -181,6 +215,18 @@
   font-size: 14px;
 }
 
+/* Animations */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsive Design - Tablet and Desktop */
 @media (min-width: 768px) {
   .login-container {
@@ -197,6 +243,15 @@
   
   .login-subtitle {
     font-size: 16px;
+  }
+  
+  .success-banner {
+    padding: 20px;
+    margin-bottom: 32px;
+  }
+  
+  .success-message {
+    font-size: 15px;
   }
   
   .login-header {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -6,6 +6,7 @@ import { Auth, OtpVerifyRequest } from '../../../core/services/auth';
 import { interval, Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-otp-verify',
@@ -14,7 +15,9 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './otp-verify.html',
   styleUrl: './otp-verify.css'
 })
-export class OtpVerify implements OnInit, OnDestroy {
+export class OtpVerify implements OnInit {
+  private destroyRef = inject(DestroyRef);
+  
   otpData: OtpVerifyRequest = {
     userId: '',
     otp: ''
@@ -30,7 +33,7 @@ export class OtpVerify implements OnInit, OnDestroy {
   otpDigits: string[] = ['', '', '', ''];
   
   // Timer properties
-  countdownSeconds = 180; // 10 seconds for testing, change to 180 for production
+  countdownSeconds = 180; // 3 minutes
   currentCountdown = 0;
   canResend = false;
   private timerSubscription?: Subscription;
@@ -47,56 +50,44 @@ export class OtpVerify implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('OTP Verify component initialized');
-    
     // Get userId and email from router state
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.otpData.userId = navigation.extras.state['userId'];
       this.email = navigation.extras.state['email'];
-      console.log('Received state data:', { userId: this.otpData.userId, email: this.email });
     } else {
-      console.log('No state data found, checking history state');
       // Fallback to history state
       const historyState = history.state;
       if (historyState && historyState.userId) {
         this.otpData.userId = historyState.userId;
         this.email = historyState.email || '';
-        console.log('Received history state data:', { userId: this.otpData.userId, email: this.email });
       }
     }
 
     // If no userId, redirect to signup
     if (!this.otpData.userId) {
-      console.log('No userId found, redirecting to signup');
       this.router.navigate(['/signup']);
       return;
     }
 
-    console.log('Starting countdown timer');
     // Start the countdown timer
     this.startCountdown();
-  }
-
-  ngOnDestroy(): void {
-    if (this.timerSubscription) {
-      this.timerSubscription.unsubscribe();
-    }
   }
 
   private startCountdown(): void {
     this.currentCountdown = this.countdownSeconds;
     this.canResend = false;
     
-    this.timerSubscription = interval(1000).subscribe(() => {
-      this.currentCountdown--;
-      
-      if (this.currentCountdown <= 0) {
-        this.canResend = true;
-        this.timerSubscription?.unsubscribe();
-        console.log('Countdown finished, resend button enabled');
-      }
-    });
+    this.timerSubscription = interval(1000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.currentCountdown--;
+        
+        if (this.currentCountdown <= 0) {
+          this.canResend = true;
+          this.timerSubscription?.unsubscribe();
+        }
+      });
   }
 
   get formattedTime(): string {
@@ -161,27 +152,24 @@ export class OtpVerify implements OnInit, OnDestroy {
     this.errorMessage = '';
     this.successMessage = '';
 
-    console.log('Submitting OTP:', this.otpData);
-
-    this.auth.verifyOtp(this.otpData).subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        console.log('OTP verification successful:', response);
-        this.successMessage = response.message || 'OTP verified successfully!';
-        // Navigation is handled in the auth service
-      },
-      error: (error) => {
-        this.isLoading = false;
-        console.error('OTP verification error:', error);
-        this.errorMessage = error.error?.message || 'OTP verification failed. Please try again.';
-        this.successMessage = '';
-      }
-    });
+    this.auth.verifyOtp(this.otpData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          this.successMessage = response.message || 'OTP verified successfully!';
+          // Navigation is handled in the auth service
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.errorMessage = error.error?.message || 'OTP verification failed. Please try again.';
+          this.successMessage = '';
+        }
+      });
   }
 
   resendOtp(): void {
     if (!this.otpData.userId || !this.canResend) {
-      console.log('Cannot resend OTP:', { userId: this.otpData.userId, canResend: this.canResend });
       return;
     }
 
@@ -189,25 +177,28 @@ export class OtpVerify implements OnInit, OnDestroy {
     this.errorMessage = '';
     this.successMessage = '';
 
-    console.log('Resending OTP for userId:', this.otpData.userId);
-
-    this.auth.resendOtp(this.otpData.userId).subscribe({
-      next: (response) => {
-        this.resendLoading = false;
-        console.log('OTP resent successfully:', response);
-        this.successMessage = response.message || 'OTP has been resent to your email.';
-        this.errorMessage = '';
-        
-        // Restart the countdown
-        this.startCountdown();
-      },
-      error: (error) => {
-        this.resendLoading = false;
-        console.error('Resend OTP error:', error);
-        this.errorMessage = error.error?.message || 'Failed to resend OTP. Please try again.';
-        this.successMessage = '';
-      }
-    });
+    this.auth.resendOtp(this.otpData.userId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.resendLoading = false;
+          this.successMessage = response.message || 'OTP has been resent to your email.';
+          this.errorMessage = '';
+          
+          // Clear success message after 3 seconds
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 3000);
+          
+          // Restart the countdown
+          this.startCountdown();
+        },
+        error: (error) => {
+          this.resendLoading = false;
+          this.errorMessage = error.error?.message || 'Failed to resend OTP. Please try again.';
+          this.successMessage = '';
+        }
+      });
   }
 
   goBackToSignup(): void {

@@ -85,11 +85,23 @@ export class NavigationService {
   private handleKeyboardShow(info: any) {
     // You can add custom logic here when keyboard shows
     console.log('Keyboard will show:', info);
+    
+    // Add class to body to handle keyboard styling
+    if (typeof document !== 'undefined') {
+      document.body.classList.add('keyboard-open');
+      document.body.style.backgroundColor = '#ffffff';
+    }
   }
 
   private handleKeyboardHide() {
     // You can add custom logic here when keyboard hides
     console.log('Keyboard will hide');
+    
+    // Remove class from body
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('keyboard-open');
+      document.body.style.backgroundColor = '#ffffff';
+    }
   }
 
   // Public methods for manual navigation control

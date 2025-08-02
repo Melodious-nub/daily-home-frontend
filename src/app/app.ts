@@ -100,7 +100,7 @@ export class App implements OnInit {
     try {
       if (Capacitor.getPlatform() === 'android') {
         // Configure keyboard behavior for Android
-        await this.navigationService.setResizeMode('body');
+        await this.navigationService.setResizeMode('native');
         await this.navigationService.setScroll(false);
         await this.navigationService.setAccessoryBarVisible(false);
         console.log('Keyboard configuration applied successfully');

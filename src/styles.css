@@ -13,6 +13,29 @@ body.keyboard-open {
   width: 100%;
 }
 
+/* Fix keyboard gap issue */
+body {
+  background-color: #ffffff !important;
+}
+
+/* Remove any default margins/padding that might cause gaps */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+}
+
+/* Ensure the app container takes full height */
+#root, app-root {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Fix for keyboard resize mode */
+.capacitor-keyboard-open {
+  background-color: #ffffff !important;
+}
+
 /* Smooth transitions for keyboard interactions */
 * {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;

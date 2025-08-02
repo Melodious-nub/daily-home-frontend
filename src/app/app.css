@@ -29,13 +29,6 @@
   min-height: 100vh;
 }
 
-/* Dashboard and other authenticated pages styling */
-.content-area > *:not(.auth-content) {
-  padding: 16px;
-  background-color: #f8f9fa;
-  min-height: calc(100vh - 64px - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-}
-
 /* Mobile optimizations */
 @media (max-width: 768px) {
   .safe-area-wrapper {
@@ -46,22 +39,12 @@
   .content-area {
     min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
-  
-  .content-area > *:not(.auth-content) {
-    padding: 12px;
-    min-height: calc(100vh - 64px - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-  }
 }
 
 /* Desktop optimizations */
 @media (min-width: 769px) {
   .safe-area-wrapper:has(app-header) .content-area {
     padding-top: 80px; /* More space for desktop header */
-  }
-  
-  .content-area > *:not(.auth-content) {
-    padding: 24px;
-    min-height: calc(100vh - 80px - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
 }
 

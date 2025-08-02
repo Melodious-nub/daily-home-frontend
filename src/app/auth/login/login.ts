@@ -4,13 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth, LoginRequest } from '../../core/services/auth';
 import { NavigationService } from '../../core/services/navigation.service';
-import { KeyboardHandlerDirective } from '../../core/directives/keyboard-handler.directive';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, KeyboardHandlerDirective],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })

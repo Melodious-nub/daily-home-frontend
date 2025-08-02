@@ -1,7 +1,6 @@
 .dashboard-container {
-  padding: 1rem 0.65rem;
   font-family: 'Inter', sans-serif;
-  background: #fff;
+  background: transparent;
   color: #333;
 
   .greeting {

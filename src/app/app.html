@@ -1,9 +1,11 @@
 <div class="safe-area-wrapper">
-  <app-header></app-header>
+  <!-- Show header only for authenticated users -->
+  <app-header *ngIf="isAuthenticated"></app-header>
 
-  <main class="container-fluid content-area">
+  <main class="content-area">
     <router-outlet></router-outlet>
   </main>
 
-  <app-bottom-nav></app-bottom-nav>
+  <!-- Show bottom nav only for authenticated users -->
+  <app-bottom-nav *ngIf="isAuthenticated"></app-bottom-nav>
 </div>

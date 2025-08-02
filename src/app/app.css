@@ -1,0 +1,77 @@
+/* Safe area wrapper for mobile devices */
+.safe-area-wrapper {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  overflow-x: hidden;
+}
+
+/* Content area - adjusts based on authentication state */
+.content-area {
+  min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  padding: 0;
+  position: relative;
+}
+
+/* When authenticated, add padding for header and bottom nav */
+.safe-area-wrapper:has(app-header) .content-area {
+  padding-top: 64px; /* Space for header */
+}
+
+.safe-area-wrapper:has(app-bottom-nav) .content-area {
+  padding-bottom: 80px; /* Space for bottom nav */
+}
+
+/* Auth content styling for login/signup pages */
+.auth-content router-outlet + * {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Dashboard and other authenticated pages styling */
+.content-area > *:not(.auth-content) {
+  padding: 16px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 64px - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .safe-area-wrapper {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .content-area {
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+  
+  .content-area > *:not(.auth-content) {
+    padding: 12px;
+    min-height: calc(100vh - 64px - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+}
+
+/* Desktop optimizations */
+@media (min-width: 769px) {
+  .safe-area-wrapper:has(app-header) .content-area {
+    padding-top: 80px; /* More space for desktop header */
+  }
+  
+  .content-area > *:not(.auth-content) {
+    padding: 24px;
+    min-height: calc(100vh - 80px - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+}
+
+/* Hide header on mobile for authenticated users */
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-only {
+    display: block;
+  }
+}

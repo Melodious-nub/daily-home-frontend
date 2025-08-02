@@ -12,6 +12,31 @@ export class Api {
 
   constructor(private http: HttpClient) {}
 
+  // auth api collection
+  login(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'auth/login', data);
+  }
+
+  signup(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'auth/signup', data);
+  }
+
+  verifyOtp(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'auth/verify-otp', data);
+  }
+
+  resendOtp(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'auth/resend-otp', data);
+  }
+
+  requestPasswordReset(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'auth/request-password-reset', data);
+  }
+
+  resetPassword(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'auth/reset-password', data);
+  }
+
   // rooms api collection
   getRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(this.apiUrl + 'rooms');

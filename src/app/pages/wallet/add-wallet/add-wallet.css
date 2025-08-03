@@ -11,13 +11,13 @@ mat-dialog-actions {
 }
 
 h5 {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
   font-weight: 600;
   color: #004f4f;
 }
 
 form {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
 }
 
 button[mat-raised-button] {

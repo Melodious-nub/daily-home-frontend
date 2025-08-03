@@ -1,5 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Lato Font Family Setup */
+:root {
+  --font-family-base: 'Lato', "Helvetica Neue", sans-serif;
+  --font-weight-thin: 100;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+}
+
+/* Global font family */
+* {
+  font-family: var(--font-family-base);
+}
+
+/* Font weight utility classes */
+.font-thin {
+  font-weight: var(--font-weight-thin);
+}
+
+.font-light {
+  font-weight: var(--font-weight-light);
+}
+
+.font-regular {
+  font-weight: var(--font-weight-regular);
+}
+
+.font-semibold {
+  font-weight: var(--font-weight-semibold);
+}
+
+.font-bold {
+  font-weight: var(--font-weight-bold);
+}
+
+.font-black {
+  font-weight: var(--font-weight-black);
+}
+
+/* Italic variants */
+.font-italic {
+  font-style: italic;
+}
+
+/* Combined weight and style utilities */
+.font-light-italic {
+  font-weight: var(--font-weight-light);
+  font-style: italic;
+}
+
+.font-regular-italic {
+  font-weight: var(--font-weight-regular);
+  font-style: italic;
+}
+
+.font-semibold-italic {
+  font-weight: var(--font-weight-semibold);
+  font-style: italic;
+}
+
+.font-bold-italic {
+  font-weight: var(--font-weight-bold);
+  font-style: italic;
+}
+
 /* Keyboard and Navigation Styles */
 .keyboard-focused {
   border-color: #333 !important;
@@ -42,7 +109,7 @@ html, body {
 }
 
 html, body { height: 100%; background: white; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Lato', "Helvetica Neue", sans-serif; }
 
 /* Support for Android/iOS safe areas and desktop/web view */
 .safe-area-wrapper {

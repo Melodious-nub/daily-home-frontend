@@ -3,7 +3,7 @@
     height: auto;
     perspective: 1000px;
     margin: 15px auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-family-base);
     cursor: default;
     border: none;
 }

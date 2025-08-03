@@ -1,6 +1,6 @@
 .dashboard-container {
   padding: 1rem 0.65rem;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
   background: #fff;
   color: #333;
 

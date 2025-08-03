@@ -1,7 +1,7 @@
 .custom-toolbar {
   background-color: rgba(0, 79, 79, 0.08); /* Light cyan tint */
   color: #004f4f;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family-base);
   height: 56px;
   display: flex;
   align-items: center;

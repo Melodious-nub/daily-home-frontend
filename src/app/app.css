@@ -48,7 +48,7 @@
   position: relative;
 }
 
-/* When authenticated, add padding for header and bottom nav */
+/* When authenticated and not on landing page, add padding for header and bottom nav */
 .safe-area-wrapper:has(app-header) .content-area {
   padding-top: 64px; /* Space for header */
 }

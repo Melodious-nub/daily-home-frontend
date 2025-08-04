@@ -10,13 +10,13 @@
 
 <!-- Main app content after initialization -->
 <div *ngIf="isInitialized" class="safe-area-wrapper">
-  <!-- Show header only for authenticated users -->
-  <app-header *ngIf="isAuthenticated"></app-header>
+  <!-- Show header only for authenticated users and not on landing page -->
+  <app-header *ngIf="isAuthenticated && !isOnLandingPage"></app-header>
 
   <main class="content-area">
     <router-outlet></router-outlet>
   </main>
 
-  <!-- Show bottom nav only for authenticated users -->
-  <app-bottom-nav *ngIf="isAuthenticated"></app-bottom-nav>
+  <!-- Show bottom nav only for authenticated users and not on landing page -->
+  <app-bottom-nav *ngIf="isAuthenticated && !isOnLandingPage"></app-bottom-nav>
 </div>

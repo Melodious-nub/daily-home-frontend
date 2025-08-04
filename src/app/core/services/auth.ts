@@ -7,7 +7,9 @@ export interface User {
   id?: string;
   email: string;
   fullName?: string;
-  // Add other user properties as needed
+  isEmailVerified?: boolean;
+  currentMess?: string;
+  isMessAdmin?: boolean;
 }
 
 export interface LoginRequest {
@@ -102,8 +104,8 @@ export class Auth {
           this.setUser(response.user);
           observer.next(response);
           observer.complete();
-          // Redirect to dashboard after successful login
-          this.router.navigate(['/dashboard']);
+          // Redirect based on mess status
+          this.handlePostAuthRedirect(response.user);
         },
         error: (error) => {
           observer.error(error);
@@ -126,8 +128,8 @@ export class Auth {
           this.setUser(response.user);
           observer.next(response);
           observer.complete();
-          // Redirect to dashboard after successful OTP verification
-          this.router.navigate(['/dashboard']);
+          // Redirect based on mess status
+          this.handlePostAuthRedirect(response.user);
         },
         error: (error) => {
           observer.error(error);
@@ -179,10 +181,26 @@ export class Auth {
     }
   }
 
+  // Handle post-authentication redirect based on mess status
+  private handlePostAuthRedirect(user: User): void {
+    if (user.currentMess) {
+      // User is part of a mess, redirect to dashboard
+      this.router.navigate(['/dashboard']);
+    } else {
+      // User is not part of any mess, redirect to landing page
+      this.router.navigate(['/landing']);
+    }
+  }
+
   // Authentication checks
   checkAuthAndRedirect(): boolean {
     if (this.isLoggedIn && this.isTokenValid()) {
-      this.router.navigate(['/dashboard']);
+      const user = this.currentUser;
+      if (user) {
+        this.handlePostAuthRedirect(user);
+      } else {
+        this.router.navigate(['/dashboard']);
+      }
       return true;
     }
     return false;

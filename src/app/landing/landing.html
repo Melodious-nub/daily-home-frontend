@@ -1,0 +1,63 @@
+<div class="landing-container">
+  <!-- Background Image -->
+  <div class="bg-image">
+    <img src="/bg_image.png" alt="Background Image" class="bg-image-img">
+  </div>
+  
+  <!-- Content -->
+  <div class="landing-content">
+    <!-- Header -->
+    <div class="landing-header">
+      <h1 class="landing-title">Get Started with Your Mess</h1>
+      <p class="landing-subtitle">Select a option</p>
+    </div>
+
+    <!-- Option Cards -->
+    <div class="option-cards">
+      <!-- Create New Mess Card -->
+      <div 
+        class="option-card" 
+        [class.selected]="selectedOption === 'create'"
+        (click)="selectOption('create')"
+      >
+        <div class="card-icon">
+          <i class="fa fa-home"></i>
+          <i class="fa fa-plus icon-plus"></i>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Create a New Mess</h3>
+          <p class="card-subtitle">Start a new mess group and add members</p>
+        </div>
+      </div>
+
+      <!-- Join Existing Mess Card -->
+      <div 
+        class="option-card" 
+        [class.selected]="selectedOption === 'join'"
+        (click)="selectOption('join')"
+      >
+        <div class="card-icon">
+          <i class="fa fa-home"></i>
+          <i class="fa fa-plus icon-plus"></i>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Join an Existing Mess</h3>
+          <p class="card-subtitle">Enter a code to join your mess group</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Button -->
+    <div class="action-section">
+      <button 
+        type="button"
+        class="btn btn-primary"
+        [class.disabled]="!selectedOption"
+        (click)="next()"
+      >
+        <span>Next</span>
+        <i class="fa fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>

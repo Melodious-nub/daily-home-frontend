@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { Header } from "./layout/header/header";
 import { BottomNav } from "./layout/bottom-nav/bottom-nav";
 import { Capacitor } from '@capacitor/core';
@@ -8,6 +8,7 @@ import { NavigationBar } from '@capgo/capacitor-navigation-bar';
 import { Auth } from './core/services/auth';
 import { NavigationService } from './core/services/navigation.service';
 import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ import { CommonModule } from '@angular/common';
 export class App implements OnInit {
   isAuthenticated = false;
   isInitialized = false;
+  isOnLandingPage = false;
 
   constructor(
     private auth: Auth,
@@ -42,6 +44,13 @@ export class App implements OnInit {
       if (initialized) {
         this.handleInitialRouting();
       }
+    });
+
+    // Subscribe to route changes to track landing page
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.isOnLandingPage = event.url.startsWith('/landing');
     });
   }
 

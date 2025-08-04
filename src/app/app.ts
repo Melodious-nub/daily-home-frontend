@@ -9,6 +9,7 @@ import { Auth } from './core/services/auth';
 import { NavigationService } from './core/services/navigation.service';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { PreventCopyDirective } from './core/directives/keyboard-handler.directive';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ import { filter } from 'rxjs/operators';
     RouterOutlet,
     Header,
     BottomNav,
-    CommonModule
+    CommonModule,
+    PreventCopyDirective
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'
@@ -25,6 +27,7 @@ export class App implements OnInit {
   isAuthenticated = false;
   isInitialized = false;
   isOnLandingPage = false;
+  hasCurrentMess = false;
 
   constructor(
     private auth: Auth,
@@ -34,6 +37,7 @@ export class App implements OnInit {
     // Subscribe to authentication changes
     this.auth.currentUser$.subscribe(user => {
       this.isAuthenticated = !!user;
+      this.hasCurrentMess = !!user?.currentMess;
     });
 
     // Subscribe to initialization state
@@ -59,6 +63,55 @@ export class App implements OnInit {
       this.configureNativeUI();
       this.configureKeyboard();
     }
+    
+    // Add global event listeners to prevent copy/paste
+    this.preventCopyPaste();
+  }
+
+  private preventCopyPaste(): void {
+    // Prevent copy
+    document.addEventListener('copy', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // Prevent cut
+    document.addEventListener('cut', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // Prevent paste (except in input fields)
+    document.addEventListener('paste', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.matches('input, textarea, [contenteditable="true"]')) {
+        e.preventDefault();
+        return false;
+      }
+      return true;
+    });
+
+    // Prevent context menu
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // Prevent drag and drop
+    document.addEventListener('dragstart', (e) => {
+      e.preventDefault();
+      return false;
+    });
+
+    // Prevent text selection
+    document.addEventListener('selectstart', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.matches('input, textarea, [contenteditable="true"]')) {
+        e.preventDefault();
+        return false;
+      }
+      return true;
+    });
   }
 
   private handleInitialRouting(): void {

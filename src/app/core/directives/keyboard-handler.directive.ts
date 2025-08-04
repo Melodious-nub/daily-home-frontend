@@ -50,4 +50,48 @@ export class KeyboardHandlerDirective {
     // Handle input changes
     // You can add custom logic here
   }
+}
+
+@Directive({
+  selector: '[appPreventCopy]',
+  standalone: true
+})
+export class PreventCopyDirective {
+  constructor(private el: ElementRef) {}
+
+  @HostListener('copy', ['$event'])
+  onCopy(event: ClipboardEvent) {
+    event.preventDefault();
+    return false;
+  }
+
+  @HostListener('cut', ['$event'])
+  onCut(event: ClipboardEvent) {
+    event.preventDefault();
+    return false;
+  }
+
+  @HostListener('paste', ['$event'])
+  onPaste(event: ClipboardEvent) {
+    event.preventDefault();
+    return false;
+  }
+
+  @HostListener('contextmenu', ['$event'])
+  onContextMenu(event: MouseEvent) {
+    event.preventDefault();
+    return false;
+  }
+
+  @HostListener('selectstart', ['$event'])
+  onSelectStart(event: Event) {
+    event.preventDefault();
+    return false;
+  }
+
+  @HostListener('dragstart', ['$event'])
+  onDragStart(event: DragEvent) {
+    event.preventDefault();
+    return false;
+  }
 } 

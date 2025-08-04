@@ -16,6 +16,58 @@
   font-family: var(--font-family-base);
 }
 
+/* Prevent text selection and copying for Android app security */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Allow text selection only for input fields and textareas */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+/* Prevent context menu on long press */
+* {
+  -webkit-touch-callout: none;
+}
+
+/* Additional Android-specific text selection prevention */
+* {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -khtml-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Prevent text selection on specific elements that might be problematic */
+p, h1, h2, h3, h4, h5, h6, span, div, label, button {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+/* Ensure input fields can still be selected */
+input, textarea, [contenteditable="true"], [contenteditable="true"] * {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default !important;
+}
+
 /* Font weight utility classes */
 .font-thin {
   font-weight: var(--font-weight-thin);
@@ -126,7 +178,6 @@ body { margin: 0; font-family: 'Lato', "Helvetica Neue", sans-serif; }
 /* Main content area */
 .content-area {
   flex: 1;
-  padding-bottom: calc(60px + env(safe-area-inset-bottom));
   padding-top: 1rem;
 
   @media (min-width: 768px) {
@@ -134,5 +185,15 @@ body { margin: 0; font-family: 'Lato', "Helvetica Neue", sans-serif; }
     /* padding-top: 1.5rem; */
     /* padding-bottom: 3rem; */
   }
+}
+
+/* Add bottom padding only when bottom navigation is present */
+.content-area:has(+ app-bottom-nav) {
+  padding-bottom: calc(60px + env(safe-area-inset-bottom));
+}
+
+/* Alternative approach for browsers that don't support :has() */
+.content-area-with-nav {
+  padding-bottom: calc(60px + env(safe-area-inset-bottom));
 }
 

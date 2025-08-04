@@ -9,14 +9,14 @@
 </div>
 
 <!-- Main app content after initialization -->
-<div *ngIf="isInitialized" class="safe-area-wrapper">
-  <!-- Show header only for authenticated users and not on landing page -->
-  <app-header *ngIf="isAuthenticated && !isOnLandingPage"></app-header>
+<div *ngIf="isInitialized" class="safe-area-wrapper" appPreventCopy>
+  <!-- Show header only for authenticated users with currentMess and not on landing page -->
+  <app-header *ngIf="isAuthenticated && hasCurrentMess && !isOnLandingPage"></app-header>
 
-  <main class="content-area">
+  <main class="content-area" [class.content-area-with-nav]="isAuthenticated && hasCurrentMess && !isOnLandingPage">
     <router-outlet></router-outlet>
   </main>
 
-  <!-- Show bottom nav only for authenticated users and not on landing page -->
-  <app-bottom-nav *ngIf="isAuthenticated && !isOnLandingPage"></app-bottom-nav>
+  <!-- Show bottom nav only for authenticated users with currentMess and not on landing page -->
+  <app-bottom-nav *ngIf="isAuthenticated && hasCurrentMess && !isOnLandingPage"></app-bottom-nav>
 </div>

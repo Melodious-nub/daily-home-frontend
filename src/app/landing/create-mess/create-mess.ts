@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Auth } from '../../core/services/auth';
 
 @Component({
   selector: 'app-create-mess',
@@ -10,9 +11,13 @@ import { Router } from '@angular/router';
   styleUrl: './create-mess.css'
 })
 export class CreateMess {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: Auth) {}
 
   goBack(): void {
     this.router.navigate(['/landing']);
+  }
+
+  logout(): void {
+    this.auth.logout();
   }
 } 

@@ -93,7 +93,7 @@
   flex-shrink: 0;
 }
 
-.card-icon i.fa-home {
+.card-icon i.fa-home,.card-icon i.fa-door-open {
   font-size: 20px;
   color: #666;
 }
@@ -111,14 +111,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #666;
 }
 
 .option-card.selected .card-icon {
   background-color: #1a1a1a;
 }
 
-.option-card.selected .card-icon i.fa-home {
+.option-card.selected .card-icon i.fa-home,.option-card.selected .card-icon .fa-door-open {
   color: white;
 }
 
@@ -224,7 +224,7 @@
     height: 56px;
   }
   
-  .card-icon i.fa-home {
+  .card-icon i.fa-home .fa-door-open {
     font-size: 24px;
   }
   

@@ -37,6 +37,11 @@ export class Api {
     return this.http.post<any>(this.apiUrl + 'auth/reset-password', data);
   }
 
+  // mess collection
+  getMess(messCode: string): Observable<any> {
+    return this.http.get<any>(this.apiUrl + 'mess/search/' + messCode);
+  }
+
   // rooms api collection
   getRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(this.apiUrl + 'rooms');

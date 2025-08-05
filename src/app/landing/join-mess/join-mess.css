@@ -186,19 +186,26 @@
 
 .mess-header {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .mess-icon {
-  font-size: 20px;
-  color: #666;
+  width: 24px;
+  height: 24px;
+}
+
+.mess-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 1px;
 }
 
 .mess-name {
   font-size: 18px;
-  font-weight: 600;
   color: #333;
   margin: 0;
   font-family: 'Lato', sans-serif;
@@ -206,17 +213,16 @@
 
 .mess-owner {
   font-size: 14px;
-  color: #666;
-  margin: 0 0 8px 0;
+  color: #333;
+  margin: 0;
   font-family: 'Lato', sans-serif;
 }
 
 .mess-code {
   font-size: 14px;
-  color: #666;
-  margin: 0 0 12px 0;
+  color: #333;
+  margin: 0;
   font-family: monospace;
-  font-weight: 500;
 }
 
 .mess-location {
@@ -226,15 +232,14 @@
 }
 
 .location-icon {
-  font-size: 14px;
-  color: #666;
-  margin-top: 2px;
-  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
 }
 
 .location-text {
-  font-size: 13px;
-  color: #666;
+  padding-top: 1px;
+  font-size: 14px;
+  color: #333;
   line-height: 1.4;
   font-family: 'Lato', sans-serif;
 }

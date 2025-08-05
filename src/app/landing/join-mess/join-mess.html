@@ -46,14 +46,18 @@
       <div class="result-card">
         <div class="mess-info">
           <div class="mess-header">
-            <i class="fa fa-home mess-icon"></i>
-            <h3 class="mess-name">{{ mess.mess.name }}</h3>
+            <!-- <i class="fa fa-home mess-icon"></i> -->
+            <img src="/house-03.svg" alt="home" class="mess-icon">
+            <div class="mess-details">
+              <h3 class="mess-name font-bold">{{ mess.mess.name }}</h3>
+              <p class="mess-owner font-medium"><span class="font-semibold">Admin: </span> {{ mess.mess.admin.fullName }}</p>
+              <p class="mess-code font-regular"><span class="font-semibold">Mess Code: </span> {{ mess.mess.identifierCode }}</p>
+            </div>
           </div>
-          <p class="mess-owner">{{ mess.mess.admin.fullName }}</p>
-          <p class="mess-code">{{ mess.mess.identifierCode }}</p>
           <div class="mess-location">
-            <i class="fa fa-map-marker-alt location-icon"></i>
-            <span class="location-text">{{ mess.mess.address }}</span>
+            <!-- <i class="fa fa-map-marker-alt location-icon"></i> -->
+            <img src="/location-01.svg" alt="location" class="location-icon">
+            <span class="location-text font-medium">{{ mess.mess.address }}</span>
           </div>
         </div>
         <button 
@@ -79,7 +83,7 @@
 
     <!-- Background Image Section (when no search or result) -->
     <div *ngIf="!mess && !isLoading && !hasSearched" class="background-section">
-      <img src="/join_bg.png" alt="Join Mess Background" class="background-image">
+      <img src="/join_bg.svg" alt="Join Mess Background" class="background-image">
     </div>
   </div>
 </div> 

@@ -6,6 +6,7 @@
   --font-weight-thin: 100;
   --font-weight-light: 300;
   --font-weight-regular: 400;
+  --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --font-weight-black: 900;
@@ -89,6 +90,10 @@ input, textarea, [contenteditable="true"], [contenteditable="true"] * {
 
 .font-regular {
   font-weight: var(--font-weight-regular);
+}
+
+.font-medium {
+  font-weight: var(--font-weight-medium);
 }
 
 .font-semibold {

@@ -20,22 +20,22 @@ export class NavigationService {
       try {
         // Handle back button press
         App.addListener('backButton', ({ canGoBack }) => {
-          console.log('Back button pressed, canGoBack:', canGoBack);
+          // console.log('Back button pressed, canGoBack:', canGoBack);
           this.handleBackButton();
         });
 
         // Handle keyboard events
         Keyboard.addListener('keyboardWillShow', (info) => {
-          console.log('Keyboard will show:', info);
+          // console.log('Keyboard will show:', info);
           this.handleKeyboardShow(info);
         });
 
         Keyboard.addListener('keyboardWillHide', () => {
-          console.log('Keyboard will hide');
+          // console.log('Keyboard will hide');
           this.handleKeyboardHide();
         });
 
-        console.log('Navigation handling initialized successfully');
+        // console.log('Navigation handling initialized successfully');
       } catch (error) {
         console.error('Failed to initialize navigation handling:', error);
       }
@@ -47,15 +47,15 @@ export class NavigationService {
         }
       });
     } else {
-      console.log('Not on native platform, skipping navigation initialization');
+      // console.log('Not on native platform, skipping navigation initialization');
     }
   }
 
   private handleBackButton() {
     const currentUrl = this.router.url;
     
-    // If we're on login page, exit app
-    if (currentUrl === '/login') {
+    // If we're on login page or landing page, exit app
+    if (currentUrl === '/login' || currentUrl === '/landing') {
       this.exitApp();
       return;
     }
@@ -92,7 +92,7 @@ export class NavigationService {
 
   private handleKeyboardShow(info: any) {
     // You can add custom logic here when keyboard shows
-    console.log('Keyboard will show:', info);
+    // console.log('Keyboard will show:', info);
     
     // Add class to body to handle keyboard styling
     if (typeof document !== 'undefined') {
@@ -103,7 +103,7 @@ export class NavigationService {
 
   private handleKeyboardHide() {
     // You can add custom logic here when keyboard hides
-    console.log('Keyboard will hide');
+    // console.log('Keyboard will hide');
     
     // Remove class from body
     if (typeof document !== 'undefined') {
@@ -116,8 +116,8 @@ export class NavigationService {
   public canGoBack(): boolean {
     const currentUrl = this.router.url;
     
-    // If we're on login page, we can't go back (will exit app)
-    if (currentUrl === '/login') {
+    // If we're on login page or landing page, we can't go back (will exit app)
+    if (currentUrl === '/login' || currentUrl === '/landing') {
       return false;
     }
     

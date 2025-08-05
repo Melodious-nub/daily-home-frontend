@@ -20,7 +20,7 @@ export class StatusBarService {
         await this.setNavigationBarColor('#000000', Style.Dark);
       }
     } catch (error) {
-      console.error('Status bar/navigation configuration failed:', error);
+      // console.error('Status bar/navigation configuration failed:', error);
     }
   }
 
@@ -32,7 +32,7 @@ export class StatusBarService {
         await NavigationBar.setColor({ color, lightButtons: style === Style.Dark });
       }
     } catch (error) {
-      console.warn('NavigationBar plugin not installed or failed:', error);
+      // console.warn('NavigationBar plugin not installed or failed:', error);
     }
   }
 }

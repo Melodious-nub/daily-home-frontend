@@ -16,6 +16,25 @@
   justify-content: center;
 }
 
+/* Ensure landing page elements are interactive */
+.landing-container * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Allow text selection only for input fields */
+.landing-container input,
+.landing-container textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
 /* Content */
 .landing-content {
   position: relative;
@@ -111,6 +130,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid #666;
+  transition: all 0.2s ease;
 }
 
 .option-card.selected .card-icon {
@@ -122,8 +142,10 @@
 }
 
 .option-card.selected .icon-plus {
-  color: #1a1a1a;
-  background: white;
+  color: white;
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  transform: scale(1.1);
 }
 
 /* Card Content */

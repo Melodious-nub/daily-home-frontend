@@ -21,6 +21,6 @@ export class SimpleTest {
 
   testClick() {
     this.message = 'Button clicked! App is working correctly.';
-    console.log('Test button clicked - app is working');
+    // console.log('Test button clicked - app is working');
   }
 } 

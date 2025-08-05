@@ -40,7 +40,7 @@ export class Members implements OnInit {
         },
         error: (err) => {
           Swal.fire('Error', 'Failed to load members.', 'error');
-          console.error(err);
+          // console.error(err);
           this.loading = false
         }
       });

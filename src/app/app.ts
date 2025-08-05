@@ -102,16 +102,6 @@ export class App implements OnInit {
       e.preventDefault();
       return false;
     });
-
-    // Prevent text selection
-    document.addEventListener('selectstart', (e) => {
-      const target = e.target as HTMLElement;
-      if (!target.matches('input, textarea, [contenteditable="true"]')) {
-        e.preventDefault();
-        return false;
-      }
-      return true;
-    });
   }
 
   private handleInitialRouting(): void {
@@ -165,7 +155,7 @@ export class App implements OnInit {
         await this.navigationService.setResizeMode('native');
         await this.navigationService.setScroll(false);
         await this.navigationService.setAccessoryBarVisible(false);
-        console.log('Keyboard configuration applied successfully');
+        // console.log('Keyboard configuration applied successfully');
       }
     } catch (error) {
       console.error('Keyboard configuration failed:', error);

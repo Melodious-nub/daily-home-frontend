@@ -51,12 +51,22 @@ input, textarea, [contenteditable="true"] {
 }
 
 /* Prevent text selection on specific elements that might be problematic */
-p, h1, h2, h3, h4, h5, h6, span, div, label, button {
+p, h1, h2, h3, h4, h5, h6, span, div, label {
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
   user-select: none !important;
   -webkit-touch-callout: none !important;
+}
+
+/* Allow selection on clickable elements for better UX */
+button, .option-card, [role="button"], [tabindex], .clickable, .landing-content * {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  cursor: pointer;
 }
 
 /* Ensure input fields can still be selected */

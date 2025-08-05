@@ -16,7 +16,7 @@
     <div class="option-cards">
       <!-- Create New Mess Card -->
       <div 
-        class="option-card" 
+        class="option-card clickable" 
         [class.selected]="selectedOption === 'create'"
         (click)="selectOption('create')"
       >
@@ -32,7 +32,7 @@
 
       <!-- Join Existing Mess Card -->
       <div 
-        class="option-card" 
+        class="option-card clickable" 
         [class.selected]="selectedOption === 'join'"
         (click)="selectOption('join')"
       >
@@ -51,7 +51,7 @@
     <div class="action-section">
       <button 
         type="button"
-        class="btn btn-primary"
+        class="btn btn-primary clickable"
         [class.disabled]="!selectedOption"
         (click)="next()"
       >

@@ -38,8 +38,12 @@ export class Api {
   }
 
   // mess collection
-  getMess(messCode: string): Observable<any> {
+  getMessWithCode(messCode: string): Observable<any> {
     return this.http.get<any>(this.apiUrl + 'mess/search/' + messCode);
+  }
+
+  joinMess(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'mess/join', data);
   }
 
   // rooms api collection

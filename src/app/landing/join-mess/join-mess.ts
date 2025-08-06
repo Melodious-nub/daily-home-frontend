@@ -53,7 +53,7 @@ export class JoinMess {
       this.hasSearched = true;
       this.mess = null;
       
-      this.api.getMess(code).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      this.api.getMessWithCode(code).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (res) => {
           this.mess = res;
           this.isLoading = false;
@@ -70,15 +70,18 @@ export class JoinMess {
     }
   }
 
-  sendJoinRequest(): void {
-    // TODO: Implement send join request functionality
+  sendJoinRequest(messId: string): void {
     this.isSendingRequest = true;
-    
-    // Simulate API call
-    setTimeout(() => {
-      this.isSendingRequest = false;
-      // Add success message or navigation logic here
-    }, 2000);
+    this.api.joinMess({messId: messId}).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (res) => {
+        this.isSendingRequest = false;
+        // this.router.navigate(['/landing/join-mess']);
+      },
+      error: (err) => {
+        console.log(err);
+        this.isSendingRequest = false;
+      }
+    });
   }
 
   logout(): void {

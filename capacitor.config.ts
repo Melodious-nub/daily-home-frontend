@@ -1,3 +1,5 @@
+/// <reference types="@capacitor-community/safe-area" />
+
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
@@ -8,14 +10,6 @@ const config: CapacitorConfig = {
     androidScheme: 'https'
   },
   plugins: {
-    StatusBar: {
-      overlaysWebView: false,
-      style: "LIGHT",
-      backgroundColor: "#ffffff",
-      androidNavigationBarColor: "#ffffff",
-      androidNavigationBarDividerColor: "#e0e0e0",
-      androidBackgroundColor: "#ffffff"
-    },
     SplashScreen: {
       launchShowDuration: 2000,
       launchAutoHide: true,
@@ -36,7 +30,16 @@ const config: CapacitorConfig = {
     },
     App: {
       backButtonDefaultBehavior: "auto"
-    }
+    },
+    SafeArea: {
+      enabled: true,
+      customColorsForSystemBars: true,
+      statusBarColor: '#ffffff',
+      statusBarContent: 'dark',
+      navigationBarColor: '#ffffff',
+      navigationBarContent: 'dark',
+      offset: 0,
+    },
   },
   android: {
     backgroundColor: "#ffffff"

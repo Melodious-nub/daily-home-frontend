@@ -1,5 +1,6 @@
 .bazar-container {
-  padding: 1rem 5px;
+  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+  padding: 0 5px;
 }
 
 .d-flex {

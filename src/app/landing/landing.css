@@ -1,6 +1,6 @@
 /* Landing Page Container */
 .landing-container {
-  min-height: 90vh;
+  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
   background-color: #ffffff;
   position: relative;
   display: flex;
@@ -267,6 +267,6 @@
 /* Mobile Status Bar Spacing */
 @media (max-width: 767px) {
   .landing-content {
-    padding-top: calc(env(safe-area-inset-top) + 40px);
+    padding-top: calc(var(--safe-area-inset-top) + 40px);
   }
 } 

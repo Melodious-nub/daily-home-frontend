@@ -1,5 +1,5 @@
 .create-mess-container {
-  min-height: 90vh;
+  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
   background-color: #ffffff;
   display: flex;
   align-items: center;

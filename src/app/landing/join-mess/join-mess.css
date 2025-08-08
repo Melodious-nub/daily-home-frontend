@@ -1,5 +1,5 @@
 .join-mess-container {
-  min-height: 90vh;
+  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
   padding: 16px;
   background-color: #FFFFFF;
   position: relative;

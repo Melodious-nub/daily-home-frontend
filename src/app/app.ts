@@ -3,13 +3,13 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { Header } from "./layout/header/header";
 import { BottomNav } from "./layout/bottom-nav/bottom-nav";
 import { Capacitor } from '@capacitor/core';
-import { StatusBar, Style } from '@capacitor/status-bar';
 import { NavigationBar } from '@capgo/capacitor-navigation-bar';
 import { Auth } from './core/services/auth';
 import { NavigationService } from './core/services/navigation.service';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { PreventCopyDirective } from './core/directives/keyboard-handler.directive';
+import { SafeArea } from '@capacitor-community/safe-area';
 
 @Component({
   selector: 'app-root',
@@ -62,6 +62,7 @@ export class App implements OnInit {
     if (Capacitor.isNativePlatform()) {
       this.configureNativeUI();
       this.configureKeyboard();
+      this.configureSafeArea();
     }
     
     // Add global event listeners to prevent copy/paste
@@ -113,24 +114,9 @@ export class App implements OnInit {
 
   private async configureNativeUI() {
     try {
-      await this.configureStatusBar();
       await this.configureNavigationBar();
     } catch (error) {
       // Silent fail for web platform or unsupported devices
-    }
-  }
-
-  private async configureStatusBar() {
-    try {
-      // Set status bar style for Android
-      if (Capacitor.getPlatform() === 'android') {
-        await StatusBar.setStyle({ style: Style.Light }); // Dark icons (light background)
-        await StatusBar.setBackgroundColor({ color: '#ffffff' }); // White background
-        await StatusBar.setOverlaysWebView({ overlay: false }); // Don't overlay content - prevents scroll issues
-        await StatusBar.show();
-      }
-    } catch (error) {
-      // Status bar configuration failed
     }
   }
 
@@ -145,6 +131,26 @@ export class App implements OnInit {
       }
     } catch (error) {
       // Navigation bar configuration failed
+    }
+  }
+
+  private async configureSafeArea() {
+    try {
+      if (Capacitor.isNativePlatform()) {
+        // Enable Safe Area plugin with custom configuration
+        await SafeArea.enable({
+          config: {
+            customColorsForSystemBars: true,
+            statusBarColor: '#ffffff',
+            statusBarContent: 'dark',
+            navigationBarColor: '#ffffff',
+            navigationBarContent: 'dark',
+            offset: 0,
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Safe Area configuration failed:', error);
     }
   }
 

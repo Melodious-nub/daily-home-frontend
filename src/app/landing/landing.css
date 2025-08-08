@@ -267,6 +267,6 @@
 /* Mobile Status Bar Spacing */
 @media (max-width: 767px) {
   .landing-content {
-    padding-top: calc(var(--safe-area-inset-top) + 40px);
+    padding-bottom: calc(var(--safe-area-inset-bottom) + 20px);
   }
 } 

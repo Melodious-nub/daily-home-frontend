@@ -23,10 +23,10 @@ const config: CapacitorConfig = {
       splashFullScreen: true,
       splashImmersive: true
     },
-    Keyboard: {
-      resize: "native",
-      style: "default",
-      resizeOnFullScreen: true
+    "Keyboard": {
+      "resize": "body",
+      "style": "DARK",
+      "resizeOnFullScreen": true
     },
     App: {
       backButtonDefaultBehavior: "auto"

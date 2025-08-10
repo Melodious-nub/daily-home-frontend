@@ -147,18 +147,6 @@ body.keyboard-open {
   width: 100%;
 }
 
-/* Fix keyboard gap issue */
-body {
-  background-color: #ffffff !important;
-}
-
-/* Remove any default margins/padding that might cause gaps */
-html, body {
-  margin: 0;
-  padding: 0;
-  background-color: #ffffff;
-}
-
 /* Ensure the app container takes full height */
 #root, app-root {
   min-height: 100vh;
@@ -175,40 +163,6 @@ html, body {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-html, body { height: 100%; background: white; }
-body { margin: 0; font-family: 'Lato', "Helvetica Neue", sans-serif; }
-
-/* Support for Android/iOS safe areas and desktop/web view */
-.safe-area-wrapper {
-  padding-top: var(--safe-area-inset-top);
-  padding-bottom: var(--safe-area-inset-bottom);
-  padding-left: var(--safe-area-inset-left);
-  padding-right: var(--safe-area-inset-right);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-
-/* Main content area */
-.content-area {
-  flex: 1;
-  padding-top: 1rem;
-
-  @media (min-width: 768px) {
-    padding-top: 0px;
-    /* padding-top: 1.5rem; */
-    /* padding-bottom: 3rem; */
-  }
-}
-
-/* Add bottom padding only when bottom navigation is present */
-.content-area:has(+ app-bottom-nav) {
-  padding-bottom: var(--safe-area-inset-bottom);
-}
-
-/* Alternative approach for browsers that don't support :has() */
-.content-area-with-nav {
-  padding-bottom: var(--safe-area-inset-bottom);
-}
+html, body { height: 100%; background: white !important; }
+body { margin: 0; font-family: 'Lato', "Helvetica Neue", sans-serif !important; }
 

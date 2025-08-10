@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
-import { Header } from "./layout/header/header";
-import { BottomNav } from "./layout/bottom-nav/bottom-nav";
 import { Capacitor } from '@capacitor/core';
 import { NavigationBar } from '@capgo/capacitor-navigation-bar';
 import { Auth } from './core/services/auth';
@@ -15,8 +13,6 @@ import { SafeArea } from '@capacitor-community/safe-area';
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    Header,
-    BottomNav,
     CommonModule,
     PreventCopyDirective
   ],
@@ -27,7 +23,6 @@ export class App implements OnInit {
   isAuthenticated = false;
   isInitialized = false;
   isOnLandingPage = false;
-  hasCurrentMess = false;
 
   constructor(
     private auth: Auth,
@@ -37,7 +32,6 @@ export class App implements OnInit {
     // Subscribe to authentication changes
     this.auth.currentUser$.subscribe(user => {
       this.isAuthenticated = !!user;
-      this.hasCurrentMess = !!user?.currentMess;
     });
 
     // Subscribe to initialization state
@@ -106,10 +100,13 @@ export class App implements OnInit {
   }
 
   private handleInitialRouting(): void {
-    // Check if user should be redirected to login
+    console.log('handleInitialRouting called, isAuthenticated:', this.isAuthenticated);
+    // Only handle redirect to login if user is not authenticated
     if (!this.isAuthenticated && this.auth.shouldRedirectToLogin()) {
+      console.log('Redirecting to login');
       this.router.navigate(['/login']);
     }
+    // For authenticated users, routing is handled by auth service in refreshUserData
   }
 
   private async configureNativeUI() {

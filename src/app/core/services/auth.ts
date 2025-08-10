@@ -4,12 +4,19 @@ import { Router } from '@angular/router';
 import { Api } from '../api';
 
 export interface User {
+  _id?: string;
   id?: string;
   email: string;
   fullName?: string;
   isEmailVerified?: boolean;
-  currentMess?: string;
+  currentMess?: string | null;
   isMessAdmin?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  resetPassword?: {
+    code: string;
+    expiresAt: string;
+  };
 }
 
 export interface LoginRequest {
@@ -88,11 +95,37 @@ export class Auth {
     // Clear any invalid tokens first
     this.clearInvalidTokens();
     
-    // Load user from storage
-    this.loadUserFromStorage();
-    
-    // Mark as initialized
-    this.isInitializedSubject.next(true);
+    // Check if user has a valid token
+    if (this.isLoggedIn && this.isTokenValid()) {
+      // Call API to get fresh user data
+      this.refreshUserData();
+    } else {
+      // No valid token, mark as initialized
+      this.isInitializedSubject.next(true);
+    }
+  }
+
+  // Refresh user data from API
+  private refreshUserData(): void {
+    // console.log('Refreshing user data from API...');
+    this.api.getUser().subscribe({
+      next: (userData) => {
+        // console.log('User data received:', userData);
+        // Update user data with fresh data from API
+        this.setUser(userData);
+        this.isInitializedSubject.next(true);
+        
+        // Handle routing based on fresh user data
+        // console.log('Handling post auth redirect for user:', userData.currentMess);
+        this.handlePostAuthRedirect(userData);
+      },
+      error: (error) => {
+        // API call failed, clear invalid data and redirect to login
+        // console.error('Failed to refresh user data:', error);
+        this.logout();
+        this.isInitializedSubject.next(true);
+      }
+    });
   }
 
   // Login functionality
@@ -166,30 +199,21 @@ export class Auth {
     this.currentUserSubject.next(user);
   }
 
-  private loadUserFromStorage(): void {
-    const token = this.getToken();
-    const userStr = localStorage.getItem('user');
-    
-    if (token && userStr) {
-      try {
-        const user = JSON.parse(userStr);
-        this.currentUserSubject.next(user);
-      } catch (error) {
-        // Silent error handling - just clear invalid data
-        this.logout();
-      }
-    }
-  }
-
   // Handle post-authentication redirect based on mess status
   private handlePostAuthRedirect(user: User): void {
-    if (user.currentMess) {
-      // User is part of a mess, redirect to dashboard
-      this.router.navigate(['/dashboard']);
-    } else {
-      // User is not part of any mess, redirect to landing page
-      this.router.navigate(['/landing']);
-    }
+    // console.log('handlePostAuthRedirect called with currentMess:', user.currentMess);
+    // Add a small delay to ensure router is ready
+    setTimeout(() => {
+      if (user.currentMess && user.currentMess !== null) {
+        // User is part of a mess, redirect to main dashboard
+        // console.log('Redirecting to main dashboard');
+        this.router.navigate(['/main/dashboard']);
+      } else {
+        // User is not part of any mess, redirect to landing page
+        // console.log('Redirecting to landing page');
+        this.router.navigate(['/landing']);
+      }
+    }, 100);
   }
 
   // Authentication checks
@@ -199,7 +223,7 @@ export class Auth {
       if (user) {
         this.handlePostAuthRedirect(user);
       } else {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/main/dashboard']);
       }
       return true;
     }

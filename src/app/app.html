@@ -1,22 +1,20 @@
 <!-- Loading screen while auth is initializing -->
-<div *ngIf="!isInitialized" class="loading-screen">
-  <div class="loading-content">
-    <div class="loading-spinner">
-      <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+@if(!isInitialized) {
+  <div class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-spinner">
+        <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+      </div>
+      <div class="loading-text">Loading...</div>
     </div>
-    <div class="loading-text">Loading...</div>
-  </div>
-</div>
+  </div> 
+}
 
 <!-- Main app content after initialization -->
-<div *ngIf="isInitialized" class="safe-area-wrapper" appPreventCopy>
-  <!-- Show header only for authenticated users with currentMess and not on landing page -->
-  <app-header *ngIf="isAuthenticated && hasCurrentMess && !isOnLandingPage"></app-header>
-
-  <main class="content-area" [class.content-area-with-nav]="isAuthenticated && hasCurrentMess && !isOnLandingPage">
-    <router-outlet></router-outlet>
-  </main>
-
-  <!-- Show bottom nav only for authenticated users with currentMess and not on landing page -->
-  <app-bottom-nav *ngIf="isAuthenticated && hasCurrentMess && !isOnLandingPage"></app-bottom-nav>
-</div>
+@if(isInitialized) {
+  <div class="safe-area-wrapper" appPreventCopy>
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+}

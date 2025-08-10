@@ -32,76 +32,38 @@
   font-family: var(--font-family-base);
 }
 
-/* Safe area wrapper for mobile devices */
+/* Safe area wrapper using @capacitor-community/safe-area */
 .safe-area-wrapper {
   min-height: 100vh;
   background-color: #ffffff;
   padding-top: var(--safe-area-inset-top);
   padding-bottom: var(--safe-area-inset-bottom);
-  overflow-x: auto;
+  padding-left: var(--safe-area-inset-left);
+  padding-right: var(--safe-area-inset-right);
+  overflow-x: hidden;
 }
 
-/* Content area - adjusts based on authentication state */
+/* Content area */
 .content-area {
   min-height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
-  padding: 0;
+  width: 100%;
   position: relative;
 }
 
-/* Auth content styling for login/signup pages */
-.auth-content router-outlet + * {
-  width: 100%;
-  min-height: 100vh;
+/* Prevent text selection on mobile */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
-/* Android-specific optimizations */
-@supports (padding-top: var(--safe-area-inset-top)) {
-  .safe-area-wrapper {
-    padding-top: max(var(--safe-area-inset-top), 24px); /* Minimum 24px for status bar */
-    padding-bottom: max(var(--safe-area-inset-bottom), 0px);
-  }
-}
-
-/* Android status bar spacing */
-@media screen and (max-width: 768px) {
-  .safe-area-wrapper {
-    padding-top: max(var(--safe-area-inset-top), 24px);
-  }
-}
-
-/* Mobile optimizations */
-@media (max-width: 768px) {
-  .safe-area-wrapper {
-    padding-top: var(--safe-area-inset-top);
-    padding-bottom: var(--safe-area-inset-bottom);
-  }
-  
-  .content-area {
-    min-height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
-  }
-}
-
-/* Desktop optimizations */
-@media (min-width: 769px) {
-  .safe-area-wrapper:has(app-header) .content-area {
-    padding-top: 80px; /* More space for desktop header */
-  }
-}
-
-/* Hide header on mobile for authenticated users */
-.desktop-only {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .desktop-only {
-    display: block;
-  }
-}
-
-/* Android navigation bar support */
-@supports (padding-bottom: var(--safe-area-inset-bottom)) {
-  .safe-area-wrapper {
-    padding-bottom: var(--safe-area-inset-bottom);
-  }
+/* Allow text selection only for input fields */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
 }

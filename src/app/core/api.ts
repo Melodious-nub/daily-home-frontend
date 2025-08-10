@@ -37,6 +37,10 @@ export class Api {
     return this.http.post<any>(this.apiUrl + 'auth/reset-password', data);
   }
 
+  getUser(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + 'auth/me');
+  }
+
   // mess collection
   getMessWithCode(messCode: string): Observable<any> {
     return this.http.get<any>(this.apiUrl + 'mess/search/' + messCode);

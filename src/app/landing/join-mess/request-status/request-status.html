@@ -1,1 +1,39 @@
-<p>request-status works!</p>
+<div class="request-status-container">
+  <div class="status-content">
+    <div class="illustration" aria-hidden="true">
+      <!-- Image will be provided later; keep placeholder box for structure -->
+      <div class="illustration-box">
+        <img src="/pending.svg" alt="Background Image">
+      </div>
+    </div>
+
+    <div class="heading">
+      <h1 class="title">Your request to join the mess has been sent.</h1>
+      <p class="subtitle">Please wait for the manager to approve your request.</p>
+    </div>
+
+    <div class="info-card">
+      <div class="info-row">
+        <i class="fa fa-home info-icon" aria-hidden="true"></i>
+        <div class="info-texts">
+          <p class="info-title">{{ mess?.mess?.name || 'Requested Mess Info' }}</p>
+          <p class="info-meta" *ngIf="mess?.mess?.admin?.fullName">{{ mess?.mess?.admin?.fullName }}</p>
+          <p class="info-meta" *ngIf="mess?.mess?.identifierCode">{{ mess?.mess?.identifierCode }}</p>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <i class="fa fa-map-marker-alt info-icon" aria-hidden="true"></i>
+        <div class="info-texts">
+          <p class="info-address">{{ mess?.mess?.address }}</p>
+        </div>
+      </div>
+
+      <div class="role-row">
+        <p class="role-text">Your Role: <span class="role-status">Member (pending)</span></p>
+      </div>
+
+      <button type="button" class="btn btn-secondary w-100" (click)="goBack()">Cancel Request</button>
+    </div>
+  </div>
+</div>

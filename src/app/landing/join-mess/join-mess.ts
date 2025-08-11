@@ -75,11 +75,13 @@ export class JoinMess {
     this.api.joinMess({messId: messId}).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
         this.isSendingRequest = false;
-        // this.router.navigate(['/landing/join-mess']);
+        // Navigate to request status with response data as state
+        this.router.navigate(['/landing/join-mess/request-status'], { state: res });
       },
       error: (err) => {
         console.log(err);
         this.isSendingRequest = false;
+        this.router.navigate(['/landing/join-mess/request-status']);
       }
     });
   }

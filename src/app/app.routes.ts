@@ -27,6 +27,11 @@ export const routes: Routes = [
     loadComponent: () => import('./landing/join-mess/join-mess').then(m => m.JoinMess),
     canActivate: [authGuard]
   },
+  { 
+    path: 'landing/join-mess/request-status', 
+    loadComponent: () => import('./landing/join-mess/request-status/request-status').then(m => m.RequestStatus),
+    canActivate: [authGuard]
+  },
   
   // Main app routes (with header/bottom-nav) - Parent route
   { 

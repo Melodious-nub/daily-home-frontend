@@ -1,16 +1,17 @@
 /* Landing Page Container */
 .landing-container {
-  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+  min-height: 100%;
   background-color: #ffffff;
   position: relative;
   display: flex;
   flex-direction: column;
   font-family: var(--font-family-base);
+  box-sizing: border-box;
 }
 
 /* Background Image */
 .bg-image {
-  margin-top: 10px;
+  margin-top: 6px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -264,9 +265,9 @@
   }
 }
 
-/* Mobile Status Bar Spacing */
+/* Mobile extra spacing at bottom (safe-area already applied at root) */
 @media (max-width: 767px) {
   .landing-content {
-    padding-bottom: calc(var(--safe-area-inset-bottom) + 20px);
+    padding-bottom: 20px;
   }
-} 
+}

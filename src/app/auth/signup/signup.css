@@ -1,11 +1,12 @@
 /* Signup Container - Full Page Width */
 .signup-container {
-  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+  min-height: 100%;            /* was: 100dvh (or calc(...)) */
+  box-sizing: border-box;      /* you already had this — keep it */
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 24px;
   font-family: var(--font-family-base);
 }
 

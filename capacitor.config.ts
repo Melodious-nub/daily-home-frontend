@@ -1,5 +1,3 @@
-/// <reference types="@capacitor-community/safe-area" />
-
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {

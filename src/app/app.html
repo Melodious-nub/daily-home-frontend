@@ -1,20 +1,16 @@
-<!-- Loading screen while auth is initializing -->
-@if(!isInitialized) {
-  <div class="loading-screen">
+<!-- Loading overlay while auth initializes -->
+@if (!isInitialized) {
+  <div class="loading-screen safe-area-overlay" aria-busy="true" aria-live="polite">
     <div class="loading-content">
       <div class="loading-spinner">
-        <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        <i class="fa-solid fa-spinner fa-spin-pulse" aria-hidden="true"></i>
       </div>
       <div class="loading-text">Loading...</div>
     </div>
-  </div> 
-}
-
-<!-- Main app content after initialization -->
-@if(isInitialized) {
-  <div class="safe-area-wrapper" appPreventCopy>
-    <main class="content-area">
-      <router-outlet></router-outlet>
-    </main>
   </div>
 }
+
+<!-- App shell (safe-area applied once at the root) -->
+<main class="safe-area-wrapper app-shell" appPreventCopy>
+  <router-outlet></router-outlet>
+</main>

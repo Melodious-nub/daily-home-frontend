@@ -1,6 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Lato Font Family Setup */
+/* ---------- Typography ---------- */
 :root {
   --font-family-base: 'Lato', "Helvetica Neue", sans-serif;
   --font-weight-thin: 100;
@@ -10,159 +8,91 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --font-weight-black: 900;
+
+  /* Fallbacks until safe-area plugin updates vars */
+  --safe-area-inset-top:    env(safe-area-inset-top, 0px);
+  --safe-area-inset-right:  env(safe-area-inset-right, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left:   env(safe-area-inset-left, 0px);
 }
 
-/* Global font family */
-* {
-  font-family: var(--font-family-base);
+html, body {
+  height: 100%;
+  background: #fff !important;
+  overscroll-behavior: none;
 }
 
-/* Prevent text selection and copying for Android app security */
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
+body {
+  margin: 0;
+  font-family: var(--font-family-base) !important;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Allow text selection only for input fields and textareas */
-input, textarea, [contenteditable="true"] {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-  -webkit-touch-callout: default;
-}
+/* Font weight utilities */
+.font-thin { font-weight: var(--font-weight-thin); }
+.font-light { font-weight: var(--font-weight-light); }
+.font-regular { font-weight: var(--font-weight-regular); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+.font-black { font-weight: var(--font-weight-black); }
+.font-italic { font-style: italic; }
+.font-light-italic { font-weight: var(--font-weight-light); font-style: italic; }
+.font-regular-italic { font-weight: var(--font-weight-regular); font-style: italic; }
+.font-semibold-italic { font-weight: var(--font-weight-semibold); font-style: italic; }
+.font-bold-italic { font-weight: var(--font-weight-bold); font-style: italic; }
 
-/* Prevent context menu on long press */
+/* ---------- Selection / Copy Protection ---------- */
+/* Default: allow selection (better accessibility). Lock down only where needed. */
 * {
   -webkit-touch-callout: none;
 }
 
-/* Additional Android-specific text selection prevention */
-* {
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -khtml-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-}
-
-/* Prevent text selection on specific elements that might be problematic */
-p, h1, h2, h3, h4, h5, h6, span, div, label {
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-touch-callout: none !important;
-}
-
-/* Allow selection on clickable elements for better UX */
+.no-select,
 button, .option-card, [role="button"], [tabindex], .clickable, .landing-content * {
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
-  -webkit-touch-callout: none !important;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   cursor: pointer;
 }
 
-/* Ensure input fields can still be selected */
+/* Always allow selection in editable controls */
 input, textarea, [contenteditable="true"], [contenteditable="true"] * {
+  user-select: text !important;
   -webkit-user-select: text !important;
   -moz-user-select: text !important;
   -ms-user-select: text !important;
-  user-select: text !important;
   -webkit-touch-callout: default !important;
 }
 
-/* Font weight utility classes */
-.font-thin {
-  font-weight: var(--font-weight-thin);
+/* If you truly need to block selection everywhere, add .no-select to a container instead of using * with !important. */
+
+/* ---------- Safe Area ---------- */
+.safe-area-wrapper {
+  padding-top: var(--safe-area-inset-top);
+  padding-bottom: var(--safe-area-inset-bottom);
+  padding-left: var(--safe-area-inset-left);
+  padding-right: var(--safe-area-inset-right);
+  min-height: 100vh;           /* ok to keep */
+  box-sizing: border-box;      /* <-- add this */
+  background-color: #ffffff;
 }
 
-.font-light {
-  font-weight: var(--font-weight-light);
-}
+/* ---------- Keyboard behaviors ---------- */
+.keyboard-focused { border-color: #333 !important; box-shadow: none !important; }
 
-.font-regular {
-  font-weight: var(--font-weight-regular);
-}
-
-.font-medium {
-  font-weight: var(--font-weight-medium);
-}
-
-.font-semibold {
-  font-weight: var(--font-weight-semibold);
-}
-
-.font-bold {
-  font-weight: var(--font-weight-bold);
-}
-
-.font-black {
-  font-weight: var(--font-weight-black);
-}
-
-/* Italic variants */
-.font-italic {
-  font-style: italic;
-}
-
-/* Combined weight and style utilities */
-.font-light-italic {
-  font-weight: var(--font-weight-light);
-  font-style: italic;
-}
-
-.font-regular-italic {
-  font-weight: var(--font-weight-regular);
-  font-style: italic;
-}
-
-.font-semibold-italic {
-  font-weight: var(--font-weight-semibold);
-  font-style: italic;
-}
-
-.font-bold-italic {
-  font-weight: var(--font-weight-bold);
-  font-style: italic;
-}
-
-/* Keyboard and Navigation Styles */
-.keyboard-focused {
-  border-color: #333 !important;
-  box-shadow: none !important;
-}
-
-/* Prevent body scroll when keyboard is open on mobile */
+/* Prevent body scroll when keyboard is open on mobile (you toggle this class in code) */
 body.keyboard-open {
   overflow: hidden;
   position: fixed;
   width: 100%;
 }
 
-/* Ensure the app container takes full height */
-#root, app-root {
-  min-height: 100vh;
-  background-color: #ffffff;
-}
+/* When Capacitor Keyboard resizes the WebView */
+.capacitor-keyboard-open { background-color: #ffffff !important; }
 
-/* Fix for keyboard resize mode */
-.capacitor-keyboard-open {
-  background-color: #ffffff !important;
-}
+/* ---------- Small UX niceties ---------- */
+* { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
 
-/* Smooth transitions for keyboard interactions */
-* {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-html, body { height: 100%; background: white !important; }
-body { margin: 0; font-family: 'Lato', "Helvetica Neue", sans-serif !important; }
-
+.app-shell { overflow-y: auto; }  /* allow page scroll when content is taller */

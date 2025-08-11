@@ -1,15 +1,19 @@
-/* Loading Screen */
+/* ---- Loading Overlay ---- */
 .loading-screen {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: #ffffff;
+  inset: 0;                 /* shorthand for top/right/bottom/left: 0 */
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #ffffff;
   z-index: 9999;
+}
+
+.safe-area-overlay {
+  padding-top: var(--safe-area-inset-top);
+  padding-right: var(--safe-area-inset-right);
+  padding-bottom: var(--safe-area-inset-bottom);
+  padding-left: var(--safe-area-inset-left);
 }
 
 .loading-content {
@@ -20,10 +24,7 @@
   gap: 16px;
 }
 
-.loading-spinner {
-  font-size: 32px;
-  color: #1a1a1a;
-}
+.loading-spinner { font-size: 32px; color: #1a1a1a; }
 
 .loading-text {
   font-size: 16px;
@@ -32,38 +33,20 @@
   font-family: var(--font-family-base);
 }
 
-/* Safe area wrapper using @capacitor-community/safe-area */
-.safe-area-wrapper {
-  min-height: 100vh;
+/* ---- App Shell ---- */
+/* .safe-area-wrapper already adds the safe-area paddings (defined globally in styles.css) */
+/* was: min-height: 100dvh */
+.app-shell {
+  height: 100dvh;              /* exact viewport height */
+  box-sizing: border-box;      /* include safe-area padding in that height */
   background-color: #ffffff;
-  padding-top: var(--safe-area-inset-top);
-  padding-bottom: var(--safe-area-inset-bottom);
-  padding-left: var(--safe-area-inset-left);
-  padding-right: var(--safe-area-inset-right);
+  width: 100%;
+  position: relative;
   overflow-x: hidden;
 }
 
-/* Content area */
+/* Optional: content container if you need positioning helpers */
 .content-area {
-  min-height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
   width: 100%;
   position: relative;
-}
-
-/* Prevent text selection on mobile */
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-}
-
-/* Allow text selection only for input fields */
-input, textarea, [contenteditable="true"] {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-  -webkit-touch-callout: default;
 }

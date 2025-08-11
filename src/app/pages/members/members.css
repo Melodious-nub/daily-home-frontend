@@ -1,5 +1,5 @@
 .card {
-    height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+    /* removed fixed viewport height; let content size naturally */
     max-width: 350px;
     height: auto;
     perspective: 1000px;

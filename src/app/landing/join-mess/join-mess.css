@@ -1,5 +1,5 @@
 .join-mess-container {
-  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+  min-height: 100%;
   padding: 16px;
   background-color: #FFFFFF;
   position: relative;
@@ -10,7 +10,7 @@
 
 .back-btn {
   position: absolute;
-  top: 16px;
+  top: 4px;
   left: 16px;
   background: none;
   border: none;
@@ -35,12 +35,12 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 
 /* Search Section */
 .search-section {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   padding: 0;
 }
 

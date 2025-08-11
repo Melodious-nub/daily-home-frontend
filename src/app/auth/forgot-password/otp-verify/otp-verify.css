@@ -1,5 +1,6 @@
 .otp-container {
-  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+  min-height: 100%;
+  box-sizing: border-box;
   padding: 16px;
   background-color: #ffffff;
   position: relative;

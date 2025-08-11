@@ -1,5 +1,5 @@
 .dashboard-container {
-  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+  min-height: 100%;
   padding: 0px 0.65rem;
   font-family: var(--font-family-base);
   background: #fff;

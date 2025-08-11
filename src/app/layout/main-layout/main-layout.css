@@ -1,17 +1,18 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 /* Main Layout Container */
 .main-content {
-  min-height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
-  padding-top: 64px; /* Space for header */
-  padding-bottom: 80px; /* Space for bottom nav */
+  /* Scrollable content area; does not need to know bottom-nav height */
+  flex: 1 1 auto;
+  min-height: 0; /* required for flex children to allow overflow */
+  overflow-y: auto;
   width: 100%;
   position: relative;
   background-color: #ffffff;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .main-content {
-    padding-top: 0px; /* Slightly less padding on mobile */
-    padding-bottom: 0px; /* Slightly less padding on mobile */
-  }
+  box-sizing: border-box;
+  overflow-x: hidden;
 }

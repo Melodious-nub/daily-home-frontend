@@ -15,22 +15,22 @@ export const authGuard: CanActivateFn = (route, state) => {
   ]).pipe(
     take(1),
     map(([isInitialized, user]) => {
-      console.log('Auth guard check:', { isInitialized, user: !!user, route: state.url });
+      // console.log('Auth guard check:', { isInitialized, user: !!user, route: state.url });
       
       // If not initialized yet, wait
       if (!isInitialized) {
-        console.log('Not initialized yet, waiting...');
+        // console.log('Not initialized yet, waiting...');
         return false;
       }
 
       // Check if user is authenticated
       if (user && auth.isTokenValid()) {
-        console.log('User authenticated, allowing access');
+        // console.log('User authenticated, allowing access');
         return true;
       }
 
       // Clear invalid tokens and redirect to login
-      console.log('User not authenticated, redirecting to login');
+      // console.log('User not authenticated, redirecting to login');
       auth.clearInvalidTokens();
       router.navigate(['/login']);
       return false;

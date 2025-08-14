@@ -12,28 +12,42 @@
       <p class="subtitle">Please wait for the manager to approve your request.</p>
     </div>
 
-    <div class="info-card">
-      <div class="info-row">
-        <i class="fa fa-home info-icon" aria-hidden="true"></i>
-        <div class="info-texts">
-          <p class="info-title">{{ mess?.mess?.name || 'Requested Mess Info' }}</p>
-          <p class="info-meta" *ngIf="mess?.mess?.admin?.fullName">{{ mess?.mess?.admin?.fullName }}</p>
-          <p class="info-meta" *ngIf="mess?.mess?.identifierCode">{{ mess?.mess?.identifierCode }}</p>
-        </div>
-      </div>
+    <div class="info-card" *ngIf="!isLoading">
+      <!-- <div class="card-header">Requested Mess Info</div> -->
 
-      <div class="info-row">
-        <i class="fa fa-map-marker-alt info-icon" aria-hidden="true"></i>
-        <div class="info-texts">
-          <p class="info-address">{{ mess?.mess?.address }}</p>
+      <div class="mess-info">
+        <div class="mess-header">
+          <img src="/house-03.svg" alt="home" class="mess-icon">
+          <div class="mess-details">
+            <h3 class="mess-name font-bold">{{ requestStatus?.mess?.name || mess?.mess?.name }}</h3>
+            <p class="mess-owner"><span class="font-semibold">Admin: </span> {{ requestStatus?.mess?.admin?.fullName || mess?.mess?.admin?.fullName }}</p>
+            <p class="mess-code"><span class="font-semibold">Mess Code: </span> {{ requestStatus?.mess?.identifierCode || mess?.mess?.identifierCode || "123456" }}</p>
+          </div>
+        </div>
+        <div class="mess-location">
+          <img src="/location-01.svg" alt="location" class="location-icon">
+          <span class="location-text">{{ requestStatus?.mess?.address || mess?.mess?.address }}</span>
         </div>
       </div>
 
       <div class="role-row">
-        <p class="role-text">Your Role: <span class="role-status">Member (pending)</span></p>
+        <div class="status-message" *ngIf="requestStatus?.message">
+          <p>{{ requestStatus.message }}</p>
+          <p class="request-date" *ngIf="requestStatus?.request?.requestedAt">
+            Requested: {{ requestStatus.request.requestedAt | date:'medium' }}
+          </p>
+        </div>
+        <!-- <p class="role-text">Your Role: <span class="role-status">Member ({{ requestStatus?.status || 'pending' }})</span></p> -->
       </div>
 
       <button type="button" class="btn btn-secondary w-100" (click)="goBack()">Cancel Request</button>
+    </div>
+
+    <div class="loading-spinner" *ngIf="isLoading">
+      <div class="spinner-border text-dark" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p>Loading request status...</p>
     </div>
   </div>
 </div>

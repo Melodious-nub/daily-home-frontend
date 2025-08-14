@@ -4,7 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from '../../core/services/auth';
 import { Api } from '../../core/api';
+import { UserStateService } from '../../core/services/user-state.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-join-mess',
@@ -20,7 +22,13 @@ export class JoinMess {
   isSendingRequest: boolean = false;
   hasSearched: boolean = false;
 
-  constructor(private router: Router, private auth: Auth, private api: Api, private destroyRef: DestroyRef) {}
+  constructor(
+    private router: Router, 
+    private auth: Auth, 
+    private api: Api, 
+    private userStateService: UserStateService,
+    private destroyRef: DestroyRef
+  ) {}
 
   goBack(): void {
     this.router.navigate(['/landing']);
@@ -73,15 +81,15 @@ export class JoinMess {
   sendJoinRequest(messId: string): void {
     this.isSendingRequest = true;
     this.api.joinMess({messId: messId}).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.isSendingRequest = false;
-        // Navigate to request status with response data as state
-        this.router.navigate(['/landing/join-mess/request-status'], { state: res });
+        // Refresh user state and let UserStateService handle routing
+        this.userStateService.refreshUserState();
       },
-      error: (err) => {
+      error: (err: any) => {
         console.log(err);
+        Swal.fire('Error', err.error.message, 'error');
         this.isSendingRequest = false;
-        this.router.navigate(['/landing/join-mess/request-status']);
       }
     });
   }

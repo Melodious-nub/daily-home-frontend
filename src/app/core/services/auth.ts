@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Api } from '../api';
+import { UserStateService } from './user-state.service';
 
 export interface User {
   _id?: string;
@@ -73,7 +74,8 @@ export class Auth {
 
   constructor(
     private api: Api,
-    private router: Router
+    private router: Router,
+    private userStateService: UserStateService
   ) {
     this.initializeAuth();
   }
@@ -108,16 +110,15 @@ export class Auth {
   // Refresh user data from API
   private refreshUserData(): void {
     // console.log('Refreshing user data from API...');
-    this.api.getUser().subscribe({
-      next: (userData) => {
-        // console.log('User data received:', userData);
+    this.userStateService.initializeUserState().subscribe({
+      next: (userState) => {
+        // console.log('User state received:', userState);
         // Update user data with fresh data from API
-        this.setUser(userData);
+        this.setUser(userState.user);
         this.isInitializedSubject.next(true);
         
-        // Handle routing based on fresh user data
-        // console.log('Handling post auth redirect for user:', userData.currentMess);
-        this.handlePostAuthRedirect(userData);
+        // Handle routing based on fresh user state
+        this.userStateService.handleUserStateRouting(userState);
       },
       error: (error) => {
         // API call failed, clear invalid data and redirect to login
@@ -137,8 +138,8 @@ export class Auth {
           this.setUser(response.user);
           observer.next(response);
           observer.complete();
-          // Redirect based on mess status
-          this.handlePostAuthRedirect(response.user);
+          // Initialize user state and handle routing
+          this.refreshUserData();
         },
         error: (error) => {
           observer.error(error);
@@ -161,8 +162,8 @@ export class Auth {
           this.setUser(response.user);
           observer.next(response);
           observer.complete();
-          // Redirect based on mess status
-          this.handlePostAuthRedirect(response.user);
+          // Initialize user state and handle routing
+          this.refreshUserData();
         },
         error: (error) => {
           observer.error(error);
@@ -182,6 +183,7 @@ export class Auth {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
+    this.userStateService.clearUserState();
     this.router.navigate(['/login']);
   }
 
@@ -199,7 +201,29 @@ export class Auth {
     this.currentUserSubject.next(user);
   }
 
-  // Handle post-authentication redirect based on mess status
+  // Handle routing based on user state
+  private handleUserStateRouting(userState: any): void {
+    // Add a small delay to ensure router is ready
+    setTimeout(() => {
+      if (userState.hasMess) {
+        // User is a member or admin, redirect to main dashboard
+        // console.log('Redirecting to main dashboard');
+        this.router.navigate(['/main/dashboard']);
+      } else if (userState.hasPendingRequest) {
+        // User has a pending request, redirect to request status
+        // console.log('Redirecting to request status');
+        this.router.navigate(['/landing/join-mess/request-status'], { 
+          state: { mess: userState.pendingRequestMess } 
+        });
+      } else {
+        // User has no mess and no pending request, redirect to landing
+        // console.log('Redirecting to landing page');
+        this.router.navigate(['/landing']);
+      }
+    }, 100);
+  }
+
+  // Handle post-authentication redirect based on mess status (legacy)
   private handlePostAuthRedirect(user: User): void {
     // console.log('handlePostAuthRedirect called with currentMess:', user.currentMess);
     // Add a small delay to ensure router is ready

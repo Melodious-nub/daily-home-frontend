@@ -35,7 +35,7 @@
   display: block;
 }
 
-.heading { text-align: left; width: 100%; max-width: 420px; }
+.heading { text-align: center; width: 100%; max-width: 420px; }
 .title {
   font-size: 18px;
   font-weight: 700;
@@ -59,6 +59,14 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
+/* Card header line */
+.card-header {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
 .info-row {
   display: flex;
   align-items: flex-start;
@@ -70,6 +78,71 @@
 .info-title { font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0; }
 .info-meta { font-size: 14px; color: #333; margin: 2px 0 0 0; }
 .info-address { font-size: 14px; color: #333; margin: 0; line-height: 1.45; }
+
+/* Join-mess card structure */
+.mess-info {
+  margin-bottom: 20px;
+}
+
+.mess-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.mess-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.mess-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 1px;
+}
+
+.mess-name {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.mess-owner {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.mess-code {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.mess-location {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.location-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.location-text {
+  padding-top: 1px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+  font-family: 'Lato', sans-serif;
+}
 
 .role-row { margin: 16px 0; }
 .role-text { margin: 0; font-size: 14px; color: #333; text-align: center; }
@@ -89,9 +162,44 @@
   justify-content: center;
   min-height: 44px;
   gap: 8px;
+  font-family: 'Lato', sans-serif;
 }
 .btn-secondary { background: #fff; color: #1a1a1a; border: 1px solid #e0e0e0; }
 .btn-secondary:hover { background: #f8f9fa; border-color: #ccc; color: #1a1a1a; }
+
+.request-date {
+  font-size: 12px !important;
+  color: #666 !important;
+  margin-top: 8px !important;
+  font-family: 'Lato', sans-serif !important;
+}
+
+.status-message {
+  background-color: #f8f9fa;
+  padding: 10px 14px;
+  border-radius: 6px;
+  /* margin: 16px 0; */
+  border-left: 4px solid #1a1a1a;
+  border-right: 4px solid #1a1a1a;
+}
+
+.status-message p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+  font-family: 'Lato', sans-serif;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.loading-spinner p {
+  margin-top: 16px;
+  color: #666;
+  font-family: 'Lato', sans-serif;
+}
 
 @media (min-width: 768px) {
   .request-status-container { padding: 24px; }
@@ -100,6 +208,8 @@
   .title { font-size: 20px; }
   .subtitle { font-size: 16px; }
   .info-card { padding: 20px; }
+  .card-header { margin-bottom: 16px; }
+  .mess-name { font-size: 20px; }
   .btn { padding: 16px 20px; min-height: 52px; }
 }
 

@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Room } from './interface/room';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Api {
-  // apiUrl: string = 'https://daily-home-backend.onrender.com/api/';
-  apiUrl: string = 'https://daily-home-backend-dev.onrender.com/api/';
+  apiUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -48,6 +48,30 @@ export class Api {
 
   joinMess(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl + 'mess/join', data);
+  }
+
+  checkRequestStatus(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + 'mess/check-request-status');
+  }
+
+  cancelRequest(): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'mess/cancel-request', {});
+  }
+
+  createMess(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'mess/create', data);
+  }
+
+  leaveMess(): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'mess/leave', {});
+  }
+
+  acceptMember(userId: string): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'mess/accept-member/' + userId, {});
+  }
+
+  rejectMember(userId: string): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'mess/reject-member/' + userId, {});
   }
 
   // rooms api collection

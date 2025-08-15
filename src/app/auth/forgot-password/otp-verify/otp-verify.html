@@ -5,124 +5,145 @@
   </button>
 
   <!-- Success State -->
-  <div *ngIf="showSuccessState" class="success-state">
-    <div class="success-icon">
-      <i class="fa fa-check-circle"></i>
+  @if (showSuccessState) {
+    <div class="success-state">
+      <div class="success-icon">
+        <i class="fa fa-check-circle"></i>
+      </div>
+      <h2 class="success-title">Password Reset Successful!</h2>
+      <p class="success-message">{{ successMessage }}</p>
+      <div class="redirect-info">
+        <i class="fa fa-clock"></i>
+        <span>Redirecting to login page...</span>
+      </div>
     </div>
-    <h2 class="success-title">Password Reset Successful!</h2>
-    <p class="success-message">{{ successMessage }}</p>
-    <div class="redirect-info">
-      <i class="fa fa-clock"></i>
-      <span>Redirecting to login page...</span>
-    </div>
-  </div>
+  }
 
   <!-- Content -->
-  <div *ngIf="!showSuccessState" class="otp-content text-center">
-    <h2 class="title">Reset Password</h2>
-    <p class="subtitle">
-      Enter the verification code we just sent to your mail address <br />
-      <strong>{{ email }}</strong>.
-    </p>
+  @if (!showSuccessState) {
+    <div class="otp-content text-center">
+      <h2 class="title">Reset Password</h2>
+      <p class="subtitle">
+        Enter the verification code we just sent to your mail address <br />
+        <strong>{{ email }}</strong>.
+      </p>
 
-    <!-- OTP Inputs -->
-    <div class="otp-inputs d-flex justify-content-center gap-2">
-      <input 
-        type="number" 
-        maxlength="1" 
-        class="otp-box" 
-        [(ngModel)]="otpDigits[0]"
-        (input)="onOtpInput(0, $event)"
-        (keydown)="onOtpKeydown(0, $event)"
-        [disabled]="isLoading"
-      />
-      <input 
-        type="number" 
-        maxlength="1" 
-        class="otp-box" 
-        [(ngModel)]="otpDigits[1]"
-        (input)="onOtpInput(1, $event)"
-        (keydown)="onOtpKeydown(1, $event)"
-        [disabled]="isLoading"
-      />
-      <input 
-        type="number" 
-        maxlength="1" 
-        class="otp-box" 
-        [(ngModel)]="otpDigits[2]"
-        (input)="onOtpInput(2, $event)"
-        (keydown)="onOtpKeydown(2, $event)"
-        [disabled]="isLoading"
-      />
-      <input 
-        type="number" 
-        maxlength="1" 
-        class="otp-box" 
-        [(ngModel)]="otpDigits[3]"
-        (input)="onOtpInput(3, $event)"
-        (keydown)="onOtpKeydown(3, $event)"
-        [disabled]="isLoading"
-      />
-    </div>
+      <!-- OTP Inputs -->
+      <div class="otp-inputs d-flex justify-content-center gap-2">
+        <input 
+          type="number" 
+          maxlength="1" 
+          class="otp-box" 
+          [(ngModel)]="otpDigits[0]"
+          (input)="onOtpInput(0, $event)"
+          (keydown)="onOtpKeydown(0, $event)"
+          [disabled]="isLoading"
+        />
+        <input 
+          type="number" 
+          maxlength="1" 
+          class="otp-box" 
+          [(ngModel)]="otpDigits[1]"
+          (input)="onOtpInput(1, $event)"
+          (keydown)="onOtpKeydown(1, $event)"
+          [disabled]="isLoading"
+        />
+        <input 
+          type="number" 
+          maxlength="1" 
+          class="otp-box" 
+          [(ngModel)]="otpDigits[2]"
+          (input)="onOtpInput(2, $event)"
+          (keydown)="onOtpKeydown(2, $event)"
+          [disabled]="isLoading"
+        />
+        <input 
+          type="number" 
+          maxlength="1" 
+          class="otp-box" 
+          [(ngModel)]="otpDigits[3]"
+          (input)="onOtpInput(3, $event)"
+          (keydown)="onOtpKeydown(3, $event)"
+          [disabled]="isLoading"
+        />
+      </div>
 
-    <!-- New Password Field -->
-    <div class="form-group password-group">
-      <input
-        [type]="showPassword ? 'text' : 'password'"
-        class="form-input"
-        placeholder="New Password"
-        [(ngModel)]="resetData.newPassword"
-        name="newPassword"
-        required
-        [disabled]="isLoading"
-      />
-      <button 
-        type="button" 
-        class="password-toggle"
-        (click)="togglePasswordVisibility()"
-      >
-        <i class="fa" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
-      </button>
-    </div>
-
-    <!-- Success Message -->
-    <div *ngIf="successMessage" class="success-message">
-      {{ successMessage }}
-    </div>
-
-    <!-- Error Message -->
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-
-    <!-- Resend & Timer -->
-    <div class="resend-wrap d-flex justify-content-between mt-4 px-2">
-      <span class="resend-text">
-        Didn't receive code? 
-        <a 
-          class="resend-link" 
-          href="#" 
-          (click)="resendOtp(); $event.preventDefault()"
-          [class.disabled]="!canResend || resendLoading"
+      <!-- New Password Field -->
+      <div class="form-group password-group">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          class="form-input"
+          placeholder="New Password"
+          [(ngModel)]="resetData.newPassword"
+          name="newPassword"
+          required
+          [disabled]="isLoading"
+        />
+        <button 
+          type="button" 
+          class="password-toggle"
+          (click)="togglePasswordVisibility()"
         >
-          <span *ngIf="!resendLoading">Resend</span>
-          <span *ngIf="resendLoading">Sending...</span>
-        </a>
-      </span>
-      <span class="timer" *ngIf="!canResend">{{ formattedTime }}</span>
+          <i class="fa" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+        </button>
+      </div>
+
+      <!-- Success Message -->
+      @if (successMessage) {
+        <div class="success-message">
+          {{ successMessage }}
+        </div>
+      }
+
+      <!-- Error Message -->
+      @if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <!-- Resend & Timer -->
+      <div class="resend-wrap d-flex justify-content-between mt-4 px-2">
+        <span class="resend-text">
+          Didn't receive code? 
+          <a 
+            class="resend-link" 
+            href="#" 
+            (click)="resendOtp(); $event.preventDefault()"
+            [class.disabled]="!canResend || resendLoading"
+          >
+            @if (!resendLoading) {
+              <span>Resend</span>
+            }
+            @if (resendLoading) {
+              <span>Sending...</span>
+            }
+          </a>
+        </span>
+        @if (!canResend) {
+          <span class="timer">{{ formattedTime }}</span>
+        }
+      </div>
     </div>
-  </div>
+  }
 
   <!-- Reset Password Button -->
-  <button 
-    *ngIf="!showSuccessState"
-    type="button"
-    class="btn btn-primary"
-    (click)="onSubmit()"
-    [disabled]="isLoading || !isOtpComplete() || !resetData.newPassword"
-  >
-    <i *ngIf="isLoading" class="fa-solid fa-spinner fa-spin-pulse"></i>
-    <span *ngIf="!isLoading">Reset Password</span>
-    <span *ngIf="isLoading">Resetting...</span>
-  </button>
+  @if (!showSuccessState) {
+    <button 
+      type="button"
+      class="btn btn-primary"
+      (click)="onSubmit()"
+      [disabled]="isLoading || !isOtpComplete() || !resetData.newPassword"
+    >
+      @if (isLoading) {
+        <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+      }
+      @if (!isLoading) {
+        <span>Reset Password</span>
+      }
+      @if (isLoading) {
+        <span>Resetting...</span>
+      }
+    </button>
+  }
 </div>

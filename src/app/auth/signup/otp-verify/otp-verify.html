@@ -53,14 +53,18 @@
     </div>
 
     <!-- Success Message -->
-    <div *ngIf="successMessage" class="success-message">
-      {{ successMessage }}
-    </div>
+    @if (successMessage) {
+      <div class="success-message">
+        {{ successMessage }}
+      </div>
+    }
 
     <!-- Error Message -->
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
 
     <!-- Resend & Timer -->
     <div class="resend-wrap d-flex justify-content-between mt-4 px-2">
@@ -72,11 +76,17 @@
           (click)="resendOtp(); $event.preventDefault()"
           [class.disabled]="!canResend || resendLoading"
         >
-          <span *ngIf="!resendLoading">Resend</span>
-          <span *ngIf="resendLoading">Sending...</span>
-        </a>
-      </span>
-      <span class="timer" *ngIf="!canResend">{{ formattedTime }}</span>
+                      @if (!resendLoading) {
+              <span>Resend</span>
+            }
+            @if (resendLoading) {
+              <span>Sending...</span>
+            }
+          </a>
+        </span>
+        @if (!canResend) {
+          <span class="timer">{{ formattedTime }}</span>
+        }
     </div>
   </div>
 
@@ -87,8 +97,14 @@
     (click)="onSubmit()"
     [disabled]="isLoading || !isOtpComplete()"
   >
-    <i *ngIf="isLoading" class="fa-solid fa-spinner fa-spin-pulse"></i>
-    <span *ngIf="!isLoading">Verify</span>
-    <span *ngIf="isLoading">Verifying...</span>
+            @if (isLoading) {
+          <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        }
+        @if (!isLoading) {
+          <span>Verify</span>
+        }
+        @if (isLoading) {
+          <span>Verifying...</span>
+        }
   </button>
 </div>

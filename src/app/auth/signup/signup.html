@@ -52,9 +52,11 @@
       </div>
 
       <!-- Error Message -->
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
+      @if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+      }
 
       <!-- Sign Up Button -->
       <button 
@@ -62,9 +64,15 @@
         class="btn btn-primary"
         [disabled]="isLoading"
       >
-        <i *ngIf="isLoading" class="fa-solid fa-spinner fa-spin-pulse"></i>
-        <span *ngIf="!isLoading">Sign Up</span>
-        <span *ngIf="isLoading">Creating account...</span>
+        @if (isLoading) {
+          <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        }
+        @if (!isLoading) {
+          <span>Sign Up</span>
+        }
+        @if (isLoading) {
+          <span>Creating account...</span>
+        }
       </button>
 
       <!-- Already have account Button -->

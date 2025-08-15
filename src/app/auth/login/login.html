@@ -7,14 +7,16 @@
     </div>
 
     <!-- Success Message from Password Reset -->
-    <div *ngIf="showSuccessState" class="success-banner">
-      <div class="success-icon">
-        <i class="fa fa-check-circle"></i>
+    @if (showSuccessState) {
+      <div class="success-banner">
+        <div class="success-icon">
+          <i class="fa fa-check-circle"></i>
+        </div>
+        <div class="success-content">
+          <p class="success-message">{{ successMessage }}</p>
+        </div>
       </div>
-      <div class="success-content">
-        <p class="success-message">{{ successMessage }}</p>
-      </div>
-    </div>
+    }
 
     <!-- Login Form -->
     <form class="login-form" (ngSubmit)="onSubmit()">
@@ -55,9 +57,11 @@
       </div>
 
       <!-- Error Message -->
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
+      @if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+      }
 
       <!-- Sign In Button -->
       <button 
@@ -65,9 +69,15 @@
         class="btn btn-primary"
         [disabled]="isLoading"
       >
-        <i *ngIf="isLoading" class="fa-solid fa-spinner fa-spin-pulse"></i>
-        <span *ngIf="!isLoading">Sign in</span>
-        <span *ngIf="isLoading">Signing in...</span>
+        @if (isLoading) {
+          <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+        }
+        @if (!isLoading) {
+          <span>Sign in</span>
+        }
+        @if (isLoading) {
+          <span>Signing in...</span>
+        }
       </button>
 
       <!-- Create Account Button -->

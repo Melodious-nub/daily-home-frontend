@@ -1,89 +1,118 @@
 <div class="join-mess-container">
-  <!-- Back Button -->
-  <button class="back-btn" (click)="goBack()">
-    <i class="fa fa-arrow-left"></i>
-  </button>
-
-  <!-- Content -->
-  <div class="join-mess-content">
-    <!-- Search Section -->
-    <div class="search-section">
-      <div class="search-bar">
-        <input 
-          type="text" 
-          class="search-input" 
-          placeholder="Enter your mess code"
-          [(ngModel)]="messCode"
-          (input)="onMessCodeInput()"
-          (keyup.enter)="onEnterKey()"
-          pattern="[0-9]*"
-          inputmode="numeric"
-          [disabled]="isLoading"
-          autofocus
-        />
-        <div class="search-divider"></div>
-        <button 
-          class="search-btn" 
-          (click)="searchMess()"
-          [disabled]="messCode.length < 6 || isLoading"
-        >
-          <i class="fa fa-search"></i>
-          <span>Search</span>
-        </button>
+  <!-- Redirecting State -->
+  @if (showRedirectingState) {
+    <div class="redirecting-screen">
+      <div class="redirecting-content">
+        <div class="redirecting-icon">
+          <i class="fa fa-check-circle"></i>
+        </div>
+        <h2 class="redirecting-title">Request Sent Successfully!</h2>
+        <p class="redirecting-message">{{ redirectingMessage }}</p>
       </div>
     </div>
+  }
 
-    <!-- Loading State -->
-    <div *ngIf="isLoading" class="loading-section">
-      <div class="loading-spinner">
-        <i class="fa fa-spinner fa-spin"></i>
+  <!-- Main Content -->
+  @if (!showRedirectingState) {
+    <div class="join-mess-content">
+      <!-- Back Button -->
+      <button class="back-btn" (click)="goBack()">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <!-- Search Section -->
+      <div class="search-section">
+        <div class="search-bar">
+          <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Enter your mess code"
+            [(ngModel)]="messCode"
+            (input)="onMessCodeInput()"
+            (keyup.enter)="onEnterKey()"
+            (focus)="onInputFocus()"
+            pattern="[0-9]*"
+            inputmode="numeric"
+            [disabled]="isLoading"
+            autofocus
+          />
+          <div class="search-divider"></div>
+          <button 
+            class="search-btn" 
+            (click)="onSearchButtonClick()"
+            [disabled]="!messCode || messCode.length < 6 || isLoading"
+          >
+            <i class="fa fa-search"></i>
+            <span>Search</span>
+          </button>
+        </div>
       </div>
-      <p class="loading-text">Searching for mess...</p>
-    </div>
 
-    <!-- Mess Result -->
-    <div *ngIf="mess && !isLoading" class="mess-result">
-      <div class="result-card">
-        <div class="mess-info">
-          <div class="mess-header">
-            <!-- <i class="fa fa-home mess-icon"></i> -->
-            <img src="/house-03.svg" alt="home" class="mess-icon">
-            <div class="mess-details">
-              <h3 class="mess-name font-bold">{{ mess.mess.name }}</h3>
-              <p class="mess-owner font-medium"><span class="font-semibold">Admin: </span> {{ mess.mess.admin.fullName }}</p>
-              <p class="mess-code font-regular"><span class="font-semibold">Mess Code: </span> {{ mess.mess.identifierCode }}</p>
-            </div>
+      <!-- Loading State -->
+      @if (isLoading) {
+        <div class="loading-section">
+          <div class="loading-spinner">
+            <i class="fa fa-spinner fa-spin"></i>
           </div>
-          <div class="mess-location">
-            <!-- <i class="fa fa-map-marker-alt location-icon"></i> -->
-            <img src="/location-01.svg" alt="location" class="location-icon">
-            <span class="location-text font-medium">{{ mess.mess.address }}</span>
+          <p class="loading-text">Searching for mess...</p>
+        </div>
+      }
+
+      <!-- Mess Result -->
+      @if (mess && !isLoading) {
+        <div class="mess-result">
+          <div class="result-card">
+            <div class="mess-info">
+              <div class="mess-header">
+                <!-- <i class="fa fa-home mess-icon"></i> -->
+                <img src="/house-03.svg" alt="home" class="mess-icon">
+                <div class="mess-details">
+                  <h3 class="mess-name font-bold">{{ mess.mess.name }}</h3>
+                  <p class="mess-owner font-medium"><span class="font-semibold">Admin: </span> {{ mess.mess.admin.fullName }}</p>
+                  <p class="mess-code font-regular"><span class="font-semibold">Mess Code: </span> {{ mess.mess.identifierCode }}</p>
+                </div>
+              </div>
+              <div class="mess-location">
+                <!-- <i class="fa fa-map-marker-alt location-icon"></i> -->
+                <img src="/location-01.svg" alt="location" class="location-icon">
+                <span class="location-text font-medium">{{ mess.mess.address }}</span>
+              </div>
+            </div>
+            <button 
+              class="btn btn-primary join-request-btn"
+              (click)="sendJoinRequest(mess.mess.id)"
+              [disabled]="isSendingRequest"
+            >
+              @if (isSendingRequest) {
+                <i class="fa fa-spinner fa-spin"></i>
+              }
+              @if (!isSendingRequest) {
+                <span>Send Join Request</span>
+              }
+              @if (isSendingRequest) {
+                <span>Sending...</span>
+              }
+            </button>
           </div>
         </div>
-        <button 
-          class="btn btn-primary join-request-btn"
-          (click)="sendJoinRequest(mess.mess.id)"
-          [disabled]="isSendingRequest"
-        >
-          <i *ngIf="isSendingRequest" class="fa fa-spinner fa-spin"></i>
-          <span *ngIf="!isSendingRequest">Send Join Request</span>
-          <span *ngIf="isSendingRequest">Sending...</span>
-        </button>
-      </div>
-    </div>
+      }
 
-    <!-- No Result State -->
-    <div *ngIf="messCode.length >= 6 && !mess && !isLoading && hasSearched" class="no-result">
-      <div class="no-result-content">
-        <i class="fa fa-search no-result-icon"></i>
-        <h3>No mess found</h3>
-        <p>Please check the mess code and try again.</p>
-      </div>
-    </div>
+      <!-- No Result State -->
+      @if (messCode.length >= 6 && !mess && !isLoading && hasSearched) {
+        <div class="no-result">
+          <div class="no-result-content">
+            <i class="fa fa-search no-result-icon"></i>
+            <h3>No mess found</h3>
+            <p>Please check the mess code and try again.</p>
+          </div>
+        </div>
+      }
 
-    <!-- Background Image Section (when no search or result) -->
-    <div *ngIf="!mess && !isLoading && !hasSearched" class="background-section">
-      <img src="/join_bg.svg" alt="Join Mess Background" class="background-image">
+      <!-- Background Image Section (when no search or result) -->
+      @if (!mess && !isLoading && !hasSearched) {
+        <div class="background-section">
+          <img src="/join_bg.svg" alt="Join Mess Background" class="background-image">
+        </div>
+      }
     </div>
-  </div>
+  }
 </div> 

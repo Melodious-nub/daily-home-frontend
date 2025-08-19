@@ -130,19 +130,19 @@ export class RequestStatus implements OnInit, OnDestroy {
         console.log('Request accepted via WebSocket');
         this.processingIcon = 'fa-check-circle';
         this.processingMessage = 'Request accepted! Redirecting to dashboard...';
-        // Show success message and redirect to dashboard
+        // Show success message and redirect to dashboard with minimum 3 second delay
         setTimeout(() => {
           this.userStateService.refreshUserState();
-        }, 2000);
+        }, 3000);
         break;
       case 'rejected':
         console.log('Request rejected via WebSocket');
         this.processingIcon = 'fa-times-circle';
         this.processingMessage = 'Request rejected. Redirecting to landing page...';
-        // Show rejection message and redirect to landing
+        // Show rejection message and redirect to landing with minimum 3 second delay
         setTimeout(() => {
           this.userStateService.refreshUserState();
-        }, 2000);
+        }, 3000);
         break;
       case 'pending':
         // Continue showing current status
@@ -152,10 +152,10 @@ export class RequestStatus implements OnInit, OnDestroy {
         console.log('No request found via WebSocket');
         this.processingIcon = 'fa-info-circle';
         this.processingMessage = 'No request found. Redirecting to landing page...';
-        // Redirect to landing
+        // Redirect to landing with minimum 3 second delay
         setTimeout(() => {
           this.userStateService.refreshUserState();
-        }, 2000);
+        }, 3000);
         break;
     }
   }
@@ -180,7 +180,10 @@ export class RequestStatus implements OnInit, OnDestroy {
             // Disconnect WebSocket and let UserStateService handle the routing
             this.webSocketService.unsubscribeFromRequestStatus();
             this.webSocketService.disconnect();
-            // UserStateService will handle the routing after cancellation
+            // Add 3 second delay before UserStateService handles the routing
+            setTimeout(() => {
+              // UserStateService will handle the routing after cancellation
+            }, 3000);
           },
           error: (error: any) => {
             console.error('Error canceling request:', error);

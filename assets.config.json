@@ -1,11 +1,11 @@
 {
   "icon": {
-    "source": "resources/icon.png",
+    "source": "resources/icon.svg",
     "backgroundColor": "#ffffff",
     "padding": "10%"
   },
   "splash": {
-    "source": "resources/icon.png",
+    "source": "resources/icon.svg",
     "backgroundColor": "#ffffff",
     "resizeMode": "contain"
   }

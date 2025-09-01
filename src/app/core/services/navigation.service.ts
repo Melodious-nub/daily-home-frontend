@@ -54,8 +54,12 @@ export class NavigationService {
   private handleBackButton() {
     const currentUrl = this.router.url;
     
-    // If we're on login page, landing page, or request status page, exit app
-    if (currentUrl === '/login' || currentUrl === '/landing' || currentUrl.includes('/landing/join-mess/request-status')) {
+    // If we're on login page, landing page, request status page, or main landing page, exit app
+    if (currentUrl === '/login' || 
+        currentUrl === '/landing' || 
+        currentUrl.includes('/landing/join-mess/request-status') ||
+        currentUrl === '/main' ||
+        currentUrl === '/main/dashboard') {
       this.exitApp();
       return;
     }
@@ -116,8 +120,12 @@ export class NavigationService {
   public canGoBack(): boolean {
     const currentUrl = this.router.url;
     
-    // If we're on login page, landing page, or request status page, we can't go back (will exit app)
-    if (currentUrl === '/login' || currentUrl === '/landing' || currentUrl.includes('/landing/join-mess/request-status')) {
+    // If we're on login page, landing page, request status page, or main landing page, we can't go back (will exit app)
+    if (currentUrl === '/login' || 
+        currentUrl === '/landing' || 
+        currentUrl.includes('/landing/join-mess/request-status') ||
+        currentUrl === '/main' ||
+        currentUrl === '/main/dashboard') {
       return false;
     }
     

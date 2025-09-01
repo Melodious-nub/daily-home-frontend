@@ -14,8 +14,6 @@ interface MessData {
   fixedCosts: Array<{
     name: string;
     amount: number;
-    type: string;
-    description: string;
   }>;
   bazarIsDeposit: boolean;
 }
@@ -23,8 +21,6 @@ interface MessData {
 interface FixedCost {
   name: string;
   amount: number;
-  type: string;
-  description: string;
 }
 
 @Component({
@@ -56,9 +52,9 @@ export class CreateMess implements OnInit, OnDestroy {
 
   // Step 3: Fixed Costs
   defaultFixedCosts: FixedCost[] = [
-    { name: 'House Rent', amount: 0, type: 'houseRent', description: 'Monthly house rent' },
-    { name: 'Maid/Helper cost', amount: 0, type: 'maidCost', description: 'Maid or helper expenses' },
-    { name: 'Utilities', amount: 0, type: 'utilities', description: 'Electricity, water, gas bills' }
+    { name: 'House Rent', amount: 0 },
+    { name: 'Maid/Helper cost', amount: 0 },
+    { name: 'Utilities', amount: 0 }
   ];
   customCosts: FixedCost[] = [];
 
@@ -188,14 +184,20 @@ export class CreateMess implements OnInit, OnDestroy {
   addCustomCost(): void {
     this.customCosts.push({
       name: '',
-      amount: 0,
-      type: 'custom',
-      description: 'Custom cost'
+      amount: 0
     });
   }
 
   removeCustomCost(index: number): void {
     this.customCosts.splice(index, 1);
+  }
+
+  // Get all fixed costs (default + custom)
+  getTotalFixedCosts(): FixedCost[] {
+    return [
+      ...this.defaultFixedCosts.filter(cost => cost.amount > 0),
+      ...this.customCosts.filter(cost => cost.name && cost.amount > 0)
+    ];
   }
 
   // Step 4: Confirmation & Create
@@ -262,8 +264,10 @@ export class CreateMess implements OnInit, OnDestroy {
         Swal.fire({
           icon: 'success',
           title: 'Mess Created!',
-          text: 'Your mess has been created successfully',
-          confirmButtonText: 'Continue'
+          text: `Your mess has been created successfully! Mess Code: ${response.mess.identifierCode}`,
+          confirmButtonText: 'Continue',
+          allowOutsideClick: false,
+          backdrop: false
         }).then(() => {
           // Navigate to dashboard or refresh user state
           this.router.navigate(['/main/dashboard']);

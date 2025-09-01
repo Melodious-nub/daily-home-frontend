@@ -240,16 +240,44 @@
           </div>
 
           <div class="mess-location mt-1">
-            <div class="mess-code">
-              <i class="fa fa-code mess-code-icon fa-sm me-1"></i>
-              <strong style="font-size: 16px;">Mess Code: </strong> {{ generatedCode }}
-            </div>
-          </div>
-          
-          <div class="mess-location mt-1">
             <img src="/location-01.svg" alt="location" class="location-icon">
             <span class="location-text">{{ messData.address }}</span>
           </div>
+
+          <!-- Members Section -->
+          @if (messData.members.length > 0) {
+            <div class="members-section mt-2">
+              <div class="section-header">
+                <i class="fa fa-users fa-sm me-1"></i>
+                <strong>Members:</strong>
+              </div>
+              <div class="members-list">
+                @for (member of messData.members; track $index) {
+                  <div class="member-item">
+                    <span class="member-email">{{ member.email }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Fixed Costs Section -->
+          @if (getTotalFixedCosts().length > 0) {
+            <div class="fixed-costs-section mt-2">
+              <div class="section-header">
+                <i class="fa fa-money-bill fa-sm me-1"></i>
+                <strong>Fixed Costs:</strong>
+              </div>
+              <div class="costs-list">
+                @for (cost of getTotalFixedCosts(); track $index) {
+                  <div class="cost-item">
+                    <span class="cost-name">{{ cost.name }}:</span>
+                    <span class="cost-amount">৳{{ cost.amount }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }          
           
           <div class="role-info">
             <p>Your Role: Admin</p>

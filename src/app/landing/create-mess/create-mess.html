@@ -92,8 +92,8 @@
         </div>
 
         <div class="add-more-link">
-          <button type="button" class="link-btn" (click)="addMember()" [disabled]="!newMemberEmail || isLoading">
-            + Add more email
+          <button type="button" class="link-btn" (click)="addMember()" [disabled]="!isEmailValidForAdding() || isLoading">
+            + Add email address
           </button>
         </div>
 
@@ -115,8 +115,8 @@
 
       <!-- Action Section -->
       <div class="action-section">
-        <button type="button" class="btn btn-primary" (click)="addMember()" [disabled]="!newMemberEmail || isLoading">
-          <span>Add</span>
+        <button type="button" class="btn btn-primary" (click)="nextStep()" [disabled]="isLoading">
+          <span>Next</span>
           <i class="fa fa-arrow-right"></i>
         </button>
       </div>
@@ -204,7 +204,7 @@
       <!-- Action Section -->
       <div class="action-section">
         <button type="button" class="btn btn-primary" (click)="nextStep()" [disabled]="isLoading">
-          <span>Add</span>
+          <span>Next</span>
           <i class="fa fa-arrow-right"></i>
         </button>
       </div>
@@ -235,19 +235,24 @@
           <div class="mess-header">
             <img src="/house-03.svg" alt="home" class="mess-icon">
             <div class="mess-details">
-              <h3 class="mess-name">{{ messData.name }}</h3>
-              <p class="mess-owner">Super Admin</p>
-              <p class="mess-code">Code: {{ generatedCode }}</p>
+               <h3 class="mess-name">{{ messData.name }}</h3>
+            </div>
+          </div>
+
+          <div class="mess-location mt-1">
+            <div class="mess-code">
+              <i class="fa fa-code mess-code-icon fa-sm me-1"></i>
+              <strong style="font-size: 16px;">Mess Code: </strong> {{ generatedCode }}
             </div>
           </div>
           
-          <div class="mess-location">
+          <div class="mess-location mt-1">
             <img src="/location-01.svg" alt="location" class="location-icon">
             <span class="location-text">{{ messData.address }}</span>
           </div>
           
           <div class="role-info">
-            <p>Your Role: Super Admin</p>
+            <p>Your Role: Admin</p>
           </div>
         </div>
       </div>
@@ -297,12 +302,12 @@
   }
 
   <!-- Loading Overlay -->
-  @if (isLoading) {
+  <!-- @if (isLoading) {
     <div class="loading-overlay">
       <div class="loading-spinner">
         <i class="fa fa-spinner fa-spin"></i>
         <p>Processing...</p>
       </div>
   </div>
-  }
+  } -->
 </div> 

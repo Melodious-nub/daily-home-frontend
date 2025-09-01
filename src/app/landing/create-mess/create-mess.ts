@@ -144,6 +144,8 @@ export class CreateMess implements OnInit, OnDestroy {
   validateEmailOnBlur(): void {
     if (this.newMemberEmail) {
       this.validateEmail(this.newMemberEmail);
+    } else {
+      this.emailError = '';
     }
   }
 
@@ -156,9 +158,9 @@ export class CreateMess implements OnInit, OnDestroy {
     this.api.validateEmail({ email }).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
-      next: (response) => {
-        if (response.isValid === false) {
-          this.emailError = response.message;
+      next: (response: any) => {
+        if (response && response.isValid === false) {
+          this.emailError = response.message || 'Invalid email address';
           return;
         }
         this.emailError = '';
@@ -172,6 +174,14 @@ export class CreateMess implements OnInit, OnDestroy {
   private isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  }
+
+  // Check if email is valid for adding
+  isEmailValidForAdding(): boolean {
+    return this.newMemberEmail.trim() !== '' && 
+           this.isValidEmail(this.newMemberEmail) && 
+           this.emailError === '' && 
+           !this.messData.members.some(member => member.email === this.newMemberEmail);
   }
 
   // Step 3: Fixed Costs
@@ -195,7 +205,7 @@ export class CreateMess implements OnInit, OnDestroy {
   }
 
   generateInviteLink(): void {
-    this.inviteLink = `https://messapp.com/join?code=${this.generatedCode}`;
+    this.inviteLink = `https://dailyhome.app/join?code=${this.generatedCode}`;
   }
 
   copyInviteLink(): void {
@@ -241,6 +251,8 @@ export class CreateMess implements OnInit, OnDestroy {
       fixedCosts: allFixedCosts,
       bazarIsDeposit: this.messData.bazarIsDeposit
     };
+
+    // console.log(createMessData);
 
     this.api.createMess(createMessData).pipe(
       takeUntilDestroyed(this.destroyRef)

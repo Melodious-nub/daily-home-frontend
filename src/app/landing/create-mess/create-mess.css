@@ -375,6 +375,14 @@
   color: #333;
   margin: 0;
   font-family: 'Lato', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mess-code-icon {
+  font-size: 18px;
+  color: #666;
 }
 
 .mess-location {

@@ -59,7 +59,11 @@ export class Api {
   }
 
   createMess(data: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl + 'mess/create', data);
+    return this.http.post<any>(this.apiUrl + 'mess', data);
+  }
+
+  validateEmail(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + 'mess/validate-email', data);
   }
 
   leaveMess(): Observable<any> {

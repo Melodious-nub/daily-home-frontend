@@ -1,8 +1,308 @@
 <div class="create-mess-container">
-  <div class="create-mess-content">
-    <h1>Create Mess</h1>
-    <p>This is a placeholder for the create mess functionality.</p>
-    <button class="btn btn-secondary" (click)="goBack()">Back to Landing</button>
-    <button class="btn btn-danger mt-4" type="button" (click)="logout()">Logout</button>
+  <!-- Step 1: Basic Identity -->
+  @if (currentStep === 1) {
+    <div class="step-content">
+      <!-- Back Button -->
+      <button class="back-btn" (click)="goBack()">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(currentStep / totalSteps) * 100"></div>
+      </div>
+
+      <!-- Step Title -->
+      <h1 class="step-title">Basic identity of the mess</h1>
+
+      <!-- Form -->
+      <form class="create-form" (ngSubmit)="nextStep()">
+        <div class="form-group">
+          <input 
+            type="text" 
+            class="form-input" 
+            placeholder="Mess Name"
+            [(ngModel)]="messData.name"
+            name="messName"
+            required
+            [disabled]="isLoading"
+          />
+        </div>
+
+        <div class="form-group">
+          <textarea 
+            class="form-input form-textarea" 
+            placeholder="Mess Address"
+            [(ngModel)]="messData.address"
+            name="messAddress"
+            required
+            [disabled]="isLoading"
+            rows="3"
+          ></textarea>
+        </div>
+      </form>
+
+      <!-- Action Section -->
+      <div class="action-section">
+        <button type="button" class="btn btn-primary" (click)="nextStep()" [disabled]="!messData.name || !messData.address || isLoading">
+          <span>Next</span>
+          <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Step 2: Add Members -->
+  @if (currentStep === 2) {
+    <div class="step-content">
+      <!-- Back Button -->
+      <button type="button" class="back-btn" (click)="previousStep()">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+
+      <!-- Skip Button -->
+      <button type="button" class="skip-btn" (click)="skipStep()">
+        Skip
+      </button>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(currentStep / totalSteps) * 100"></div>
+      </div>
+
+      <!-- Step Title -->
+      <h1 class="step-title">Your Role: Admin</h1>
+      <h2 class="step-subtitle">Add Members</h2>
+
+      <!-- Form -->
+      <form class="create-form" (ngSubmit)="addMember()">
+        <div class="form-group">
+          <input 
+            type="email" 
+            class="form-input" 
+            placeholder="Email Address"
+            [(ngModel)]="newMemberEmail"
+            name="memberEmail"
+            [disabled]="isLoading"
+            (blur)="validateEmailOnBlur()"
+          />
+          @if (emailError) {
+            <div class="error-message">{{ emailError }}</div>
+          }
+        </div>
+
+        <div class="add-more-link">
+          <button type="button" class="link-btn" (click)="addMember()" [disabled]="!newMemberEmail || isLoading">
+            + Add more email
+          </button>
+        </div>
+
+        <!-- Added Members List -->
+        @if (messData.members.length > 0) {
+          <div class="members-list">
+            <h3>Added Members:</h3>
+            @for (member of messData.members; track $index) {
+              <div class="member-item">
+                <span class="member-email">{{ member.email }}</span>
+                <button type="button" class="remove-btn" (click)="removeMember($index)">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </form>
+
+      <!-- Action Section -->
+      <div class="action-section">
+        <button type="button" class="btn btn-primary" (click)="addMember()" [disabled]="!newMemberEmail || isLoading">
+          <span>Add</span>
+          <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Step 3: Set Fixed Costs -->
+  @if (currentStep === 3) {
+    <div class="step-content">
+      <!-- Back Button -->
+      <button class="back-btn" (click)="previousStep()">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+
+      <!-- Skip Button -->
+      <button class="skip-btn" (click)="skipStep()">
+        Skip
+      </button>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(currentStep / totalSteps) * 100"></div>
+      </div>
+
+      <!-- Step Title -->
+      <h1 class="step-title">Set Fixed Total Costs</h1>
+
+      <!-- Form -->
+      <form class="create-form" (ngSubmit)="nextStep()">
+        <!-- Default Fixed Costs -->
+        @for (cost of defaultFixedCosts; track $index) {
+          <div class="cost-input-group">
+            <div class="cost-label">{{ cost.name }}</div>
+            <div class="cost-input-wrapper">
+              <input 
+                type="number" 
+                class="cost-input" 
+                [(ngModel)]="cost.amount"
+                [name]="'cost' + $index"
+                min="0"
+                [disabled]="isLoading"
+              />
+              <span class="currency-symbol">৳</span>
+            </div>
+          </div>
+        }
+
+        <!-- Custom Costs -->
+        @for (cost of customCosts; track $index) {
+          <div class="cost-input-group">
+            <div class="cost-label">
+              <input 
+                type="text" 
+                class="custom-cost-name" 
+                placeholder="Cost Name"
+                [(ngModel)]="cost.name"
+                [name]="'customCostName' + $index"
+                [disabled]="isLoading"
+              />
+            </div>
+            <div class="cost-input-wrapper">
+              <input 
+                type="number" 
+                class="cost-input" 
+                [(ngModel)]="cost.amount"
+                [name]="'customCost' + $index"
+                min="0"
+                [disabled]="isLoading"
+              />
+              <span class="currency-symbol">৳</span>
+            </div>
+            <button type="button" class="remove-cost-btn" (click)="removeCustomCost($index)">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+        }
+
+        <div class="add-custom-link">
+          <button type="button" class="link-btn" (click)="addCustomCost()" [disabled]="isLoading">
+            + Add new custom cost
+          </button>
+        </div>
+      </form>
+
+      <!-- Action Section -->
+      <div class="action-section">
+        <button type="button" class="btn btn-primary" (click)="nextStep()" [disabled]="isLoading">
+          <span>Add</span>
+          <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Step 4: Confirmation & Create -->
+  @if (currentStep === 4) {
+    <div class="step-content">
+      <!-- Back Button -->
+      <button class="back-btn" (click)="previousStep()">
+        <i class="fa fa-arrow-left"></i>
+      </button>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(currentStep / totalSteps) * 100"></div>
+      </div>
+
+      <!-- Step Title -->
+      <h1 class="step-title">Confirmation & Create</h1>
+
+      <!-- Mess Summary Info -->
+      <div class="summary-card">
+        <h3 class="summary-header">Mess summary Info</h3>
+        
+        <div class="mess-details">
+          <div class="mess-header">
+            <img src="/house-03.svg" alt="home" class="mess-icon">
+            <div class="mess-details">
+              <h3 class="mess-name">{{ messData.name }}</h3>
+              <p class="mess-owner">Super Admin</p>
+              <p class="mess-code">Code: {{ generatedCode }}</p>
+            </div>
+          </div>
+          
+          <div class="mess-location">
+            <img src="/location-01.svg" alt="location" class="location-icon">
+            <span class="location-text">{{ messData.address }}</span>
+          </div>
+          
+          <div class="role-info">
+            <p>Your Role: Super Admin</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Member Invite Link -->
+      <div class="invite-section">
+        <h3>Member Invite Link</h3>
+        <div class="invite-link-container">
+          <input 
+            type="text" 
+            class="invite-link-input" 
+            [value]="inviteLink" 
+            readonly
+            [disabled]="isLoading"
+          />
+          <button type="button" class="copy-btn" (click)="copyInviteLink()" [disabled]="isLoading">
+            <i class="fa fa-copy"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bazar Deposit Checkbox -->
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="messData.bazarIsDeposit"
+            [disabled]="isLoading"
+          />
+          <span class="checkbox-text">Bazar is deposit?</span>
+        </label>
+      </div>
+
+      <!-- Action Section -->
+      <div class="action-section">
+        <button type="button" class="btn btn-primary" (click)="createMess()" [disabled]="isLoading">
+          @if (isLoading) {
+            <i class="fa fa-spinner fa-spin"></i>
+            <span>Creating...</span>
+          }
+          @if (!isLoading) {
+            <span>Create Mess</span>
+          }
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Loading Overlay -->
+  @if (isLoading) {
+    <div class="loading-overlay">
+      <div class="loading-spinner">
+        <i class="fa fa-spinner fa-spin"></i>
+        <p>Processing...</p>
+      </div>
   </div>
+  }
 </div> 

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Auth } from '../../core/services/auth';
 import { Api } from '../../core/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import Swal from 'sweetalert2';
 
 interface MessData {
@@ -49,6 +50,9 @@ export class CreateMess implements OnInit, OnDestroy {
   // Step 2: Add Members
   newMemberEmail: string = '';
   emailError: string = '';
+  isEmailValidating: boolean = false;
+  isEmailValidated: boolean = false;
+  private emailValidationSubject = new Subject<string>();
 
   // Step 3: Fixed Costs
   defaultFixedCosts: FixedCost[] = [
@@ -59,8 +63,6 @@ export class CreateMess implements OnInit, OnDestroy {
   customCosts: FixedCost[] = [];
 
   // Step 4: Confirmation
-  generatedCode: string = '';
-  inviteLink: string = '';
 
   // UI state
   isLoading: boolean = false;
@@ -72,12 +74,51 @@ export class CreateMess implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.generateMessCode();
-    this.generateInviteLink();
+    this.setupEmailValidation();
   }
 
   ngOnDestroy(): void {
     // Cleanup handled by takeUntilDestroyed
+    this.emailValidationSubject.complete();
+  }
+
+  // Setup debounced email validation
+  private setupEmailValidation(): void {
+    this.emailValidationSubject.pipe(
+      debounceTime(1800), // 500ms delay
+      distinctUntilChanged(), // Only validate if email actually changed
+      switchMap(email => {
+        if (!email || !this.isValidEmail(email)) {
+          this.emailError = email ? 'Please enter a valid email address' : '';
+          this.isEmailValidated = false;
+          this.isEmailValidating = false;
+          return [];
+        }
+        
+        this.isEmailValidating = true;
+        this.emailError = '';
+        this.isEmailValidated = false;
+        
+        return this.api.validateEmail({ email });
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: (response: any) => {
+        this.isEmailValidating = false;
+        if (response && response.isValid === false) {
+          this.emailError = response.message || 'Invalid email address';
+          this.isEmailValidated = false;
+          return;
+        }
+        this.emailError = '';
+        this.isEmailValidated = true;
+      },
+      error: (error) => {
+        this.isEmailValidating = false;
+        this.emailError = error.error?.message || 'Invalid email address';
+        this.isEmailValidated = false;
+      }
+    });
   }
 
   // Navigation methods
@@ -98,7 +139,6 @@ export class CreateMess implements OnInit, OnDestroy {
   nextStep(): void {
     if (this.currentStep < this.totalSteps) {
       this.currentStep++;
-      this.generateInviteLink(); // Update invite link when moving to step 4
     }
   }
 
@@ -109,21 +149,12 @@ export class CreateMess implements OnInit, OnDestroy {
     } else if (this.currentStep === 3) {
       // Skip fixed costs
       this.currentStep = 4;
-      this.generateInviteLink();
     }
   }
 
   // Step 2: Add Members
   addMember(): void {
-    if (!this.newMemberEmail || !this.isValidEmail(this.newMemberEmail)) {
-      this.emailError = 'Please enter a valid email address';
-      return;
-    }
-
-    // Check if email already exists
-    const existingMember = this.messData.members.find(member => member.email === this.newMemberEmail);
-    if (existingMember) {
-      this.emailError = 'This email is already added';
+    if (!this.isEmailValidForAdding()) {
       return;
     }
 
@@ -131,40 +162,16 @@ export class CreateMess implements OnInit, OnDestroy {
     this.messData.members.push({ email: this.newMemberEmail });
     this.newMemberEmail = '';
     this.emailError = '';
+    this.isEmailValidated = false;
   }
 
   removeMember(index: number): void {
     this.messData.members.splice(index, 1);
   }
 
-  validateEmailOnBlur(): void {
-    if (this.newMemberEmail) {
-      this.validateEmail(this.newMemberEmail);
-    } else {
-      this.emailError = '';
-    }
-  }
-
-  validateEmail(email: string): void {
-    if (!this.isValidEmail(email)) {
-      this.emailError = 'Please enter a valid email address';
-      return;
-    }
-
-    this.api.validateEmail({ email }).pipe(
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe({
-      next: (response: any) => {
-        if (response && response.isValid === false) {
-          this.emailError = response.message || 'Invalid email address';
-          return;
-        }
-        this.emailError = '';
-      },
-      error: (error) => {
-        this.emailError = error.error?.message || 'Invalid email address';
-      }
-    });
+  // Trigger email validation on input change
+  onEmailInputChange(): void {
+    this.emailValidationSubject.next(this.newMemberEmail);
   }
 
   private isValidEmail(email: string): boolean {
@@ -177,6 +184,8 @@ export class CreateMess implements OnInit, OnDestroy {
     return this.newMemberEmail.trim() !== '' && 
            this.isValidEmail(this.newMemberEmail) && 
            this.emailError === '' && 
+           this.isEmailValidated && 
+           !this.isEmailValidating &&
            !this.messData.members.some(member => member.email === this.newMemberEmail);
   }
 
@@ -200,33 +209,17 @@ export class CreateMess implements OnInit, OnDestroy {
     ];
   }
 
+  // Get members as comma-separated text
+  getMembersAsText(): string {
+    return this.messData.members.map(member => member.email).join(', ');
+  }
+
+  // Get costs as comma-separated text
+  getCostsAsText(): string {
+    return this.getTotalFixedCosts().map(cost => `${cost.name}: ৳${cost.amount}`).join(', ');
+  }
+
   // Step 4: Confirmation & Create
-  generateMessCode(): void {
-    // Generate a random 6-digit code
-    this.generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
-  }
-
-  generateInviteLink(): void {
-    this.inviteLink = `https://dailyhome.app/join?code=${this.generatedCode}`;
-  }
-
-  copyInviteLink(): void {
-    navigator.clipboard.writeText(this.inviteLink).then(() => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Link Copied!',
-        text: 'Invite link has been copied to clipboard',
-        timer: 2000,
-        showConfirmButton: false
-      });
-    }).catch(() => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Copy Failed',
-        text: 'Failed to copy link to clipboard'
-      });
-    });
-  }
 
   createMess(): void {
     if (!this.messData.name || !this.messData.address) {

@@ -84,10 +84,22 @@
             [(ngModel)]="newMemberEmail"
             name="memberEmail"
             [disabled]="isLoading"
-            (blur)="validateEmailOnBlur()"
+            (input)="onEmailInputChange()"
           />
+          @if (isEmailValidating) {
+            <div class="validation-message validating">
+              <i class="fa fa-spinner fa-spin"></i>
+              <span>Validating email...</span>
+            </div>
+          }
           @if (emailError) {
             <div class="error-message">{{ emailError }}</div>
+          }
+          @if (isEmailValidated && !emailError && newMemberEmail) {
+            <div class="validation-message success">
+              <i class="fa fa-check"></i>
+              <span>Email is valid and available</span>
+            </div>
           }
         </div>
 
@@ -99,16 +111,18 @@
 
         <!-- Added Members List -->
         @if (messData.members.length > 0) {
-          <div class="members-list">
+          <div class="members-list-container">
             <h3>Added Members:</h3>
-            @for (member of messData.members; track $index) {
-              <div class="member-item">
-                <span class="member-email">{{ member.email }}</span>
-                <button type="button" class="remove-btn" (click)="removeMember($index)">
-                  <i class="fa fa-times"></i>
-                </button>
-              </div>
-            }
+            <div class="members-list-scrollable">
+              @for (member of messData.members; track $index) {
+                <div class="member-item">
+                  <span class="member-email">{{ member.email }}</span>
+                  <button type="button" class="remove-btn" (click)="removeMember($index)">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </div>
+              }
+            </div>
           </div>
         }
       </form>
@@ -146,53 +160,57 @@
 
       <!-- Form -->
       <form class="create-form" (ngSubmit)="nextStep()">
-        <!-- Default Fixed Costs -->
-        @for (cost of defaultFixedCosts; track $index) {
-          <div class="cost-input-group">
-            <div class="cost-label">{{ cost.name }}</div>
-            <div class="cost-input-wrapper">
-              <input 
-                type="number" 
-                class="cost-input" 
-                [(ngModel)]="cost.amount"
-                [name]="'cost' + $index"
-                min="0"
-                [disabled]="isLoading"
-              />
-              <span class="currency-symbol">৳</span>
-            </div>
-          </div>
-        }
+        <div class="costs-container">
+          <div class="costs-scrollable">
+            <!-- Default Fixed Costs -->
+            @for (cost of defaultFixedCosts; track $index) {
+              <div class="cost-input-group">
+                <div class="cost-label">{{ cost.name }}</div>
+                <div class="cost-input-wrapper">
+                  <input 
+                    type="number" 
+                    class="cost-input" 
+                    [(ngModel)]="cost.amount"
+                    [name]="'cost' + $index"
+                    min="0"
+                    [disabled]="isLoading"
+                  />
+                  <span class="currency-symbol">৳</span>
+                </div>
+              </div>
+            }
 
-        <!-- Custom Costs -->
-        @for (cost of customCosts; track $index) {
-          <div class="cost-input-group">
-            <div class="cost-label">
-              <input 
-                type="text" 
-                class="custom-cost-name" 
-                placeholder="Cost Name"
-                [(ngModel)]="cost.name"
-                [name]="'customCostName' + $index"
-                [disabled]="isLoading"
-              />
-            </div>
-            <div class="cost-input-wrapper">
-              <input 
-                type="number" 
-                class="cost-input" 
-                [(ngModel)]="cost.amount"
-                [name]="'customCost' + $index"
-                min="0"
-                [disabled]="isLoading"
-              />
-              <span class="currency-symbol">৳</span>
-            </div>
-            <button type="button" class="remove-cost-btn" (click)="removeCustomCost($index)">
-              <i class="fa fa-times"></i>
-            </button>
+            <!-- Custom Costs -->
+            @for (cost of customCosts; track $index) {
+              <div class="cost-input-group">
+                <div class="cost-label">
+                  <input 
+                    type="text" 
+                    class="custom-cost-name" 
+                    placeholder="Cost Name"
+                    [(ngModel)]="cost.name"
+                    [name]="'customCostName' + $index"
+                    [disabled]="isLoading"
+                  />
+                </div>
+                <div class="cost-input-wrapper">
+                  <input 
+                    type="number" 
+                    class="cost-input" 
+                    [(ngModel)]="cost.amount"
+                    [name]="'customCost' + $index"
+                    min="0"
+                    [disabled]="isLoading"
+                  />
+                  <span class="currency-symbol">৳</span>
+                </div>
+                <button type="button" class="remove-cost-btn" (click)="removeCustomCost($index)">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            }
           </div>
-        }
+        </div>
 
         <div class="add-custom-link">
           <button type="button" class="link-btn" (click)="addCustomCost()" [disabled]="isLoading">
@@ -251,12 +269,8 @@
                 <i class="fa fa-users fa-sm me-1"></i>
                 <strong>Members:</strong>
               </div>
-              <div class="members-list">
-                @for (member of messData.members; track $index) {
-                  <div class="member-item">
-                    <span class="member-email">{{ member.email }}</span>
-                  </div>
-                }
+              <div class="members-text">
+                {{ getMembersAsText() }}
               </div>
             </div>
           }
@@ -268,13 +282,8 @@
                 <i class="fa fa-money-bill fa-sm me-1"></i>
                 <strong>Fixed Costs:</strong>
               </div>
-              <div class="costs-list">
-                @for (cost of getTotalFixedCosts(); track $index) {
-                  <div class="cost-item">
-                    <span class="cost-name">{{ cost.name }}:</span>
-                    <span class="cost-amount">৳{{ cost.amount }}</span>
-                  </div>
-                }
+              <div class="costs-text">
+                {{ getCostsAsText() }}
               </div>
             </div>
           }          
@@ -285,22 +294,6 @@
         </div>
       </div>
 
-      <!-- Member Invite Link -->
-      <div class="invite-section">
-        <h3>Member Invite Link</h3>
-        <div class="invite-link-container">
-          <input 
-            type="text" 
-            class="invite-link-input" 
-            [value]="inviteLink" 
-            readonly
-            [disabled]="isLoading"
-          />
-          <button type="button" class="copy-btn" (click)="copyInviteLink()" [disabled]="isLoading">
-            <i class="fa fa-copy"></i>
-          </button>
-        </div>
-      </div>
 
       <!-- Bazar Deposit Checkbox -->
       <div class="checkbox-group">

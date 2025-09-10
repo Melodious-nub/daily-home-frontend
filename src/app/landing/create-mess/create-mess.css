@@ -148,6 +148,29 @@
   font-family: 'Lato', sans-serif;
 }
 
+/* Validation Messages */
+.validation-message {
+  font-size: 14px;
+  margin-top: 2px;
+  padding-left: 6px;
+  font-family: 'Lato', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.validation-message.validating {
+  color: #666;
+}
+
+.validation-message.success {
+  color: #28a745;
+}
+
+.validation-message i {
+  font-size: 12px;
+}
+
 /* Link Buttons */
 .link-btn {
   background: none;
@@ -175,24 +198,50 @@
 .add-more-link, .add-custom-link {
   display: flex;
   justify-content: flex-end;
-  margin-top: 8px;
 }
 
 /* Members List */
-.members-list {
+.members-list-container {
   margin-top: 16px;
-  padding: 16px;
   background: #f8f9fa;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
+  overflow: hidden;
 }
 
-.members-list h3 {
+.members-list-container h3 {
   font-size: 16px;
   font-weight: 600;
   color: #333;
-  margin: 0 0 12px 0;
+  margin: 0;
+  padding: 16px 16px 12px 16px;
   font-family: 'Lato', sans-serif;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.members-list-scrollable {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 0 16px 16px 16px;
+}
+
+.members-list-scrollable::-webkit-scrollbar {
+  width: 4px;
+}
+
+.members-list-scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.members-list-scrollable::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 2px;
+}
+
+.members-list-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 .member-item {
@@ -227,6 +276,35 @@
   background-color: rgba(220, 53, 69, 0.1);
 }
 
+/* Costs Container */
+.costs-container {
+  margin-bottom: 16px;
+}
+
+.costs-scrollable {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.costs-scrollable::-webkit-scrollbar {
+  width: 4px;
+}
+
+.costs-scrollable::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.costs-scrollable::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 2px;
+}
+
+.costs-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
 /* Cost Input Groups */
 .cost-input-group {
   display: flex;
@@ -237,6 +315,7 @@
   border: 1px solid #E5E5E5;
   border-radius: 8px;
   transition: border-color 0.2s ease;
+  margin-bottom: 12px;
 }
 
 .cost-input-group:focus-within {
@@ -320,6 +399,8 @@
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  max-height: 55vh;
+  overflow-y: auto;
 }
 
 .summary-header {
@@ -612,4 +693,58 @@
   .mess-name {
     font-size: 20px;
   }
+  
+  /* Increase scrollable heights on larger screens */
+  .members-list-scrollable {
+    max-height: 30vh;
+  }
+  
+  .costs-scrollable {
+    max-height: 50vh;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 480px) {
+  .members-list-scrollable {
+    max-height: 30vh;
+  }
+  
+  .costs-scrollable {
+    max-height: 50vh;
+  }
+  
+  .cost-input-group {
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+  
+  .member-item {
+    padding: 6px 0;
+  }
+}
+
+/* Text Display Styles */
+.members-text,
+.costs-text {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+  font-family: 'Lato', sans-serif;
+  margin-top: 4px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.section-header i {
+  color: #666;
+}
+
+.section-header strong {
+  font-family: 'Lato', sans-serif;
 }

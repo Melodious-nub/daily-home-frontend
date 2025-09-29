@@ -5,19 +5,10 @@ import { Api } from '../api';
 import { UserStateService } from './user-state.service';
 
 export interface User {
-  _id?: string;
-  id?: string;
+  id: string;
   email: string;
-  fullName?: string;
-  isEmailVerified?: boolean;
-  currentMess?: string | null;
-  isMessAdmin?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-  resetPassword?: {
-    code: string;
-    expiresAt: string;
-  };
+  fullName: string;
+  isEmailVerified: boolean;
 }
 
 export interface LoginRequest {
@@ -225,10 +216,11 @@ export class Auth {
 
   // Handle post-authentication redirect based on mess status (legacy)
   private handlePostAuthRedirect(user: User): void {
-    // console.log('handlePostAuthRedirect called with currentMess:', user.currentMess);
     // Add a small delay to ensure router is ready
     setTimeout(() => {
-      if (user.currentMess && user.currentMess !== null) {
+      // Check user state to determine redirect
+      const userState = this.userStateService.currentUserState;
+      if (userState?.hasMess) {
         // User is part of a mess, redirect to main dashboard
         // console.log('Redirecting to main dashboard');
         this.router.navigate(['/main/dashboard']);
@@ -282,5 +274,12 @@ export class Auth {
 
   resetPassword(data: any): Observable<any> {
     return this.api.resetPassword(data);
+  }
+
+  /**
+   * Refresh user data from API (useful when user role changes)
+   */
+  refreshUserDataFromAPI(): void {
+    this.userStateService.refreshUserState();
   }
 }

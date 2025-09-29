@@ -1,5 +1,6 @@
 import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
 import { Api } from '../../core/api';
+import { HeaderService } from '../../core/services/header.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import Swal from 'sweetalert2';
 import { debounceTime } from 'rxjs';
@@ -65,12 +66,26 @@ export class Bazar implements OnInit {
   constructor(
     private api: Api,
     private dialog: MatDialog,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
+    this.setupHeader();
     this.fetchBazar();
     this.fetchMember();
+  }
+
+  /**
+   * Setup header configuration
+   */
+  private setupHeader(): void {
+    this.headerService.setHeaderConfig({
+      title: 'Bazar',
+      subtitle: undefined,
+      showBackButton: false,
+      showMenuButton: true
+    });
   }
 
   fetchMember(): void {

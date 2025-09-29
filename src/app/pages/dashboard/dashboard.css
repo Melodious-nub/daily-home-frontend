@@ -1,21 +1,9 @@
 .dashboard-container {
   min-height: 100%;
-  padding: 0px 0.65rem;
+  padding: 16px;
   font-family: var(--font-family-base);
   background: #fff;
   color: #333;
-
-  .greeting {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-  }
-
-  .subtitle {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 1rem;
-  }
 
   .card {
     background: #fff;

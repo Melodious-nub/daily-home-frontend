@@ -1,13 +1,66 @@
-<header class="sticky-header desktop-only d-none d-md-block">
-  <div class="toolbar-wrapper">
-    <mat-toolbar class="custom-toolbar px-3">
-      <div class="nav-wrapper">
-        <a mat-button class="nav-item" routerLink="/main/dashboard" routerLinkActive="active-link">Home</a>
-        <a mat-button class="nav-item" routerLink="/main/meals" routerLinkActive="active-link">Meals</a>
-        <a mat-button class="nav-item" routerLink="/main/bazar" routerLinkActive="active-link">Bazar</a>
-        <a mat-button class="nav-item" routerLink="/main/wallet" routerLinkActive="active-link">Wallet</a>
-        <a mat-button class="nav-item" routerLink="/main/members" routerLinkActive="active-link">Members</a>
-      </div>
-    </mat-toolbar>
+<div class="header-container">
+  <div class="header-content">
+    <!-- Left Side: Page Title and Subtitle -->
+    <div class="page-info">
+      @if (headerConfig$ | async; as config) {
+        <div class="page-title">{{ config.title }}</div>
+        @if (config.subtitle) {
+          <div class="page-subtitle">{{ config.subtitle }}</div>
+        }
+      }
+    </div>
+
+    <!-- Right Side: Profile Menu -->
+    <div class="header-actions">
+      <button 
+        class="profile-menu-trigger"
+        (click)="toggleDropdown()"
+        [class.active]="isDropdownOpen"
+        aria-label="Profile menu"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Custom Dropdown -->
+      @if (isDropdownOpen) {
+        <div class="profile-dropdown">
+          <div class="profile-info">
+            <div class="profile-details">
+              <div class="profile-name">{{ (currentUser$ | async)?.fullName || 'User' }}</div>
+              <div class="profile-role"><strong>Role: </strong> {{ getUserRole() }}</div>
+              <div class="profile-email">{{ (currentUser$ | async)?.email }}</div>
+            </div>
+          </div>
+
+          <!-- Menu Items -->
+          <button class="dropdown-item" (click)="onProfileClick()">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+          </button>
+
+          <button class="dropdown-item" (click)="onMessClick()">
+            <i class="fas fa-home"></i>
+            <span>Mess</span>
+          </button>
+
+          <button class="dropdown-item" (click)="onChangePasswordClick()">
+            <i class="fas fa-lock"></i>
+            <span>Change Password</span>
+          </button>
+
+          <div class="dropdown-separator"></div>
+
+          <button class="dropdown-item logout-item" (click)="onLogoutClick()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      }
+    </div>
   </div>
-</header>
+</div>
+
+<!-- Backdrop for mobile menu overlay -->
+@if (isMenuOpen) {
+  <div class="menu-backdrop" (click)="closeMenu()"></div>
+}

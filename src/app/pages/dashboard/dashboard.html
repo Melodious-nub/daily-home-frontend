@@ -1,33 +1,4 @@
 <div class="dashboard-container">
-  <div class="d-flex justify-content-between">
-    <!-- Filter Button & Member Info -->
-    <div>
-      <h1 class="greeting">Hello, Buddy</h1>
-      <p class="subtitle">Welcome to DailyHome</p>
-    </div>
-
-    <div class="d-flex align-items-center pb-4">
-      <!-- Month Display -->
-      <span class="fw-medium mt-1">
-        <span *ngIf="!isLoading">{{ monthNames[monthlySummaryDetails?.month - 1] || 'No Month' }}</span> 
-        <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span>
-      </span>      
-      <!-- Filter Icon Button -->
-      <button mat-icon-button [matMenuTriggerFor]="monthFilterMenu" matTooltip="Filter by Month">
-        <mat-icon>filter_list</mat-icon>
-      </button>
-
-      <!-- Month Filter Menu -->
-      <mat-menu #monthFilterMenu="matMenu">
-        <button
-          mat-menu-item
-          *ngFor="let m of monthNames; let i = index"
-          (click)="changeMonth(i + 1)">
-          {{ m }}
-        </button>
-      </mat-menu>      
-    </div>
-  </div>
 
   <div class="card balance-card mt-2">
     <div class="bg-circle-left"></div>
@@ -103,8 +74,6 @@
       <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin-pulse"></i></span> 
     </div>
   </div>
-
-  <button class="btn btn-danger mt-4" type="button" (click)="logout()">Logout</button>
 
   <!-- <div class="card upcoming-info-card">
     <div class="half-box">

@@ -3,17 +3,16 @@ import { Api } from '../../core/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import Swal from 'sweetalert2';
 import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { Auth } from '../../core/services/auth';
+import { HeaderService } from '../../core/services/header.service';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     MatCardModule,
-    MatMenuModule,
     MatIconModule,
     CommonModule,
     MatButtonModule,
@@ -32,10 +31,29 @@ export class Dashboard implements OnInit {
 
   isLoading: boolean = false;
 
-  constructor(private api: Api, private destroyRef: DestroyRef, private auth: Auth) {}
+  constructor(
+    private api: Api, 
+    private destroyRef: DestroyRef, 
+    private auth: Auth,
+    private headerService: HeaderService
+  ) {}
 
   ngOnInit(): void {
+    this.setupHeader();
     this.fetchMonthlySummary();
+  }
+
+  /**
+   * Setup header configuration for dashboard
+   */
+  private setupHeader(): void {
+    const userName = this.auth.currentUser?.fullName || 'User';
+    this.headerService.setHeaderConfig({
+      title: `Hello, ${userName}`,
+      subtitle: 'Welcome to DailyHome',
+      showBackButton: false,
+      showMenuButton: true
+    });
   }
 
   fetchMonthlySummary(): void {
@@ -59,9 +77,5 @@ export class Dashboard implements OnInit {
     this.selectedMonth = month;
     // console.log(this.selectedMonth);
     this.fetchMonthlySummary();
-  }
-
-  logout(): void {
-    this.auth.logout();
   }
 }

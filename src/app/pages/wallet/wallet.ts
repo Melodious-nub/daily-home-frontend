@@ -13,6 +13,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Api } from '../../core/api';
 import { MatDialog } from '@angular/material/dialog';
+import { HeaderService } from '../../core/services/header.service';
 import { debounceTime } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import Swal from 'sweetalert2';
@@ -64,12 +65,26 @@ export class Wallet implements OnInit {
   constructor(
     private api: Api,
     private dialog: MatDialog,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
+    this.setupHeader();
     this.fetchWallet();
     this.fetchMember();
+  }
+
+  /**
+   * Setup header configuration
+   */
+  private setupHeader(): void {
+    this.headerService.setHeaderConfig({
+      title: 'Wallet',
+      subtitle: undefined,
+      showBackButton: false,
+      showMenuButton: true
+    });
   }
 
   fetchMember(): void {

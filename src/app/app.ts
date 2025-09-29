@@ -64,27 +64,29 @@ export class App implements OnInit {
   }
 
   private preventCopyPaste(): void {
-    // Prevent copy
+    // Prevent copy - keeps copy disabled
     document.addEventListener('copy', (e) => {
       e.preventDefault();
       return false;
     });
 
-    // Prevent cut
+    // Prevent cut - keeps cut disabled
     document.addEventListener('cut', (e) => {
       e.preventDefault();
       return false;
     });
 
+    // PASTE PREVENTION - COMMENTED OUT FOR NOW
+    // Uncomment the following block when paste prevention is needed again
     // Prevent paste (except in input fields)
-    document.addEventListener('paste', (e) => {
-      const target = e.target as HTMLElement;
-      if (!target.matches('input, textarea, [contenteditable="true"]')) {
-        e.preventDefault();
-        return false;
-      }
-      return true;
-    });
+    // document.addEventListener('paste', (e) => {
+    //   const target = e.target as HTMLElement;
+    //   if (!target.matches('input, textarea, [contenteditable="true"]')) {
+    //     e.preventDefault();
+    //     return false;
+    //   }
+    //   return true;
+    // });
 
     // Prevent context menu
     document.addEventListener('contextmenu', (e) => {

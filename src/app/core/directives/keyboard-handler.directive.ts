@@ -61,36 +61,46 @@ export class PreventCopyDirective {
 
   @HostListener('copy', ['$event'])
   onCopy(event: ClipboardEvent) {
+    // Prevent copying - keeps copy disabled
     event.preventDefault();
     return false;
   }
 
   @HostListener('cut', ['$event'])
   onCut(event: ClipboardEvent) {
+    // Prevent cutting - keeps cut disabled
     event.preventDefault();
     return false;
   }
 
+  // PASTE PREVENTION - COMMENTED OUT FOR NOW
+  // Uncomment the following block when paste prevention is needed again
+  /*
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent) {
+    // Prevent pasting - currently disabled to allow paste functionality
     event.preventDefault();
     return false;
   }
+  */
 
   @HostListener('contextmenu', ['$event'])
   onContextMenu(event: MouseEvent) {
+    // Prevent context menu - keeps right-click disabled
     event.preventDefault();
     return false;
   }
 
   @HostListener('selectstart', ['$event'])
   onSelectStart(event: Event) {
+    // Prevent context menu - keeps right-click disabled
     event.preventDefault();
     return false;
   }
 
   @HostListener('dragstart', ['$event'])
   onDragStart(event: DragEvent) {
+    // Prevent drag and drop
     event.preventDefault();
     return false;
   }

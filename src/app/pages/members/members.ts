@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddMember } from './add-member/add-member';
 import { CdkScrollable, ScrollingModule } from '@angular/cdk/scrolling';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HeaderService } from '../../core/services/header.service';
 import Swal from 'sweetalert2';
 import { finalize } from 'rxjs';
 
@@ -22,10 +23,28 @@ export class Members implements OnInit {
   members: any = [];
   loading: boolean = false;
 
-  constructor(private destroyRef: DestroyRef, private api: Api, private dialog: MatDialog) {}
+  constructor(
+    private destroyRef: DestroyRef, 
+    private api: Api, 
+    private dialog: MatDialog,
+    private headerService: HeaderService
+  ) {}
 
   ngOnInit(): void {
+    this.setupHeader();
     this.fetchMember();
+  }
+
+  /**
+   * Setup header configuration
+   */
+  private setupHeader(): void {
+    this.headerService.setHeaderConfig({
+      title: 'Members',
+      subtitle: undefined,
+      showBackButton: false,
+      showMenuButton: true
+    });
   }
 
   fetchMember() {

@@ -1,4 +1,4 @@
-package com.shawon.dailyhome;
+package com.shawon_public.dailyhome;
 
 import com.getcapacitor.BridgeActivity;
 

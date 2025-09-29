@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.shawon.dailyhome',
+  appId: 'com.shawon.dailyhome.v2',
   appName: 'DailyHome',
   webDir: 'dist/daily-home/browser',
   server: {

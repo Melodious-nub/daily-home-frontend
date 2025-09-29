@@ -47,7 +47,7 @@ export class Dashboard implements OnInit {
    * Setup header configuration for dashboard
    */
   private setupHeader(): void {
-    const userName = this.auth.currentUser?.fullName || 'User';
+    const userName = this.auth.currentUser?.fullName || 'Buddy';
     this.headerService.setHeaderConfig({
       title: `Hello, ${userName}`,
       subtitle: 'Welcome to DailyHome',

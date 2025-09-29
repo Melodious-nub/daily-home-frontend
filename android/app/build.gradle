@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.shawon.dailyhome"
+    namespace "com.shawon.dailyhome.v2"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.shawon.dailyhome"
+        applicationId "com.shawon.dailyhome.v2"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
